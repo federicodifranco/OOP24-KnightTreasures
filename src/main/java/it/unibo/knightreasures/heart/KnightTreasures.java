@@ -1,4 +1,4 @@
-package it.unibo.knightreasure.heart;
+package it.unibo.knightreasures.heart;
 
 public class KnightTreasures {
 
