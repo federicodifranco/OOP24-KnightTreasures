@@ -19,5 +19,5 @@ tasks.test {
 }
 
 application {
-    mainClass.set("it.unibo.knightreasure.heart.KnightTreasures")
+    mainClass.set("it.unibo.knightreasures.heart.KnightTreasures")
 }
