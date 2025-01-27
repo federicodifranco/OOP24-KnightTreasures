@@ -1,5 +1,7 @@
 package it.unibo.knightreasures.controller.impl;
 
+import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
+
 public class ApplicationImpl implements Runnable {
 
     private ApplicationPanel applicationPanel;
@@ -21,7 +23,7 @@ public class ApplicationImpl implements Runnable {
     @Override
     public void run() {
 
-        double timePerFrame = 1000000000.0 / Window.FPS_SET;
+        double timePerFrame = GameLoop.NANOSECOND / GameLoop.FPS_SET;
         long lastFrame = System.nanoTime();
         long now = System.nanoTime();
         long lastCheck = System.currentTimeMillis();
