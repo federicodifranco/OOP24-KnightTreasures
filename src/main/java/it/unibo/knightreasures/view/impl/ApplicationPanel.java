@@ -2,13 +2,15 @@ package it.unibo.knightreasures.view.impl;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
-
 import java.awt.image.BufferedImage;
+
+import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
+import it.unibo.knightreasures.view.inputs.MouseInputs;
+import it.unibo.knightreasures.view.inputs.KeyboardInputs;
 
 public class ApplicationPanel extends JPanel {
 
-    private MouseInputs MouseInputs;
+    private MouseInputs mouseInputs;
     private float xDelta = 100, yDelta = 100;
     private BufferedImage img,subImg;
     private BufferedImage[][] animation;
@@ -43,14 +45,14 @@ public class ApplicationPanel extends JPanel {
     }
 
     private void updateAnimation() {
-        aniTick++;
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-            aniIndex++;
-            if (aniIndex >= idleAni.legth) {
-                aniIndex = 0;
-            }
-        }
+        // aniTick++;
+        // if (aniTick >= aniSpeed) {
+        //     aniTick = 0;
+        //     aniIndex++;
+        //     if (aniIndex >= idleAni.legth) {
+        //         aniIndex = 0;
+        //     }
+        // }
     }
 
     public void changeYDelta(int value) {
