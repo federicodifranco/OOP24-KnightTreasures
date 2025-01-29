@@ -1,6 +1,8 @@
 package it.unibo.knightreasures.controller.impl;
 
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
+import it.unibo.knightreasures.view.impl.ApplicationPanel;
+import it.unibo.knightreasures.view.impl.ApplicationWindow;
 
 public class ApplicationImpl implements Runnable {
 
@@ -32,7 +34,7 @@ public class ApplicationImpl implements Runnable {
         while (true) {
             now = System.nanoTime();
             if (System.nanoTime() - lastFrame >= timePerFrame) {
-                gamePanel.repaint();
+                applicationPanel.repaint();
                 lastFrame = now;
                 fps++;
             }

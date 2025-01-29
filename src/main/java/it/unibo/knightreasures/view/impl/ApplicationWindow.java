@@ -1,3 +1,7 @@
+package it.unibo.knightreasures.view.impl;
+
+import javax.swing.JFrame;
+
 public class ApplicationWindow {
 
     private JFrame frame;

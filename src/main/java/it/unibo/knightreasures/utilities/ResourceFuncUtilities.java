@@ -1,19 +1,20 @@
 package it.unibo.knightreasures.utilities;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import java.io.File;
-import java.io.InputStream;
 
-public class ResourceFunUtilities {
+public class ResourceFuncUtilities {
 
-    private static final Logger LOGGER = Logger.getLogger(ResourceFunUtilities.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ResourceFuncUtilities.class.getName());
 
-    private ResourceFunUtilities(){}
+    private ResourceFuncUtilities(){}
 
     public static Image getSource(final String fileName){
         return new ImageIcon("src/main/resources/" + fileName + ".png").getImage();
@@ -32,14 +33,14 @@ public class ResourceFunUtilities {
 
     public static BufferedImage loadSources(final String fileName){
         BufferedImage img = null;
-        try(InputStream s = ResourceFunUtilities.class.getResourceAsStream("/" + fileName + ".png")){
+        try(InputStream s = ResourceFuncUtilities.class.getResourceAsStream("/" + fileName + ".png")){
             if( s == null){
-                Logger.getLogger(ResourceFunUtilities.class.getName()).log(java.util.logging.Level.SEVERE,"File not found: " + fileName);
+                Logger.getLogger(ResourceFuncUtilities.class.getName()).log(java.util.logging.Level.SEVERE,"File not found: " + fileName);
             } else {
                 img = ImageIO.read(s);
             }
         } catch (IOException e) {
-            Logger.getLogger(ResourceFunUtilities.class.getName()).log(java.util.logging.Level.SEVERE, "Error reading image: " + fileName, e);
+            Logger.getLogger(ResourceFuncUtilities.class.getName()).log(java.util.logging.Level.SEVERE, "Error reading image: " + fileName, e);
 
         }
         return img;
