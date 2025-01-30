@@ -2,7 +2,6 @@ package it.unibo.knightreasures.model.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
@@ -16,7 +15,7 @@ public class PlayerEntity extends EntityManager {
     private boolean moving = false, attacking = false;
     private boolean up, down, right, left;
 
-    public PlayerEntity(float x, float y) {
+       public PlayerEntity(float x, float y, int width, int height) {
         super(x, y);
         loadAnimations();
     }
@@ -68,7 +67,7 @@ public class PlayerEntity extends EntityManager {
 
     private void loadAnimations() {
         BufferedImage img = ResourceFuncUtilities.loadSources("knight");
-        animation = new BufferedImage[4][6];
+        animation = new BufferedImage[PlayerValues.SPRITES_ROWS][PlayerValues.SPRITES_COLUMNS];
         for (int j = 0; j < animation.length; j++) {
             for (int i = 0; i < animation[j].length; i++) {
                 animation[j][i] = img.getSubimage(i * Player.PLAYER_WIDTH, j * Player.PLAYER_HEIGHT, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);

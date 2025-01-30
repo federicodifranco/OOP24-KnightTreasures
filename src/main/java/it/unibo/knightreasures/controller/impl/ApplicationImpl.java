@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
+import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
 
@@ -23,7 +24,7 @@ public class ApplicationImpl implements Runnable {
     }
 
     private void initClasses() {
-        player = new PlayerEntity(0, 0);
+        player = new PlayerEntity(200, 200, Player.WIDTH, Player.HEIGHT);
     }
 
     private void startGameLoop() {
