@@ -1,7 +1,10 @@
 package it.unibo.knightreasures.controller.impl;
 
+import java.awt.Graphics;
+
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
+import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
 
 public class ApplicationImpl implements Runnable {
@@ -9,12 +12,18 @@ public class ApplicationImpl implements Runnable {
     private ApplicationPanel applicationPanel;
     private ApplicationWindow applicationWindow;
     private Thread gameThread;
+    private PlayerEntity player;
 
     public ApplicationImpl() {
+        initClasses();
         applicationPanel = new ApplicationPanel();
         applicationWindow = new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
         startGameLoop();
+    }
+
+    private void initClasses() {
+        player = new PlayerEntity(0, 0);
     }
 
     private void startGameLoop() {
@@ -23,7 +32,11 @@ public class ApplicationImpl implements Runnable {
     }
 
     public void update() {
-        gamePanel.updateGame();
+        player.updateGame();
+    }
+
+    public void render(Graphics g){
+        player.render(g);
     }
 
     @Override
@@ -67,5 +80,13 @@ public class ApplicationImpl implements Runnable {
                 updates = 0;
             }
         }
+    }
+
+    public PlayerEntity getPlayer() {
+        return player;
+    }
+
+    public void windowLostFocus() {
+        player.resetDirBooleans();
     }
 }

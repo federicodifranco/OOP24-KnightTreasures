@@ -15,7 +15,19 @@ public class ApplicationWindow {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.addWindowFocusListener(new WindowFocusListener(){
 
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                applicationPanel.getGame().windowLostFocus();
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e){
+
+            }
+
+        });
     }
 
 }
