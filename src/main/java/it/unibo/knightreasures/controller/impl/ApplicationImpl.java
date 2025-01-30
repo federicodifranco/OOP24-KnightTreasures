@@ -2,9 +2,9 @@ package it.unibo.knightreasures.controller.impl;
 
 import java.awt.Graphics;
 
+import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
-import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
 
 public class ApplicationImpl implements Runnable {
@@ -32,7 +32,7 @@ public class ApplicationImpl implements Runnable {
     }
 
     public void update() {
-        player.updateGame();
+        player.update();
     }
 
     public void render(Graphics g){
