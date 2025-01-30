@@ -5,6 +5,8 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 
+import it.unibo.knightreasures.utilities.ViewConstants.Window;
+
 public class ApplicationWindow {
 
     private JFrame frame;
@@ -12,7 +14,7 @@ public class ApplicationWindow {
     public ApplicationWindow(ApplicationPanel applicationPanel) {
 
         frame = new JFrame();
-        frame.setSize(1280, 800);
+        frame.setSize(Window.GAME_WIDTH, Window.GAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(applicationPanel);
         frame.setResizable(false);
@@ -26,7 +28,7 @@ public class ApplicationWindow {
             }
 
             @Override
-            public void windowLostFocus(WindowEvent e){
+            public void windowLostFocus(WindowEvent e) {
 
             }
 
