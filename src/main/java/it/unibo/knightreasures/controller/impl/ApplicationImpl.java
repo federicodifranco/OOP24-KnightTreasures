@@ -7,6 +7,7 @@ import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
+import it.unibo.knightreasures.view.impl.LevelManager;
 
 public class ApplicationImpl implements Runnable {
 
@@ -14,6 +15,7 @@ public class ApplicationImpl implements Runnable {
     private ApplicationWindow applicationWindow;
     private Thread gameThread;
     private PlayerEntity player;
+    private LevelManager levelManager;
 
     public ApplicationImpl() {
         initClasses();
@@ -25,6 +27,7 @@ public class ApplicationImpl implements Runnable {
 
     private void initClasses() {
         player = new PlayerEntity(200, 200, Player.WIDTH, Player.HEIGHT);
+        levelManager = new LevelManager(this);
     }
 
     private void startGameLoop() {
@@ -34,9 +37,11 @@ public class ApplicationImpl implements Runnable {
 
     public void update() {
         player.update();
+        levelManager.update();
     }
 
     public void render(Graphics g){
+        levelManager.draw(g);
         player.render(g);
     }
 
