@@ -23,7 +23,7 @@ public class ApplicationImpl implements Runnable {
     }
 
     public void update() {
-        gamePanel.updateGame();
+        applicationPanel.updateGame();
     }
 
     @Override
@@ -50,12 +50,12 @@ public class ApplicationImpl implements Runnable {
 
             if (deltaU >= 1) {
                 update();
-                update++;
+                updates++;
                 deltaU--;
             }
 
             if (deltaF >= 1) {
-                gamePanel.repaint();
+                applicationPanel.repaint();
                 deltaF--;
                 fps++;
             }
