@@ -22,27 +22,49 @@ public class ApplicationImpl implements Runnable {
         gameThread.start();
     }
 
+    public void update() {
+        gamePanel.updateGame();
+    }
+
     @Override
     public void run() {
 
         double timePerFrame = GameLoop.NANOSECOND / GameLoop.FPS_SET;
-        long lastFrame = System.nanoTime();
-        long now = System.nanoTime();
+        double timePerUpdate = GameLoop.NANOSECOND / GameLoop.UPS_SET;
+        double deltaU = 0;
+        double deltaF = 0;
+
+        long previusTime = System.nanoTime();
+        
         long lastCheck = System.currentTimeMillis();
+
         int fps = 0;
+        int updates = 0;
 
         while (true) {
-            now = System.nanoTime();
-            if (System.nanoTime() - lastFrame >= timePerFrame) {
-                applicationPanel.repaint();
-                lastFrame = now;
+            long currentTime = System.nanoTime();
+
+            deltaU += (currentTime -previusTime) / timePerUpdate;
+            deltaF += (currentTime - previusTime) / timePerFrame;
+            previusTime = currentTime;
+
+            if (deltaU >= 1) {
+                update();
+                update++;
+                deltaU--;
+            }
+
+            if (deltaF >= 1) {
+                gamePanel.repaint();
+                deltaF--;
                 fps++;
             }
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + fps);
+                System.out.println("FPS: " + fps + " | UPS: " + updates);
                 fps = 0;
+                updates = 0;
             }
         }
     }

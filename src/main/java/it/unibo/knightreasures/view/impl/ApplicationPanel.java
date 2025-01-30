@@ -106,12 +106,15 @@ public class ApplicationPanel extends JPanel {
         this.yDelta = y;
     }
 
+    public void updateGame() {
+        updateAnimation();
+        setAnimation();
+        updatePosition();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        updateAnimation();
-        setAnimation();;
-        updatePosition();
         g.drawImage(animation[playerAction][aniIndex], (int)xDelta, (int)yDelta, Player.PLAYER_WIDTH,Player.PLAYER_HEIGHT, null);
 
     }
