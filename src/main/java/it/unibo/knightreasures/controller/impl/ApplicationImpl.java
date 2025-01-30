@@ -16,7 +16,7 @@ public class ApplicationImpl implements Runnable {
 
     public ApplicationImpl() {
         initClasses();
-        applicationPanel = new ApplicationPanel();
+        applicationPanel = new ApplicationPanel(this);
         applicationWindow = new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
         startGameLoop();

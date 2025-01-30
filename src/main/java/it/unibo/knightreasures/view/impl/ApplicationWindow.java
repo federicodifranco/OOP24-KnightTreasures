@@ -1,5 +1,8 @@
 package it.unibo.knightreasures.view.impl;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
 import javax.swing.JFrame;
 
 public class ApplicationWindow {
@@ -15,7 +18,7 @@ public class ApplicationWindow {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.addWindowFocusListener(new WindowFocusListener(){
+        frame.addWindowFocusListener(new WindowFocusListener() {
 
             @Override
             public void windowGainedFocus(WindowEvent e) {

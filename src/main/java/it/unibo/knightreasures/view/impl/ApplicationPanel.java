@@ -1,15 +1,12 @@
 package it.unibo.knightreasures.view.impl;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
-import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
-import it.unibo.knightreasures.utilities.ModelConstants.Directions;
-import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
-import it.unibo.knightreasures.utilities.ViewConstants.Player;
-import it.unibo.knightreasures.view.inputs.MouseInputs;
+import javax.swing.JPanel;
+
+import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.view.inputs.KeyboardInputs;
+import it.unibo.knightreasures.view.inputs.MouseInputs;
 
 public class ApplicationPanel extends JPanel {
 
