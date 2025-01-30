@@ -16,7 +16,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        gamePanel.resetPosition(0, 0);
+        
     }
 
     @Override
