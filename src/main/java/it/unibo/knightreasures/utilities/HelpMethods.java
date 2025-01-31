@@ -56,10 +56,15 @@ public class HelpMethods {
 
         int value = lvlData[(int) yIndex][(int) xIndex];
 
-        if (value >= LevelsValues.TILE_1_NOT_SOLID || value < LevelsValues.TILE_2_NOT_SOLID || value != LevelsValues.TILE_3_NOT_SOLID) {
-            return true;
-        }
+        return (value >= LevelsValues.TILE_1_NOT_SOLID || value < LevelsValues.TILE_2_NOT_SOLID || value != LevelsValues.TILE_3_NOT_SOLID);
+    }
 
-        return false;
+    public static boolean isEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
+        if (!isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)) {
+            if (!isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

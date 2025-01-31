@@ -71,6 +71,12 @@ public class PlayerEntity extends EntityManager {
             xSpeed += Physics.SPEED;
         }
 
+        if (!inAir) {
+            if (!HelpMethods.isEntityOnFloor(hitBox, lvlData)) {
+                inAir = true;
+            }
+        }
+
         if (inAir) {
             if (HelpMethods.CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, lvlData)) {
                 hitBox.y += airSpeed;
@@ -150,6 +156,9 @@ public class PlayerEntity extends EntityManager {
 
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
+        if (!HelpMethods.isEntityOnFloor(hitBox, lvlData)) {
+            inAir = true;
+        }
     }
 
     public void resetDirBooleans() {
