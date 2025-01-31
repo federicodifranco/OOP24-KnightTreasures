@@ -3,6 +3,7 @@ package it.unibo.knightreasures.model.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.Physics;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
@@ -17,6 +18,7 @@ public class PlayerEntity extends EntityManager {
     private int playerAction = PlayerValues.IDLE;
     private boolean moving = false, attacking = false;
     private boolean up, down, right, left;
+    private int [][] lvlData;
 
     public PlayerEntity(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -65,7 +67,11 @@ public class PlayerEntity extends EntityManager {
             ySpeed += Physics.SPEED;
         }
 
-        //Helpmethods here
+        if (HelpMethods.CanMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
+            hitBox.x += xSpeed;
+            hitBox.y += ySpeed;
+            moving = true;
+        }
     }
 
     public void setAnimation() {
@@ -100,6 +106,10 @@ public class PlayerEntity extends EntityManager {
                 animation[j][i] = playerImg.getSubimage(i * Player.PLAYER_WIDTH, j * Player.PLAYER_HEIGHT, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
             }
         }
+    }
+
+    public void loadLvlData(int[][] lvlData) {
+        this.lvlData = lvlData;
     }
 
     public void resetDirBooleans() {

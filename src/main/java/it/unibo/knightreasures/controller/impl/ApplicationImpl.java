@@ -28,6 +28,7 @@ public class ApplicationImpl implements Runnable {
     private void initClasses() {
         player = new PlayerEntity(200, 200, Player.WIDTH, Player.HEIGHT);
         levelManager = new LevelManager(this);
+        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
     }
 
     private void startGameLoop() {
