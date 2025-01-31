@@ -129,15 +129,19 @@ public class PlayerEntity extends EntityManager {
         } else {
             playerAction = PlayerValues.IDLE;
         }
+
+        if (inAir) {
+            if (airSpeed < 0) {
+                playerAction = PlayerValues.JUMP;
+            }
+        }
+        
         if (attacking) {
             playerAction = PlayerValues.ATTACK;
         }
 
         if (startAni != playerAction) {
             resetAniTick();
-        }
-        if (jump) {
-            playerAction = PlayerValues.JUMP;
         }
 
     }
