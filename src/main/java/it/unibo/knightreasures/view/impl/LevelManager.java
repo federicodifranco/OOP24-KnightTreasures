@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
+import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 public class LevelManager {
@@ -21,7 +22,7 @@ public class LevelManager {
     }
 
     private void importOutsideSprite() {
-        BufferedImage img = ResourceFuncUtilities.loadSources("outside_sprites");
+        BufferedImage img = ResourceFuncUtilities.loadSources(Images.ENVIRONMENT);
         levelSprite = new BufferedImage[LevelsValues.SPRITES];
         for (int j = 0; j < LevelsValues.SPRITES_ROWS; j++) {
             for (int i = 0; i < LevelsValues.SPRITES_COLUMNS; i++) {
