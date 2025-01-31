@@ -15,17 +15,20 @@ public class PlayerEntity extends EntityManager {
 
     private BufferedImage[][] animation;
     private int aniTick, aniIndex;
+    private boolean moving = false, attacking = false, inAir = false;
+    private boolean left, right, up, down, jump;
     private int playerAction = PlayerValues.IDLE;
-    private boolean moving = false, attacking = false;
-    private boolean up, down, right, left;
-    private int [][] lvlData;
+    private int[][] lvlData;
+    private float airSpeed = 0f;
 
     public PlayerEntity(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
+        initHitBox(x, y, width, height);
     }
 
     public void update() {
+        updatePosition();
         updateAnimation();
         setAnimation();
     }
@@ -51,26 +54,63 @@ public class PlayerEntity extends EntityManager {
 
         moving = false;
 
-        if (!left && !right && !up && !down) return;
+        if (jump) {
+            jump();
+        }
 
-        float xSpeed = 0, ySpeed = 0;
+        if (!left && !right && !inAir) {
+            return;
+        }
 
-        if (left && !right) {
+        float xSpeed = 0;
+
+        if (left) {
             xSpeed -= Physics.SPEED;
-        } else if (right && !right) {
+        }
+        if (right) {
             xSpeed += Physics.SPEED;
         }
 
-        if (up && !down) {
-            ySpeed -= Physics.SPEED;
-        } else if (!up && down) {
-            ySpeed += Physics.SPEED;
+        if (inAir) {
+            if (HelpMethods.CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, lvlData)) {
+                hitBox.y += airSpeed;
+                airSpeed += Physics.GRAVITY;
+                updateXPos(xSpeed);
+            } else {
+                hitBox.y = HelpMethods.GetEntityYPosNextToWall(hitBox, airSpeed);
+                if (airSpeed > 0) {
+                    resetInAir();
+                } else {
+                    airSpeed = Physics.FALL_SPEED;
+                }
+                updateXPos(xSpeed);
+            }
+        } else {
+            updateXPos(xSpeed);
         }
 
-        if (HelpMethods.CanMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
+        moving = true;
+    }
+
+    private void jump() {
+        if (inAir) {
+            return;
+        }
+        inAir = true;
+        airSpeed = Physics.JUMP_SPEED;
+    }
+
+    private void resetInAir() {
+        inAir = false;
+        airSpeed = 0;
+    }
+
+    private void updateXPos(float xSpeed) {
+        if (HelpMethods.CanMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, lvlData)) {
             hitBox.x += xSpeed;
-            hitBox.y += ySpeed;
-            moving = true;
+            //moving = true;
+        } else {
+            hitBox.x = HelpMethods.GetEntityXPosNextToWall(hitBox, xSpeed);
         }
     }
 
@@ -117,6 +157,10 @@ public class PlayerEntity extends EntityManager {
         right = false;
         up = false;
         down = false;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 
     public void setAttacking(boolean attacking) {
