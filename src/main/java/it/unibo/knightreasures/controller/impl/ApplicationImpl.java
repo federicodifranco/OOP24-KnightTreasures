@@ -2,7 +2,9 @@ package it.unibo.knightreasures.controller.impl;
 
 import java.awt.Graphics;
 
+import it.unibo.knightreasures.heart.core.impl.Gameplay;
 import it.unibo.knightreasures.model.impl.PlayerEntity;
+import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
@@ -14,8 +16,7 @@ public class ApplicationImpl implements Runnable {
     private ApplicationPanel applicationPanel;
     private ApplicationWindow applicationWindow;
     private Thread gameThread;
-    private PlayerEntity player;
-    private LevelManager levelManager;
+    private Gameplay gameplay;
 
     public ApplicationImpl() {
         initClasses();
@@ -26,25 +27,36 @@ public class ApplicationImpl implements Runnable {
     }
 
     private void initClasses() {
-        player = new PlayerEntity(200, 200, Player.WIDTH, Player.HEIGHT);
-        levelManager = new LevelManager(this);
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        gameplay = new Gameplay(this);
+    }
+
+    public void update() {
+        switch (Gamestate.state) {
+            case MENU:
+                
+                break;
+        
+            case PLAYING:
+                this.gameplay.update();
+                break;
+        }
+    }
+
+    public void render(Graphics g) {
+        switch (Gamestate.state) {
+            case MENU:
+                
+                break;
+        
+            case PLAYING:
+                this.gameplay.draw(g);
+                break;
+        }
     }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
-    }
-
-    public void update() {
-        player.update();
-        levelManager.update();
-    }
-
-    public void render(Graphics g){
-        levelManager.draw(g);
-        player.render(g);
-        player.getHitbox();
     }
 
     @Override
@@ -90,11 +102,13 @@ public class ApplicationImpl implements Runnable {
         }
     }
 
-    public PlayerEntity getPlayer() {
-        return player;
+    public void windowLostFocus() {
+        if (Gamestate.state == Gamestate.PLAYING) {
+            this.gameplay.getPlayer().resetDirBooleans();
+        }
     }
 
-    public void windowLostFocus() {
-        player.resetDirBooleans();
+    public Gameplay getPlaying() {
+        return this.gameplay;
     }
 }

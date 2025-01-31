@@ -19,6 +19,7 @@ public class ApplicationWindow {
         frame.add(applicationPanel);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
+        frame.pack();
         frame.setVisible(true);
         frame.addWindowFocusListener(new WindowFocusListener() {
 
