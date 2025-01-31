@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
+import it.unibo.knightreasures.utilities.ModelConstants.Physics;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -18,7 +19,7 @@ public class PlayerEntity extends EntityManager {
     private boolean up, down, right, left;
 
     public PlayerEntity(float x, float y, int width, int height) {
-        super(x, y);
+        super(x, y, width, height);
         loadAnimations();
     }
 
@@ -28,7 +29,8 @@ public class PlayerEntity extends EntityManager {
     }
 
     public void render(Graphics g) {
-        g.drawImage(animation[playerAction][aniIndex], (int) x, (int) y, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT, null);
+        g.drawImage(animation[playerAction][aniIndex], (int) (hitBox.x - Player.X_DRAW_OFFSET), (int) (hitBox.y - Player.Y_DRAW_OFFSET), Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT, null);
+        drawHitbox(g);
     }
 
     private void updateAnimation() {
@@ -41,6 +43,29 @@ public class PlayerEntity extends EntityManager {
                 attacking = false;
             }
         }
+    }
+
+    public void updatePosition() {
+
+        moving = false;
+
+        if (!left && !right && !up && !down) return;
+
+        float xSpeed = 0, ySpeed = 0;
+
+        if (left && !right) {
+            xSpeed -= Physics.SPEED;
+        } else if (right && !right) {
+            xSpeed += Physics.SPEED;
+        }
+
+        if (up && !down) {
+            ySpeed -= Physics.SPEED;
+        } else if (!up && down) {
+            ySpeed += Physics.SPEED;
+        }
+
+        //Helpmethods here
     }
 
     public void setAnimation() {

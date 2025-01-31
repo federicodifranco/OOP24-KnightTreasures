@@ -43,6 +43,7 @@ public class ApplicationImpl implements Runnable {
     public void render(Graphics g){
         levelManager.draw(g);
         player.render(g);
+        player.getHitbox();
     }
 
     @Override
