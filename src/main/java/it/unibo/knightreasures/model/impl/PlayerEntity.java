@@ -130,6 +130,9 @@ public class PlayerEntity extends EntityManager {
         if (startAni != playerAction) {
             resetAniTick();
         }
+        if (jump) {
+            playerAction = PlayerValues.JUMP;
+        }
 
     }
 
