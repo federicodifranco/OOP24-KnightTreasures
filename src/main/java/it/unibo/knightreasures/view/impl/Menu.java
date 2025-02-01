@@ -7,37 +7,62 @@ import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.utilities.Gamestate;
+import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.utilities.ViewConstants.LegendConstants;
+import it.unibo.knightreasures.utilities.ViewConstants.MenuButtons;
+import it.unibo.knightreasures.utilities.ViewConstants.PanelSize;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 
 
 public class Menu extends State implements View {
 
-    private MenuButton[] btns = new MenuButton[3];
-    private BufferedImage backgroundImg;
+    private final MenuButton[] btns = new MenuButton[ButtonsValues.MENU_NUM_BUTTONS];
+    private BufferedImage menuImg, homeBackgroundImg, legendImg;
     private int menuX, menuY, menuWidth, menuHeight;
+    private int legendX, legendY, legendWidth, legendHeight;
 
     public Menu(ApplicationImpl game) {
         super(game);
+        loadLegend();
         loadButtons();
-        loadBackground();
+        loadMenuPanel();
+        loadHomeBackground();
     }
 
-    private void loadBackground() {
-        backgroundImg = ResourceFuncUtilities.loadSources(Images.HOME_BACKGROUND);
-        menuWidth = (int) (backgroundImg.getHeight() * Window.SCALE);
-        menuHeight = (int) (backgroundImg.getHeight() * Window.SCALE);
+    private void loadLegend() {
+        legendImg = ResourceFuncUtilities.loadSources(Images.LEGEND);
+        legendWidth = (int) (legendImg.getWidth() * Window.SCALE);
+        legendHeight = (int) (legendImg.getHeight() * Window.SCALE);
+        legendX = (Window.GAME_WIDTH / 2) - LegendConstants.LEGEND_X_OFFSET;
+        legendY = LegendConstants.LEGEND_Y;
+    }
+
+    private void loadHomeBackground() {
+        homeBackgroundImg = ResourceFuncUtilities.loadSources(Images.HOME_BACKGROUND);
+    }
+
+    private void loadMenuPanel() {
+        menuImg = ResourceFuncUtilities.loadSources(Images.MENU_PANEL);
+        menuWidth = (int) (menuImg.getWidth() * Window.SCALE);
+        menuHeight = (int) (menuImg.getHeight() * Window.SCALE);
         menuX = Window.GAME_WIDTH / 2 - menuWidth / 2;
-        menuY = (int) (45 * Window.SCALE);
+        menuY = PanelSize.MENU_Y;
     }
 
     private void loadButtons() {
-        btns[0] = new MenuButton(Window.GAME_WIDTH / 2, (int) (150 * Window.SCALE), 0, Gamestate.PLAYING);
-        btns[1] = new MenuButton(Window.GAME_WIDTH / 2, (int) (220 * Window.SCALE), 1, Gamestate.SETTINGS);
-        btns[2] = new MenuButton(Window.GAME_WIDTH / 2, (int) (290 * Window.SCALE), 2, Gamestate.EXIT);
+        btns[ButtonsValues.PLAY_BUTTON] = new MenuButton(Window.GAME_WIDTH / 2, MenuButtons.PLAY_Y, ButtonsValues.FIRST_ROW_INDEX, Gamestate.PLAYING);
+        btns[ButtonsValues.SETTINGS_BUTTON] = new MenuButton(Window.GAME_WIDTH / 2, MenuButtons.SETTINGS_Y, ButtonsValues.SECOND_ROW_INDEX, Gamestate.SETTINGS);
+        btns[ButtonsValues.QUIT_BUTTON] = new MenuButton(Window.GAME_WIDTH / 2, MenuButtons.QUIT_Y, ButtonsValues.THIRD_ROW_INDEX, Gamestate.EXIT);
+    }
+
+    private void resetButtons() {
+        for (MenuButton mb : btns) {
+            mb.resetBools();
+        }
     }
 
     @Override
@@ -49,46 +74,41 @@ public class Menu extends State implements View {
 
     @Override
     public void draw(Graphics g) {
-
-        g.drawImage(backgroundImg, menuX, menuY, menuWidth, menuHeight, null);
-
+        g.drawImage(homeBackgroundImg, 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
+        g.drawImage(menuImg, menuX, menuY, menuWidth, menuHeight, null);
+        g.drawImage(legendImg, legendX, legendY, legendWidth, legendHeight, null);
         for (MenuButton mb : btns) {
             mb.draw(g);
         }
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        
-    }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
         for (MenuButton mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMousePressed(true);
             }
-            break;
         }
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : btns) {
             if (isIn(e, mb)) {
-                mb.applyGameState();
+                if (mb.isMousePressed()) {
+                    mb.applyGameState();
+                }
             }
-            break;
         }
         resetButtons();
     }
-
+    
     @Override
     public void mouseMoved(MouseEvent e) {
         for (MenuButton mb : btns) {
             mb.setMouseOver(false);
         }
-
+        
         for (MenuButton mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMouseOver(true);
@@ -96,22 +116,19 @@ public class Menu extends State implements View {
             }
         }
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            Gamestate.setState(Gamestate.PLAYING);
-        }
+        
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
         
     }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
-    private void resetButtons() {
-        for (MenuButton mb : btns) {
-            mb.resetBools();
-        }
     }
 }
