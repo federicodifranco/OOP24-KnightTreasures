@@ -10,17 +10,24 @@ import it.unibo.knightreasures.view.impl.ApplicationWindow;
 import it.unibo.knightreasures.view.impl.Menu;
 
 /**
- * Main application controller that manages the game loop,
- * rendering, and game states.
+ * Main application controller that manages the game loop, rendering, and game
+ * states.
  */
 public final class ApplicationImpl implements Runnable {
 
-    /** The game panel where the game is drawn. */
+    /**
+     * The game panel where the game is drawn.
+     */
     private final ApplicationPanel applicationPanel;
 
-    /** The gameplay instance managing the game logic. */
+    /**
+     * The gameplay instance managing the game logic.
+     */
     private final Gameplay gameplay;
 
+    /**
+     * The menu instance managing the menu logic.
+     */
     private final Menu menu;
 
     /**
@@ -41,7 +48,7 @@ public final class ApplicationImpl implements Runnable {
     public void update() {
         switch (Gamestate.getState()) {
             case MENU:
-            this.menu.update();
+                this.menu.update();
                 break;
             case PLAYING:
                 this.gameplay.update();
@@ -59,7 +66,7 @@ public final class ApplicationImpl implements Runnable {
     public void render(final Graphics g) {
         switch (Gamestate.getState()) {
             case MENU:
-            this.menu.draw(g);
+                this.menu.draw(g);
                 break;
             case PLAYING:
                 this.gameplay.draw(g);
@@ -130,6 +137,11 @@ public final class ApplicationImpl implements Runnable {
         return this.gameplay;
     }
 
+    /**
+     * Gets the menu instance.
+     *
+     * @return the menu instance.
+     */
     public Menu getMenu() {
         return this.menu;
     }

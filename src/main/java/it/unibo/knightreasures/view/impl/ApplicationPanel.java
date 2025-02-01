@@ -24,7 +24,7 @@ public final class ApplicationPanel extends JPanel {
     /**
      * Handles mouse inputs for the game.
      */
-    private transient final MouseInputs mouseInputs;
+    private transient MouseInputs mouseInputs;
 
     /**
      * The main game application instance.

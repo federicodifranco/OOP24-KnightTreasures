@@ -74,6 +74,7 @@ public final class PlayerEntity extends EntityManager {
     /**
      * Updates the player's state, including movement and animations.
      */
+    @Override
     public void update() {
         updatePosition();
         updateAnimation();
