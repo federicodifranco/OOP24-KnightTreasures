@@ -3,7 +3,7 @@ package it.unibo.knightreasures.view.inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.knightreasures.utilities.ViewConstants.Directions;
+import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 
 public class KeyboardInputs implements KeyListener {
@@ -21,44 +21,33 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setUp(true);
+        switch (Gamestate.state) {
+            case MENU:
+
                 break;
-            case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setLeft(true);
+            case PLAYING:
+                this.gamePanel.getGame().getPlaying().keyPressed(e);
                 break;
-            case KeyEvent.VK_S:
-                gamePanel.getGame().getPlayer().setDown(true);
-                break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(true);
-                break;
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJump(true);
+            default:
                 break;
         }
+
+       
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setUp(false);
+        switch (Gamestate.state) {
+            case MENU:
+
                 break;
-            case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setLeft(false);
+            case PLAYING:
+                this.gamePanel.getGame().getPlaying().keyReleased(e);
                 break;
-            case KeyEvent.VK_S:
-                gamePanel.getGame().getPlayer().setDown(false);
-                break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(false);
-                break;
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJump(false);
+            default:
                 break;
         }
+        
     }
 
 }
