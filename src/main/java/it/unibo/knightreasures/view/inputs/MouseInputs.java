@@ -7,84 +7,114 @@ import java.awt.event.MouseMotionListener;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 
-public class MouseInputs implements MouseListener, MouseMotionListener {
+/**
+ * Handles mouse inputs for the game, including clicks and movement.
+ */
+public final class MouseInputs implements MouseListener, MouseMotionListener {
 
-    private ApplicationPanel gamePanel;
+    /** Reference to the game panel. */
+    private final ApplicationPanel gamePanel;
 
-    public MouseInputs(ApplicationPanel gamePanel) {
+    /**
+     * Constructs a new MouseInputs instance.
+     *
+     * @param gamePanel the application panel handling mouse interactions.
+     */
+    public MouseInputs(final ApplicationPanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Handles mouse click events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseClicked(MouseEvent e) {
-        switch (Gamestate.state) {
+    public void mouseClicked(final MouseEvent e) {
+        switch (Gamestate.getState()) {
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().mouseClicked(e);
                 break;
             default:
                 break;
         }
-        
     }
 
+    /**
+     * Handles mouse press events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mousePressed(MouseEvent e) {
-        switch (Gamestate.state) {
-            case MENU:
-
-                break;
+    public void mousePressed(final MouseEvent e) {
+        switch (Gamestate.getState()) {
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().mousePressed(e);
                 break;
             default:
                 break;
         }
-        
     }
 
+    /**
+     * Handles mouse release events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
-        switch (Gamestate.state) {
-            case MENU:
-
-                break;
+    public void mouseReleased(final MouseEvent e) {
+        switch (Gamestate.getState()) {
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().mouseReleased(e);
                 break;
             default:
                 break;
         }
-       
     }
 
+    /**
+     * Handles mouse enter events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseEntered(MouseEvent e) {
-        
+    public void mouseEntered(final MouseEvent e) {
+        // No specific action needed on mouse enter.
     }
 
+    /**
+     * Handles mouse exit events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseExited(MouseEvent e) {
-        
+    public void mouseExited(final MouseEvent e) {
+        // No specific action needed on mouse exit.
     }
 
+    /**
+     * Handles mouse drag events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseDragged(MouseEvent e) {
-        
+    public void mouseDragged(final MouseEvent e) {
+        // No specific action needed for dragging.
     }
 
+    /**
+     * Handles mouse movement events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseMoved(MouseEvent e) {
-        switch (Gamestate.state) {
-            case MENU:
-
-                break;
+    public void mouseMoved(final MouseEvent e) {
+        switch (Gamestate.getState()) {
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().mouseMoved(e);
                 break;
             default:
                 break;
         }
-        
     }
-
 }

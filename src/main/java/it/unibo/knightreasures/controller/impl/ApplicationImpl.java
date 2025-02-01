@@ -3,111 +3,123 @@ package it.unibo.knightreasures.controller.impl;
 import java.awt.Graphics;
 
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
-import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
-import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
-import it.unibo.knightreasures.view.impl.LevelManager;
 
-public class ApplicationImpl implements Runnable {
+/**
+ * Main application controller that manages the game loop,
+ * rendering, and game states.
+ */
+public final class ApplicationImpl implements Runnable {
 
-    private ApplicationPanel applicationPanel;
-    private ApplicationWindow applicationWindow;
-    private Thread gameThread;
-    private Gameplay gameplay;
+    /** The game panel where the game is drawn. */
+    private final ApplicationPanel applicationPanel;
 
+    /** The gameplay instance managing the game logic. */
+    private final Gameplay gameplay;
+
+    /**
+     * Constructs a new ApplicationImpl instance and initializes the game.
+     */
     public ApplicationImpl() {
-        initClasses();
-        applicationPanel = new ApplicationPanel(this);
-        applicationWindow = new ApplicationWindow(applicationPanel);
+        this.gameplay = new Gameplay(this);
+        this.applicationPanel = new ApplicationPanel(this);
+        new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
         startGameLoop();
     }
 
-    private void initClasses() {
-        gameplay = new Gameplay(this);
-    }
-
+    /**
+     * Updates the game state based on the current gamestate.
+     */
     public void update() {
-        switch (Gamestate.state) {
+        switch (Gamestate.getState()) {
             case MENU:
-                
                 break;
-        
             case PLAYING:
                 this.gameplay.update();
                 break;
+            default:
+                break;
         }
     }
 
-    public void render(Graphics g) {
-        switch (Gamestate.state) {
+    /**
+     * Renders the game graphics based on the current gamestate.
+     *
+     * @param g the graphics object used for rendering.
+     */
+    public void render(final Graphics g) {
+        switch (Gamestate.getState()) {
             case MENU:
-                
                 break;
-        
             case PLAYING:
                 this.gameplay.draw(g);
                 break;
+            default:
+                break;
         }
     }
 
+    /**
+     * Starts the game loop in a separate thread.
+     */
     private void startGameLoop() {
-        gameThread = new Thread(this);
+        final Thread gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**
+     * Runs the game loop, updating and rendering the game at a fixed rate.
+     */
     @Override
     public void run() {
-
-        double timePerFrame = GameLoop.NANOSECOND / GameLoop.FPS_SET;
-        double timePerUpdate = GameLoop.NANOSECOND / GameLoop.UPS_SET;
+        final double timePerFrame = GameLoop.NANOSECOND / GameLoop.FPS_SET;
+        final double timePerUpdate = GameLoop.NANOSECOND / GameLoop.UPS_SET;
         double deltaU = 0;
         double deltaF = 0;
 
-        long previusTime = System.nanoTime();
-        
+        long previousTime = System.nanoTime();
         long lastCheck = System.currentTimeMillis();
 
-        int fps = 0;
-        int updates = 0;
-
         while (true) {
-            long currentTime = System.nanoTime();
-
-            deltaU += (currentTime -previusTime) / timePerUpdate;
-            deltaF += (currentTime - previusTime) / timePerFrame;
-            previusTime = currentTime;
+            final long currentTime = System.nanoTime();
+            deltaU += (currentTime - previousTime) / timePerUpdate;
+            deltaF += (currentTime - previousTime) / timePerFrame;
+            previousTime = currentTime;
 
             if (deltaU >= 1) {
                 update();
-                updates++;
                 deltaU--;
             }
 
             if (deltaF >= 1) {
                 applicationPanel.repaint();
                 deltaF--;
-                fps++;
             }
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + fps + " | UPS: " + updates);
-                fps = 0;
-                updates = 0;
             }
         }
     }
 
+    /**
+     * Handles the event when the game window loses focus.
+     */
     public void windowLostFocus() {
-        if (Gamestate.state == Gamestate.PLAYING) {
+        if (Gamestate.getState() == Gamestate.PLAYING) {
             this.gameplay.getPlayer().resetDirBooleans();
         }
     }
 
+    /**
+     * Gets the gameplay instance.
+     *
+     * @return the gameplay instance.
+     */
     public Gameplay getPlaying() {
         return this.gameplay;
     }
