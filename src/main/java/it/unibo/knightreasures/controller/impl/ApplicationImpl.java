@@ -7,6 +7,7 @@ import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
+import it.unibo.knightreasures.view.impl.Menu;
 
 /**
  * Main application controller that manages the game loop,
@@ -20,11 +21,14 @@ public final class ApplicationImpl implements Runnable {
     /** The gameplay instance managing the game logic. */
     private final Gameplay gameplay;
 
+    private final Menu menu;
+
     /**
      * Constructs a new ApplicationImpl instance and initializes the game.
      */
     public ApplicationImpl() {
         this.gameplay = new Gameplay(this);
+        this.menu = new Menu(this);
         this.applicationPanel = new ApplicationPanel(this);
         new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
@@ -37,6 +41,7 @@ public final class ApplicationImpl implements Runnable {
     public void update() {
         switch (Gamestate.getState()) {
             case MENU:
+            this.menu.update();
                 break;
             case PLAYING:
                 this.gameplay.update();
@@ -54,6 +59,7 @@ public final class ApplicationImpl implements Runnable {
     public void render(final Graphics g) {
         switch (Gamestate.getState()) {
             case MENU:
+            this.menu.draw(g);
                 break;
             case PLAYING:
                 this.gameplay.draw(g);
@@ -122,5 +128,9 @@ public final class ApplicationImpl implements Runnable {
      */
     public Gameplay getPlaying() {
         return this.gameplay;
+    }
+
+    public Menu getMenu() {
+        return this.menu;
     }
 }
