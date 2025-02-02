@@ -146,7 +146,7 @@ public final class MenuButton {
      * @return the button's bounding box.
      */
     public Rectangle getBounds() {
-        return bounds;
+        return new Rectangle(bounds);
     }
 
     /**

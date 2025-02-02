@@ -22,14 +22,9 @@ public final class ApplicationPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Handles mouse inputs for the game.
-     */
-    private transient MouseInputs mouseInputs;
-
-    /**
      * The main game application instance.
      */
-    private final ApplicationImpl game;
+    private final transient ApplicationImpl game;
 
     /**
      * Constructs the application panel and initializes input handlers.
@@ -38,7 +33,7 @@ public final class ApplicationPanel extends JPanel {
      */
     public ApplicationPanel(final ApplicationImpl game) {
         this.game = game;
-        this.mouseInputs = new MouseInputs(this);
+        final MouseInputs mouseInputs = new MouseInputs(this);
 
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));

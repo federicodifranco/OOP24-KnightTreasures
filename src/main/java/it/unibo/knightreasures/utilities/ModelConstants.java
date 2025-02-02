@@ -217,56 +217,28 @@ public final class ModelConstants {
         /**
          * The number of sprite frames for the idle animation.
          */
-        private static final int IDLE_SPRITES = 8;
+        public static final int IDLE_SPRITES = 8;
 
         /**
          * The number of sprite frames for the running animation.
          */
-        private static final int RUN_SPRITES = 10;
+        public static final int RUN_SPRITES = 10;
 
         /**
          * The number of sprite frames for the attack animation.
          */
-        private static final int ATTACK_SPRITES = 10;
+        public static final int ATTACK_SPRITES = 10;
 
         /**
          * The number of sprite frames for the hurt animation.
          */
-        private static final int HURT_SPRITES = 5;
+        public static final int HURT_SPRITES = 5;
 
         /**
          * The number of sprite frames for the dying animation.
          */
-        private static final int DIE_SPRITES = 11;
+        public static final int DIE_SPRITES = 11;
 
-        /**
-         * Gets the number of sprite frames for a given skeleton state.
-         *
-         * @param enemyState The current state of the skeleton.
-         * @return The number of frames in the corresponding animation.
-         */
-        public static int getSpriteAmount(final int enemyState) {
-            switch (enemyState) {
-                case IDLE -> {
-                    return IDLE_SPRITES;
-                }
-                case RUN -> {
-                    return RUN_SPRITES;
-                }
-                case ATTACK -> {
-                    return ATTACK_SPRITES;
-                }
-                case HURT -> {
-                    return HURT_SPRITES;
-                }
-                case DIE -> {
-                    return DIE_SPRITES;
-                }
-                default -> {
-                    return 0;
-                }
-            }
-        }
     }
 
     /**
@@ -357,32 +329,13 @@ public final class ModelConstants {
         /**
          * Number of sprite frames for chest animation.
          */
-        private static final int CHEST_SPRITES = 5;
+        public static final int CHEST_SPRITES = 5;
 
         /**
          * Number of sprite frames for object animations (ring, cup, crown).
          */
-        private static final int OBJECTS_SPRITES = 7;
+        public static final int OBJECTS_SPRITES = 7;
 
-        /**
-         * Retrieves the number of sprites for a given object type.
-         *
-         * @param objectType The type of the object.
-         * @return The number of frames in the corresponding animation.
-         */
-        public static int getSpriteAmount(final int objectType) {
-            switch (objectType) {
-                case RING, CUP, CROWN -> {
-                    return OBJECTS_SPRITES;
-                }
-                case CHEST -> {
-                    return CHEST_SPRITES;
-                }
-                default -> {
-                    return 1;
-                }
-            }
-        }
     }
 
     /**

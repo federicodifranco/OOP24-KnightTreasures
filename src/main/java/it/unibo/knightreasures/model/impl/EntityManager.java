@@ -50,6 +50,7 @@ public abstract class EntityManager {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 
     /**
@@ -86,7 +87,7 @@ public abstract class EntityManager {
      * @return the hitbox of the entity.
      */
     public Rectangle2D.Float getHitbox() {
-        return hitBox;
+        return new Rectangle2D.Float(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
     }
 
     /**

@@ -20,7 +20,26 @@ public class Level {
      * @param lvlData A 2D integer array representing the level structure.
      */
     public Level(final int[][] lvlData) {
-        this.lvlData = lvlData.clone();
+        this.lvlData = deepCopyArray(lvlData);
+    }
+
+    /**
+     * Creates a deep copy of a two-dimensional integer array. If the input
+     * array is null, an empty 2D array is returned instead of null.
+     *
+     * @param original the original 2D array to copy.
+     * @return a new 2D array that is a deep copy of the input array, or an
+     * empty array if the input is null.
+     */
+    private static int[][] deepCopyArray(final int[][] original) {
+        if (original == null) {
+            return new int[0][0];
+        }
+        final int[][] copy = new int[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = original[i].clone();
+        }
+        return copy;
     }
 
     /**
