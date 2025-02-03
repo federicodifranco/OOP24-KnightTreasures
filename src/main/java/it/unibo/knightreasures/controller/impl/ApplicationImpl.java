@@ -3,6 +3,7 @@ package it.unibo.knightreasures.controller.impl;
 import java.awt.Graphics;
 
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.utilities.AudioUtilities;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
@@ -33,10 +34,14 @@ public final class ApplicationImpl implements Runnable {
 
     private final Audio audio;
 
+    private final AudioUtilities audioUtilities;
+
     /**
      * Constructs a new ApplicationImpl instance and initializes the game.
      */
     public ApplicationImpl() {
+        this.audioUtilities = new AudioUtilities();
+        playSong();
         this.audio = new Audio(this);
         this.gameplay = new Gameplay(this);
         this.menu = new Menu(this);
@@ -44,6 +49,17 @@ public final class ApplicationImpl implements Runnable {
         new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
         startGameLoop();
+    }
+
+    private void playSong() {
+        switch (Gamestate.getState()) {
+            case MENU -> 
+                this.audioUtilities.playMenuSong();
+            case PLAYING -> 
+                this.audioUtilities.playLevelSong();
+            default -> {
+            }
+        }
     }
 
     /**
@@ -152,5 +168,9 @@ public final class ApplicationImpl implements Runnable {
 
     public Audio getAudio() {
         return this.audio;
+    }
+
+    public AudioUtilities getAudioUtilities() {
+        return this.audioUtilities;
     }
 }

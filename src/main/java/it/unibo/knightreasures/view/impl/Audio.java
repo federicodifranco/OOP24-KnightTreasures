@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
+import it.unibo.knightreasures.utilities.ModelConstants.SongGame;
 import it.unibo.knightreasures.utilities.ViewConstants.AudioButtons;
 import it.unibo.knightreasures.view.api.View;
 
@@ -49,7 +50,16 @@ public class Audio implements View {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+        if (isIn(e, btns[ButtonsValues.VOLUME_ON])) {
+            if (btns[ButtonsValues.VOLUME_ON].isMousePressed() && !game.getAudioUtilities().isMuted()) {
+                game.getAudioUtilities().setMuted();
+            }
+        } else if (isIn(e, btns[ButtonsValues.VOLUME_OFF])) {
+            if (btns[ButtonsValues.VOLUME_OFF].isMousePressed() && game.getAudioUtilities().isMuted()) {
+                game.getAudioUtilities().setMuted();
+                game.getAudioUtilities().setVolume(SongGame.VOLUME_BASE);
+            }
+        }
 
         btns[ButtonsValues.VOLUME_OFF].resetBools();
         btns[ButtonsValues.VOLUME_ON].resetBools();

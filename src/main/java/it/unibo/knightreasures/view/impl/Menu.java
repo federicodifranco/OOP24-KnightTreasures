@@ -23,6 +23,7 @@ import it.unibo.knightreasures.view.api.View;
  */
 public final class Menu extends State implements View {
 
+    private final ApplicationImpl game;
     private final MenuButton[] btns = new MenuButton[ButtonsValues.MENU_NUM_BUTTONS];
     private BufferedImage menuImg, homeBackgroundImg, legendImg;
     private int menuX, menuY, menuWidth, menuHeight;
@@ -35,6 +36,7 @@ public final class Menu extends State implements View {
      */
     public Menu(final ApplicationImpl game) {
         super(game);
+        this.game = game;
         loadLegend();
         loadButtons();
         loadMenuPanel();
@@ -145,6 +147,7 @@ public final class Menu extends State implements View {
             if (isIn(e, mb) && mb.isMousePressed()) {
                 mb.applyGameState();
             }
+            if (Gamestate.getState() == Gamestate.PLAYING) this.game.getAudioUtilities().playLevelSong();
         }
         resetButtons();
     }
