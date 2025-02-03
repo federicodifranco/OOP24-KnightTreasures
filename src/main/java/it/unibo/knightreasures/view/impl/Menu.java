@@ -156,12 +156,14 @@ public final class Menu extends State implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        for (final MenuButton mb : btns) {
+        for (MenuButton mb : btns) {
             mb.setMouseOver(false);
         }
-        for (final MenuButton mb : btns) {
+        
+        for (MenuButton mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMouseOver(true);
+                break;
             }
         }
     }

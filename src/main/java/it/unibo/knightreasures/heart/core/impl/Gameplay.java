@@ -1,5 +1,6 @@
 package it.unibo.knightreasures.heart.core.impl;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,7 @@ import java.awt.event.MouseEvent;
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.Gamestate;
+import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -66,7 +68,11 @@ public final class Gameplay extends State implements View {
         g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
         levelManager.draw(g);
         player.render(g);
-        pause.draw(g);
+        if (paused) {
+            g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
+            g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
+            pause.draw(g);
+        }
     }
 
     /**

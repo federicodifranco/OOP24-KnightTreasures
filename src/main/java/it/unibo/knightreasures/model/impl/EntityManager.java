@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
-import it.unibo.knightreasures.utilities.ViewConstants.Player;
+import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Represents a generic entity in the game, providing common functionality for
@@ -50,7 +50,7 @@ public abstract class EntityManager {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.hitBox = new Rectangle2D.Float(x, y, width, height);
+        this.hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
     }
 
     /**
@@ -77,8 +77,8 @@ public abstract class EntityManager {
      * @param width the width of the hitbox.
      * @param height the height of the hitbox.
      */
-    protected void initHitBox(final float x, final float y, final float width, final float height) {
-        hitBox = new Rectangle2D.Float(x, y, width + Player.HITBOX_WIDTH, height + Player.HITBOX_HEIGHT);
+    protected void initHitBox(final float width, final float height) {
+        hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
     }
 
     /**
