@@ -1,9 +1,9 @@
 package it.unibo.knightreasures.view.impl;
 
-import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
@@ -63,6 +63,7 @@ public class Pause implements View {
         for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.update();
         }
+        this.audio.update();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class Pause implements View {
             resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON].setMousePressed(true);
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON].setMousePressed(true);
-        }
+        } else audio.mousePressed(e);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class Pause implements View {
             Gamestate.setState(Gamestate.MENU);
             game.getAudioUtilities().playMenuSong();
             playing.unpauseGame();
-        }
+        } else audio.mouseReleased(e);
 
         for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.resetBools();
@@ -116,7 +117,7 @@ public class Pause implements View {
             resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON].setMouseOver(true);
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON].setMouseOver(true);
-        }
+        } else audio.mouseMoved(e);
 
     }
 

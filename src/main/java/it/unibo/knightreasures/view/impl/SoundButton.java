@@ -3,6 +3,7 @@ package it.unibo.knightreasures.view.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.AudioButtons;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -15,7 +16,6 @@ public class SoundButton extends PauseButton {
 
     public SoundButton(int x, int y, int widht, int height, int rowIndex) {
         super(x, y, widht, height, rowIndex);
-
         loadSoundImgs();
     }
 
@@ -32,20 +32,11 @@ public class SoundButton extends PauseButton {
     }
 
     public void update() {
-
-        if (muted) {
-            rowIndex = 1; 
-        } else {
-            rowIndex = 0;
-        }
-
-        index = 0;
-        if (mouseOver) {
-            index = 1;
-        }
-        if (mousePressed) {
-            index = 2;
-        }
+        if (muted) rowIndex = ButtonsValues.SECOND_ROW_INDEX; 
+        else rowIndex = ButtonsValues.FIRST_ROW_INDEX;
+        index = ButtonsValues.FIRST_ROW_INDEX;
+        if (mouseOver) index = ButtonsValues.SECOND_ROW_INDEX;
+        if (mousePressed) index = ButtonsValues.THIRD_ROW_INDEX;
     }
 
     public boolean isMouseOver() {
