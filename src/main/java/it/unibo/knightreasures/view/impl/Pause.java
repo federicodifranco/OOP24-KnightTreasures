@@ -21,6 +21,7 @@ public class Pause implements View {
     private final Gameplay playing;
     private final LevelManager level;
     private final ApplicationImpl game;
+    private final Audio audio;
     private final ResumeRestartHomeButtons[] resumeRestartHomeButtonsBtns = new ResumeRestartHomeButtons[ButtonsValues.RRH_NUM_BUTTONS];
     private BufferedImage pauseImg;
     private int pauseX, pauseY, pauseW, pauseH;
@@ -29,6 +30,7 @@ public class Pause implements View {
         this.playing = playing;
         this.level = level;
         this.game = game;
+        this.audio = this.playing.getGame().getAudio();
         loadBackground();
         createdRRHButtons();
     }
@@ -69,6 +71,7 @@ public class Pause implements View {
         for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.draw(g);
         }
+        audio.draw(g);
     }
 
     @Override

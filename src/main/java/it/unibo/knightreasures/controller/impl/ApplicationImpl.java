@@ -7,6 +7,7 @@ import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.GameLoop;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
+import it.unibo.knightreasures.view.impl.Audio;
 import it.unibo.knightreasures.view.impl.Menu;
 
 /**
@@ -30,10 +31,13 @@ public final class ApplicationImpl implements Runnable {
      */
     private final Menu menu;
 
+    private final Audio audio;
+
     /**
      * Constructs a new ApplicationImpl instance and initializes the game.
      */
     public ApplicationImpl() {
+        this.audio = new Audio(this);
         this.gameplay = new Gameplay(this);
         this.menu = new Menu(this);
         this.applicationPanel = new ApplicationPanel(this);
@@ -144,5 +148,9 @@ public final class ApplicationImpl implements Runnable {
      */
     public Menu getMenu() {
         return this.menu;
+    }
+
+    public Audio getAudio() {
+        return this.audio;
     }
 }
