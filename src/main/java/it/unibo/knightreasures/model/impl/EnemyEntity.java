@@ -12,7 +12,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
  */
 public class EnemyEntity extends EntityManager {
 
-    private int aniIndex, enemyState, enemyType;
+    private int aniIndex, enemyState;
     private int aniTick;
     private boolean firstUpdate = true, inAir;
     private float fallSpeed;
@@ -25,22 +25,19 @@ public class EnemyEntity extends EntityManager {
      * @param y         the y-coordinate of the enemy.
      * @param width     the width of the enemy.
      * @param height    the height of the enemy.
-     * @param enemyType the type of enemy.
      */
-    public EnemyEntity(final float x, final float y, final int width, final int height, final int enemyType) {
+    public EnemyEntity(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
-        this.enemyType = enemyType;
         initHitBox(x, y, width, height);
     }
 
     /**
      * Gets the number of sprite frames for a given enemy state.
      *
-     * @param enemyType  the type of enemy.
      * @param enemyState the current state of the enemy.
      * @return the number of sprite frames for the enemy's animation.
      */
-    private int getSpriteAmount(final int enemyType, final int enemyState) {
+    private int getSpriteAmount(final int enemyState) {
         switch (enemyState) {
             case SkeletonsValues.IDLE:
                 return SkeletonsValues.IDLE_SPRITES;
@@ -63,7 +60,7 @@ public class EnemyEntity extends EntityManager {
         if (aniTick >= Application.ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= getSpriteAmount(enemyType, enemyState)) {
+            if (aniIndex >= getSpriteAmount(enemyState)) {
                 aniIndex = 0;
             }
         }
@@ -146,6 +143,7 @@ public class EnemyEntity extends EntityManager {
      *
      * @return the current animation index.
      */
+    @Override
     public int getIndex() {
         return aniIndex;
     }

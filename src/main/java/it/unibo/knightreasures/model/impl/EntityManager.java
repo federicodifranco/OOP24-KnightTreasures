@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
-import it.unibo.knightreasures.utilities.ViewConstants.Window;
-
 /**
  * Represents a generic entity in the game, providing common functionality for
  * position, dimensions, and hitbox management.

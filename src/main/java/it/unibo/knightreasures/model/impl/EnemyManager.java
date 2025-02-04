@@ -3,6 +3,7 @@ package it.unibo.knightreasures.model.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
@@ -19,7 +20,7 @@ public final class EnemyManager {
 
     private final Gameplay playing;
     private BufferedImage[][] skeletonArr;
-    private ArrayList<Skeleton> skeletons = new ArrayList<>();
+    private List<Skeleton> skeletons = new ArrayList<>();
 
     /**
      * Constructs the enemy manager and initializes enemy images.

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -104,13 +105,13 @@ public final class ResourceFuncUtilities {
      *
      * @return A list of Skeleton objects based on level data.
      */
-    public static ArrayList<Skeleton> getSkeletons() {
-        BufferedImage img = ResourceFuncUtilities.loadSources("level_1");
-        ArrayList<Skeleton> list = new ArrayList<>();
+    public static List<Skeleton> getSkeletons() {
+        final BufferedImage img = ResourceFuncUtilities.loadSources("level_1");
+        final List<Skeleton> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getGreen();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getGreen();
                 if (value == SkeletonsValues.SKELETON) {
                     list.add(new Skeleton(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
                 }
