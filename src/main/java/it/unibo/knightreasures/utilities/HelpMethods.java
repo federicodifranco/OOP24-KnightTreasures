@@ -54,8 +54,7 @@ public final class HelpMethods {
     }
 
     /**
-     * Checks if an entity can move to the specified position based on collision
-     * data.
+     * Checks if an entity can move to the specified position based on collision data.
      *
      * @param x       the x-coordinate to check.
      * @param y       the y-coordinate to check.
@@ -65,7 +64,7 @@ public final class HelpMethods {
      * @return true if the entity can move to the position, false otherwise.
      */
     public static boolean canMoveHere(final float x, final float y, final float width,
-            final float height, final int[][] lvlData) {
+                                      final float height, final int[][] lvlData) {
         return !isSolid(x, y, lvlData)
                 && !isSolid(x + width, y + height, lvlData)
                 && !isSolid(x + width, y, lvlData)
@@ -89,9 +88,17 @@ public final class HelpMethods {
         final int xIndex = (int) (x / Window.TILES_SIZE);
         final int yIndex = (int) (y / Window.TILES_SIZE);
 
-        return isTileSolid((int) xIndex, (int) yIndex, lvlData);
+        return isTileSolid(xIndex, yIndex, lvlData);
     }
 
+    /**
+     * Checks if a tile is solid based on its value.
+     *
+     * @param xTile   the x-index of the tile.
+     * @param yTile   the y-index of the tile.
+     * @param lvlData the level data containing collision information.
+     * @return true if the tile is solid, false otherwise.
+     */
     public static boolean isTileSolid(final int xTile, final int yTile, final int[][] lvlData) {
         final int value = lvlData[yTile][xTile];
         return (value >= LevelsValues.TILE_1_NOT_SOLID)
@@ -111,11 +118,28 @@ public final class HelpMethods {
                 || isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
     }
 
+    /**
+     * Checks if the specified x position is a floor tile.
+     *
+     * @param hitbox  the entity's hitbox.
+     * @param xSpeed  the x-speed of the entity.
+     * @param lvlData the level data containing collision information.
+     * @return true if the tile is a floor tile, false otherwise.
+     */
     public static boolean isFloor(final Rectangle2D.Float hitbox, final float xSpeed, final int[][] lvlData) {
         return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + LevelsValues.FLOOR_OFFSET, lvlData);
     }
 
-    public static boolean isAllTileWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+    /**
+     * Checks if all tiles between xStart and xEnd at height y are walkable.
+     *
+     * @param xStart  the starting x-tile index.
+     * @param xEnd    the ending x-tile index.
+     * @param y       the y-tile index.
+     * @param lvlData the level data containing collision information.
+     * @return true if all tiles are walkable, false otherwise.
+     */
+    public static boolean isAllTileWalkable(final int xStart, final int xEnd, final int y, final int[][] lvlData) {
         for (int i = 0; i < xEnd - xStart; i++) {
             if (isTileSolid(xStart + i, y, lvlData)) {
                 return false;
@@ -127,21 +151,30 @@ public final class HelpMethods {
         return true;
     }
 
-    public static boolean isSightClear(final int[][] lvlData, final Rectangle2D.Float firstHitbox, final Rectangle2D.Float secondHitbox,
-            int yTile) {
-        int firstXTile = (int) (firstHitbox.x / Window.TILES_SIZE);
-        int secondXTile;
+    /**
+     * Checks if there is a clear sight between two hitboxes.
+     *
+     * @param lvlData       the level data containing collision information.
+     * @param firstHitbox   the first entity's hitbox.
+     * @param secondHitbox  the second entity's hitbox.
+     * @param yTile         the y-tile index.
+     * @return true if sight is clear, false otherwise.
+     */
+    public static boolean isSightClear(final int[][] lvlData, final Rectangle2D.Float firstHitbox,
+                                       final Rectangle2D.Float secondHitbox, final int yTile) {
+        final int firstXTile = (int) (firstHitbox.x / Window.TILES_SIZE);
+        final int secondXTile;
+
         if (isSolid(secondHitbox.x, secondHitbox.y + secondHitbox.height + LevelsValues.FLOOR_OFFSET, lvlData)) {
             secondXTile = (int) (secondHitbox.x / Window.TILES_SIZE);
-        }
-        else {
+        } else {
             secondXTile = (int) ((secondHitbox.x + secondHitbox.width) / Window.TILES_SIZE);
         }
+
         if (firstXTile > secondXTile) {
             return isAllTileWalkable(secondXTile, firstXTile, yTile, lvlData);
         } else {
             return isAllTileWalkable(firstXTile, secondXTile, yTile, lvlData);
         }
     }
-
 }

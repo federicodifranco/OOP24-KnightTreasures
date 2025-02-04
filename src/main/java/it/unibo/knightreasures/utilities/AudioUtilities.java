@@ -1,14 +1,20 @@
 package it.unibo.knightreasures.utilities;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import it.unibo.knightreasures.utilities.ModelConstants.SongGame;
 
@@ -16,6 +22,8 @@ import it.unibo.knightreasures.utilities.ModelConstants.SongGame;
  * Utility class for handling audio playback in the game.
  */
 public final class AudioUtilities {
+
+    private static final Logger LOGGER = Logger.getLogger(AudioUtilities.class.getName());
 
     /**
      * Array of audio clips used in the game.
@@ -121,7 +129,7 @@ public final class AudioUtilities {
      */
     private void loadSongs() {
         final File directory = new File("src/main/resources/songs");
-        final File[] audioFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".wav"));
+        final File[] audioFiles = directory.listFiles((dir, name) -> name.toLowerCase(Locale.ROOT).endsWith(".wav"));
         if (audioFiles == null || audioFiles.length == 0) {
             songs = new Clip[0];
             return;
@@ -147,8 +155,12 @@ public final class AudioUtilities {
             final Clip clip = AudioSystem.getClip();
             clip.open(audio);
             return clip;
-        } catch (final Exception e) {
-            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            LOGGER.log(Level.SEVERE, "Unsupported audio file format: " + file.getName(), e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error reading audio file: " + file.getName(), e);
+        } catch (LineUnavailableException e) {
+            LOGGER.log(Level.SEVERE, "Audio line unavailable for: " + file.getName(), e);
         }
         return null;
     }
@@ -160,7 +172,7 @@ public final class AudioUtilities {
         if (songs[currentSongId] != null) {
             final FloatControl gainControl = (FloatControl) songs[currentSongId].getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(
-                ((gainControl.getMaximum() - gainControl.getMinimum()) * SongGame.VOLUME_BASE) + gainControl.getMinimum()
+                    ((gainControl.getMaximum() - gainControl.getMinimum()) * SongGame.VOLUME_BASE) + gainControl.getMinimum()
             );
         }
     }

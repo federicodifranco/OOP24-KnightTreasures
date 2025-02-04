@@ -118,7 +118,7 @@ public final class PlayerEntity extends EntityManager {
         if (jump) {
             jump();
         }
-        if (!inAir && (!left && !right) || (left && right))  {
+        if (!inAir && !left && !right || left && right)  {
             return;
         }
         float xSpeed = 0;

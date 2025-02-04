@@ -147,7 +147,9 @@ public final class Menu extends State implements View {
             if (isIn(e, mb) && mb.isMousePressed()) {
                 mb.applyGameState();
             }
-            if (Gamestate.getState() == Gamestate.PLAYING) this.game.getAudioUtilities().playLevelSong();
+            if (Gamestate.getState() == Gamestate.PLAYING) {
+                this.game.getAudioUtilities().playLevelSong();
+            }
         }
         resetButtons();
     }
@@ -159,11 +161,10 @@ public final class Menu extends State implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        for (MenuButton mb : btns) {
+        for (final MenuButton mb : btns) {
             mb.setMouseOver(false);
         }
-        
-        for (MenuButton mb : btns) {
+        for (final MenuButton mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMouseOver(true);
                 break;

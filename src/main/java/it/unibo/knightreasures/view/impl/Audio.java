@@ -11,10 +11,11 @@ import it.unibo.knightreasures.utilities.ViewConstants.AudioButtons;
 import it.unibo.knightreasures.view.api.View;
 
 /**
- * Handles the game's audio settings, including volume control buttons.
- * This class manages sound settings using volume on/off buttons.
+ * Handles the game's audio settings, including volume control buttons. This
+ * class manages sound settings using volume on/off buttons.
  */
 public final class Audio implements View {
+
     /**
      * Array containing the sound buttons for volume control.
      */
@@ -40,14 +41,14 @@ public final class Audio implements View {
      */
     private void createSoundButtons() {
         btns[ButtonsValues.VOLUME_OFF] = new SoundButton(
-            AudioButtons.VOLUME_OFF_X, AudioButtons.VOLUME_Y,
-            AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
-            ButtonsValues.FIRST_ROW_INDEX
+                AudioButtons.VOLUME_OFF_X, AudioButtons.VOLUME_Y,
+                AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
+                ButtonsValues.FIRST_ROW_INDEX
         );
         btns[ButtonsValues.VOLUME_ON] = new SoundButton(
-            AudioButtons.VOLUME_ON_X, AudioButtons.VOLUME_Y,
-            AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
-            ButtonsValues.SECOND_ROW_INDEX
+                AudioButtons.VOLUME_ON_X, AudioButtons.VOLUME_Y,
+                AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
+                ButtonsValues.SECOND_ROW_INDEX
         );
     }
 
@@ -94,13 +95,13 @@ public final class Audio implements View {
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (isIn(e, btns[ButtonsValues.VOLUME_ON]) &&
-            btns[ButtonsValues.VOLUME_ON].isMousePressed() && 
-            !game.getAudioUtilities().isMuted()) {
+        if (isIn(e, btns[ButtonsValues.VOLUME_ON])
+                && btns[ButtonsValues.VOLUME_ON].isMousePressed()
+                && !game.getAudioUtilities().isMuted()) {
             game.getAudioUtilities().setMuted();
-        } else if (isIn(e, btns[ButtonsValues.VOLUME_OFF]) &&
-                   btns[ButtonsValues.VOLUME_OFF].isMousePressed() && 
-                   game.getAudioUtilities().isMuted()) {
+        } else if (isIn(e, btns[ButtonsValues.VOLUME_OFF])
+                && btns[ButtonsValues.VOLUME_OFF].isMousePressed()
+                && game.getAudioUtilities().isMuted()) {
             game.getAudioUtilities().setMuted();
             game.getAudioUtilities().setVolume(SongGame.VOLUME_BASE);
         }

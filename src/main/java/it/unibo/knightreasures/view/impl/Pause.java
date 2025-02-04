@@ -51,11 +51,9 @@ public final class Pause implements View {
         resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON] = 
                 new ResumeRestartHomeButtons(RRHButtons.RESUME_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
-        
         resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON] = 
                 new ResumeRestartHomeButtons(RRHButtons.RESTART_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
-        
         resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON] = 
                 new ResumeRestartHomeButtons(RRHButtons.HOME_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
@@ -170,7 +168,6 @@ public final class Pause implements View {
      */
     @Override
     public void mouseClicked(final MouseEvent e) {
-        
     }
 
     /**
@@ -180,7 +177,6 @@ public final class Pause implements View {
      */
     @Override
     public void keyPressed(final KeyEvent e) {
-        
     }
 
     /**

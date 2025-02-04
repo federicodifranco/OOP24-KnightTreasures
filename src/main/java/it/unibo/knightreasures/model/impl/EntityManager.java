@@ -216,7 +216,7 @@ public abstract class EntityManager {
      *
      * @return true if the entity is in the air, false otherwise.
      */
-    public boolean getInAir() {
+    public boolean isInAir() {
         return this.inAir;
     }
 
