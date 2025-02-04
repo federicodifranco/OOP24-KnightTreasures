@@ -106,7 +106,7 @@ public final class ResourceFuncUtilities {
      * @return A list of Skeleton objects based on level data.
      */
     public static List<Skeleton> getSkeletons() {
-        final BufferedImage img = ResourceFuncUtilities.loadSources("level_1");
+        final BufferedImage img = loadSources("level_1");
         final List<Skeleton> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {

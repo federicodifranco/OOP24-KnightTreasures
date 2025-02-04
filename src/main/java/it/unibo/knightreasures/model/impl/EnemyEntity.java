@@ -107,7 +107,7 @@ public class EnemyEntity extends EntityManager {
                     enemyState = SkeletonsValues.RUN;
                     break;
                 case SkeletonsValues.RUN:
-                    float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
+                    final float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
                     if (HelpMethods.canMoveHere(
                             getHitbox().x + xSpeed,
                             getHitbox().y,
