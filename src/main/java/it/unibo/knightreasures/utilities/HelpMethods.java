@@ -54,7 +54,8 @@ public final class HelpMethods {
     }
 
     /**
-     * Checks if an entity can move to the specified position based on collision data.
+     * Checks if an entity can move to the specified position based on collision
+     * data.
      *
      * @param x       the x-coordinate to check.
      * @param y       the y-coordinate to check.
@@ -63,8 +64,8 @@ public final class HelpMethods {
      * @param lvlData the level data containing collision information.
      * @return true if the entity can move to the position, false otherwise.
      */
-    public static boolean canMoveHere(final float x, final float y, final float width, 
-                                      final float height, final int[][] lvlData) {
+    public static boolean canMoveHere(final float x, final float y, final float width,
+            final float height, final int[][] lvlData) {
         return !isSolid(x, y, lvlData)
                 && !isSolid(x + width, y + height, lvlData)
                 && !isSolid(x + width, y, lvlData)
@@ -80,15 +81,19 @@ public final class HelpMethods {
      * @return true if the position is solid, false otherwise.
      */
     private static boolean isSolid(final float x, final float y, final int[][] lvlData) {
-        if (x < 0 || x >= Window.GAME_WIDTH || y < 0 || y >= Window.GAME_HEIGHT) {
+        final int maxWidth = lvlData[0].length * Window.TILES_SIZE;
+        if (x < 0 || x >= maxWidth || y < 0 || y >= Window.GAME_HEIGHT) {
             return true;
         }
 
         final int xIndex = (int) (x / Window.TILES_SIZE);
         final int yIndex = (int) (y / Window.TILES_SIZE);
 
-        final int value = lvlData[yIndex][xIndex];
+        return isTileSolid((int) xIndex, (int) yIndex, lvlData);
+    }
 
+    public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {
+        int value = lvlData[yTile][xTile];
         return (value >= LevelsValues.TILE_1_NOT_SOLID)
                 || (value < LevelsValues.TILE_2_NOT_SOLID)
                 || (value != LevelsValues.TILE_3_NOT_SOLID);
@@ -105,4 +110,36 @@ public final class HelpMethods {
         return isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)
                 || isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
     }
+
+    public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+        return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + LevelsValues.FLOOR_OFFSET, lvlData);
+    }
+
+    public static boolean isAllTileWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++) {
+            if (isTileSolid(xStart + i, y, lvlData)) {
+                return false;
+            }
+            if (!isTileSolid(xStart + i, y + LevelsValues.FLOOR_OFFSET, lvlData)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSightClear(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox,
+            int yTile) {
+        int firstXTile = (int) (firstHitbox.x / Window.TILES_SIZE);
+        int secondXTile;
+        if (isSolid(secondHitbox.x, secondHitbox.y + secondHitbox.height + LevelsValues.FLOOR_OFFSET, lvlData))
+            secondXTile = (int) (secondHitbox.x / Window.TILES_SIZE);
+        else
+            secondXTile = (int) ((secondHitbox.x + secondHitbox.width) / Window.TILES_SIZE);
+        if (firstXTile > secondXTile) {
+            return isAllTileWalkable(secondXTile, firstXTile, yTile, lvlData);
+        } else {
+            return isAllTileWalkable(firstXTile, secondXTile, yTile, lvlData);
+        }
+    }
+
 }

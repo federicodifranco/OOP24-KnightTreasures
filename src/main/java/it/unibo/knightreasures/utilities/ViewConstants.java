@@ -79,7 +79,7 @@ public class ViewConstants {
         /**
          * Initial Y position of the player.
          */
-        public static final int INIT_Y = (int) (80 * Window.SCALE);
+        public static final int INIT_Y = (int) (140 * Window.SCALE);
 
         /**
          * X-axis offset for the player's hitbox.

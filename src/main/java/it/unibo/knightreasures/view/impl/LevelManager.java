@@ -59,12 +59,12 @@ public final class LevelManager {
      *
      * @param g the graphics object used for rendering.
      */
-    public void draw(final Graphics g) {
+    public void draw(final Graphics g, final int lvlOffset) {
         for (int j = 0; j < Window.TILES_IN_HEIGHT; j++) {
-            for (int i = 0; i < Window.TILES_IN_WIDTH; i++) {
+            for (int i = 0; i < levelOne.getLevelData()[0].length; i++) {
                 final int index = levelOne.getSpriteIndex(i, j);
                 g.drawImage(levelSprite[index],
-                        Window.TILES_SIZE * i,
+                        Window.TILES_SIZE * i - lvlOffset,
                         Window.TILES_SIZE * j,
                         Window.TILES_SIZE,
                         Window.TILES_SIZE,

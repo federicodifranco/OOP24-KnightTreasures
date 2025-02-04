@@ -12,6 +12,7 @@ import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.utilities.ViewConstants.LevelOffset;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
@@ -19,20 +20,35 @@ import it.unibo.knightreasures.view.impl.LevelManager;
 import it.unibo.knightreasures.view.impl.Pause;
 
 /**
- * Handles the gameplay logic, including player movement, interactions,
- * and rendering of the game world.
+ * Handles the gameplay logic, including player movement, interactions, and
+ * rendering of the game world.
  */
 public final class Gameplay extends State implements View {
 
-    /** The player entity. */
+    /**
+     * The player entity.
+     */
     private final PlayerEntity player;
 
-    /** The level manager that controls level rendering and updates. */
+    /**
+     * The level manager that controls level rendering and updates.
+     */
     private final LevelManager levelManager;
 
+    /**
+     * Check when the game is paused or not.
+     */
     private boolean paused;
 
+    /**
+     * The pause state of the game.
+     */
     private final Pause pause;
+
+    /**
+     * The level offset and the max offset of the level.
+     */
+    private int xLvlOffset, maxLvlOffsetX;
 
     /**
      * Constructs a new Gameplay instance.
@@ -45,6 +61,7 @@ public final class Gameplay extends State implements View {
         this.levelManager = new LevelManager(getGame());
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         this.pause = new Pause(this, this.levelManager, this.getGame());
+        calcLvlOffset();
     }
 
     /**
@@ -55,7 +72,10 @@ public final class Gameplay extends State implements View {
         if (!this.paused) {
             player.update();
             levelManager.update();
-        } else pause.update();
+            checkCloseToBorder();
+        } else {
+            pause.update();
+        }
     }
 
     /**
@@ -66,8 +86,8 @@ public final class Gameplay extends State implements View {
     @Override
     public void draw(final Graphics g) {
         g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
-        levelManager.draw(g);
-        player.render(g);
+        levelManager.draw(g, xLvlOffset);
+        player.render(g, xLvlOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
             g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
@@ -83,17 +103,25 @@ public final class Gameplay extends State implements View {
     @Override
     public void keyPressed(final KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_A -> player.setLeft(true);
-            case KeyEvent.VK_D -> player.setRight(true);
-            case KeyEvent.VK_SPACE -> player.setJump(true);
-            case KeyEvent.VK_BACK_SPACE -> Gamestate.setState(Gamestate.MENU);
-            case KeyEvent.VK_P -> this.paused = !this.paused;
+            case KeyEvent.VK_A ->
+                player.setLeft(true);
+            case KeyEvent.VK_D ->
+                player.setRight(true);
+            case KeyEvent.VK_SPACE ->
+                player.setJump(true);
+            case KeyEvent.VK_BACK_SPACE ->
+                Gamestate.setState(Gamestate.MENU);
+            case KeyEvent.VK_P ->
+                this.paused = !this.paused;
             default -> {
                 // No action for other keys
             }
         }
     }
 
+    /**
+     * Handles the pause state.
+     */
     public void unpauseGame() {
         this.paused = false;
     }
@@ -106,13 +134,43 @@ public final class Gameplay extends State implements View {
     @Override
     public void keyReleased(final KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_A -> player.setLeft(false);
-            case KeyEvent.VK_D -> player.setRight(false);
-            case KeyEvent.VK_SPACE -> player.setJump(false);
+            case KeyEvent.VK_A ->
+                player.setLeft(false);
+            case KeyEvent.VK_D ->
+                player.setRight(false);
+            case KeyEvent.VK_SPACE ->
+                player.setJump(false);
             default -> {
                 // No action for other keys
             }
         }
+    }
+
+    /**
+     * Check if the player is close to the border.
+     */
+    private void checkCloseToBorder() {
+        final int playerX = (int) player.getHitbox().x;
+        final int diff = playerX - xLvlOffset;
+
+        if (diff > LevelOffset.RIGHT_BORDER) {
+            xLvlOffset += diff - LevelOffset.RIGHT_BORDER;
+        } else if (diff < LevelOffset.LEFT_BORDER) {
+            xLvlOffset += diff - LevelOffset.LEFT_BORDER;
+        }
+
+        if (xLvlOffset > maxLvlOffsetX) {
+            xLvlOffset = maxLvlOffsetX;
+        } else if (xLvlOffset < 0) {
+            xLvlOffset = 0;
+        }
+    }
+
+    /**
+     * Calculates the offset of the level.
+     */
+    private void calcLvlOffset() {
+        this.maxLvlOffsetX = (ResourceFuncUtilities.createLevel()[0].length - Window.TILES_IN_WIDTH) * Window.TILES_SIZE;
     }
 
     /**
@@ -150,7 +208,9 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mousePressed(final MouseEvent e) {
-        if (this.paused) this.pause.mousePressed(e);
+        if (this.paused) {
+            this.pause.mousePressed(e);
+        }
     }
 
     /**
@@ -160,7 +220,9 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (this.paused) this.pause.mouseReleased(e);
+        if (this.paused) {
+            this.pause.mouseReleased(e);
+        }
     }
 
     /**
@@ -170,6 +232,8 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        if (this.paused) this.pause.mouseMoved(e);
+        if (this.paused) {
+            this.pause.mouseMoved(e);
+        }
     }
 }

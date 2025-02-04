@@ -80,11 +80,11 @@ public final class ResourceFuncUtilities {
      * @return A 2D array where each value corresponds to a tile in the level.
      */
     public static int[][] createLevel() {
-        final int[][] level = new int[Window.TILES_IN_HEIGHT][Window.TILES_IN_WIDTH];
-        final BufferedImage img = loadSources("level_one_data");
+        final BufferedImage img = loadSources("level_1");
+        final int[][] level = new int [img.getHeight()][img.getWidth()];
 
-        for (int j = 0; j < Window.TILES_IN_HEIGHT && j < img.getHeight(); j++) {
-            for (int i = 0; i < Window.TILES_IN_WIDTH && i < img.getWidth(); i++) {
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
                 final Color color = new Color(img.getRGB(i, j));
                 int value = color.getRed();
                 if (value >= LevelsValues.LEVEL) {

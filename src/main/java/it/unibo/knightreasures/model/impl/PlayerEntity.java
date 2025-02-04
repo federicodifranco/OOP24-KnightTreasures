@@ -86,9 +86,9 @@ public final class PlayerEntity extends EntityManager {
      *
      * @param g the graphics object used for rendering.
      */
-    public void render(final Graphics g) {
+    public void render(final Graphics g, final int lvlOffset) {
         g.drawImage(animation[playerAction][aniIndex],
-                (int) (getHitbox().x - Player.X_DRAW_OFFSET),
+                (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset,
                 (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
                 this.getWidth(), this.getHeight(), null);
         drawHitbox(g);
@@ -117,7 +117,7 @@ public final class PlayerEntity extends EntityManager {
         if (jump) {
             jump();
         }
-        if (!left && !right && !inAir) {
+        if (!inAir && (!left && !right) || (left && right))  {
             return;
         }
         float xSpeed = 0;

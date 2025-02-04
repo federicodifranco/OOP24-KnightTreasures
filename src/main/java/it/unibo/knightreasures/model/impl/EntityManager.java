@@ -13,29 +13,23 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 public abstract class EntityManager {
 
     /**
-     * The X coordinate of the entity.
+     * The X and the Y coordinate of the entity.
      */
-    private float x;
+    private float x, y;
 
     /**
-     * The Y coordinate of the entity.
+     * The width and the height of the entity.
      */
-    private float y;
-
-    /**
-     * The width of the entity.
-     */
-    private int width;
-
-    /**
-     * The height of the entity.
-     */
-    private int height;
+    private int width, height;
 
     /**
      * The hitbox used for collision detection.
      */
     private Rectangle2D.Float hitBox;
+
+    private boolean inAir;
+    private float airSpeed;
+    private int aniIndex, aniTick, state;
 
     /**
      * Constructs an EntityManager instance.
@@ -50,7 +44,6 @@ public abstract class EntityManager {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
     }
 
     /**
@@ -78,7 +71,7 @@ public abstract class EntityManager {
      * @param height the height of the hitbox.
      */
     protected void initHitBox(final float width, final float height) {
-        hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
+        this.hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
     }
 
     /**
@@ -87,7 +80,7 @@ public abstract class EntityManager {
      * @return the hitbox of the entity.
      */
     public Rectangle2D.Float getHitbox() {
-        return new Rectangle2D.Float(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+        return this.hitBox;
     }
 
     /**
@@ -96,7 +89,7 @@ public abstract class EntityManager {
      * @return the X coordinate.
      */
     public float getX() {
-        return x;
+        return this.x;
     }
 
     /**
@@ -114,7 +107,7 @@ public abstract class EntityManager {
      * @return the Y coordinate.
      */
     public float getY() {
-        return y;
+        return this.y;
     }
 
     /**
@@ -132,7 +125,7 @@ public abstract class EntityManager {
      * @return the width of the entity.
      */
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     /**
@@ -150,7 +143,7 @@ public abstract class EntityManager {
      * @return the height of the entity.
      */
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     /**
@@ -160,5 +153,53 @@ public abstract class EntityManager {
      */
     public void setHeight(final int height) {
         this.height = height;
+    }
+
+    public int getState() {
+        return this.state;
+    }
+
+    public int getIndex() {
+        return this.aniIndex;
+    }
+
+    public int getTick() {
+        return this.aniTick;
+    }
+
+    public boolean getInAir() {
+        return this.inAir;
+    }
+
+    public float getAirSpeed() {
+        return this.airSpeed;
+    }
+
+    public void setInAir(final boolean inAir) {
+        this.inAir = inAir;
+    }
+
+    public void setAirSpeed(final float airSpeed) {
+        this.airSpeed = airSpeed;
+    }
+
+    public void setState(final int state) {
+        this.state = state;
+    }
+
+    public void setAniIndex(final int aniIndex) {
+        this.aniIndex = aniIndex;
+    }
+
+    public void setAniTick(final int aniTick) {
+        this.aniTick = aniTick;
+    }
+
+    public void incrementAniIndex() {
+        this.aniIndex++;
+    }
+
+    public void incrementAniTick() {
+        this.aniTick++;
     }
 }
