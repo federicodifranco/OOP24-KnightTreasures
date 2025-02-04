@@ -1,6 +1,5 @@
 package it.unibo.knightreasures.model.impl;
 
-import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 
 /**
