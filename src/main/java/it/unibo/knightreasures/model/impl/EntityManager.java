@@ -87,10 +87,11 @@ public abstract class EntityManager {
      * Draws the hitbox of the entity for debugging purposes.
      *
      * @param g the graphics object used for rendering.
+     * @param lvlOffset the level's offset.
      */
-    protected void drawHitbox(final Graphics g) {
+    protected void drawHitbox(final Graphics g, final int lvlOffset) {
         g.setColor(Color.RED);
-        g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+        g.drawRect((int) hitBox.x - lvlOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     /**
@@ -99,8 +100,8 @@ public abstract class EntityManager {
      * @param width  the width of the hitbox.
      * @param height the height of the hitbox.
      */
-    protected void initHitBox(final float width, final float height) {
-        this.hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
+    protected void initHitBox(final float x, final float y, final int width, final int height) {
+        this.hitBox = new Rectangle2D.Float(x, y, width , height);
     }
 
     /**

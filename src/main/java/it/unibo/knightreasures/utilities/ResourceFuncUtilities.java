@@ -6,13 +6,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import it.unibo.knightreasures.model.impl.Skeleton;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
+import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
+import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Utility class for handling resource-related operations, such as loading images and creating levels.
@@ -93,6 +98,22 @@ public final class ResourceFuncUtilities {
             }
         }
         return level;
+    }
+
+    public static ArrayList<Skeleton> getSkeletons() {
+        BufferedImage img = ResourceFuncUtilities.loadSources("level_1");
+        ArrayList<Skeleton> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == SkeletonsValues.SKELETON) {
+                    list.add(new Skeleton(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
+                }
+                
+            }
+        }
+        return list;
     }
 
 }

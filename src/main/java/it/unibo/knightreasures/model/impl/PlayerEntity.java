@@ -68,7 +68,7 @@ public final class PlayerEntity extends EntityManager {
     public PlayerEntity(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
         loadAnimations();
-        initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
+        initHitBox(x, y, Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
     }
 
     /**
@@ -92,7 +92,7 @@ public final class PlayerEntity extends EntityManager {
                 (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset,
                 (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
                 this.getWidth(), this.getHeight(), null);
-        drawHitbox(g);
+        drawHitbox(g, lvlOffset);
     }
 
     /**

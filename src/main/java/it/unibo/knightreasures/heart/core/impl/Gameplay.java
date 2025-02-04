@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
+import it.unibo.knightreasures.model.impl.EnemyManager;
 import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
@@ -29,6 +30,8 @@ public final class Gameplay extends State implements View {
      * The player entity.
      */
     private final PlayerEntity player;
+
+    private final EnemyManager enemyManager;
 
     /**
      * The level manager that controls level rendering and updates.
@@ -59,6 +62,7 @@ public final class Gameplay extends State implements View {
         super(game);
         this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT);
         this.levelManager = new LevelManager(getGame());
+        this.enemyManager = new EnemyManager(this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         this.pause = new Pause(this, this.levelManager, this.getGame());
         calcLvlOffset();
@@ -72,6 +76,7 @@ public final class Gameplay extends State implements View {
         if (!this.paused) {
             player.update();
             levelManager.update();
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData());
             checkCloseToBorder();
         } else {
             pause.update();
@@ -87,6 +92,7 @@ public final class Gameplay extends State implements View {
     public void draw(final Graphics g) {
         g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
         levelManager.draw(g, xLvlOffset);
+        enemyManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
