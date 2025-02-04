@@ -97,11 +97,13 @@ public abstract class EntityManager {
     /**
      * Initializes the hitbox of the entity.
      *
-     * @param width  the width of the hitbox.
+     * @param x the x position of the hitbox.
+     * @param y the y position of the hitbox.
+     * @param width the width of the hitbox.
      * @param height the height of the hitbox.
      */
     protected void initHitBox(final float x, final float y, final int width, final int height) {
-        this.hitBox = new Rectangle2D.Float(x, y, width , height);
+        this.hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 
     /**

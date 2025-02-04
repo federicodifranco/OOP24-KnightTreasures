@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 import it.unibo.knightreasures.model.impl.Skeleton;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
-import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
@@ -100,6 +99,11 @@ public final class ResourceFuncUtilities {
         return level;
     }
 
+    /**
+     * Retrieves a list of Skeleton enemies from the level image.
+     *
+     * @return A list of Skeleton objects based on level data.
+     */
     public static ArrayList<Skeleton> getSkeletons() {
         BufferedImage img = ResourceFuncUtilities.loadSources("level_1");
         ArrayList<Skeleton> list = new ArrayList<>();
@@ -110,7 +114,6 @@ public final class ResourceFuncUtilities {
                 if (value == SkeletonsValues.SKELETON) {
                     list.add(new Skeleton(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
                 }
-                
             }
         }
         return list;

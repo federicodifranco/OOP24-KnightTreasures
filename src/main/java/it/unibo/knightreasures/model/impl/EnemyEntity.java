@@ -7,6 +7,9 @@ import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Physics;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 
+/**
+ * Represents an enemy entity in the game.
+ */
 public class EnemyEntity extends EntityManager {
 
     private int aniIndex, enemyState, enemyType;
@@ -15,12 +18,28 @@ public class EnemyEntity extends EntityManager {
     private float fallSpeed;
     private int walkDir = Directions.LEFT;
 
-    public EnemyEntity(float x, float y, int width, int height, int enemyType) {
+    /**
+     * Constructs an enemy entity.
+     *
+     * @param x         the x-coordinate of the enemy.
+     * @param y         the y-coordinate of the enemy.
+     * @param width     the width of the enemy.
+     * @param height    the height of the enemy.
+     * @param enemyType the type of enemy.
+     */
+    public EnemyEntity(final float x, final float y, final int width, final int height, final int enemyType) {
         super(x, y, width, height);
         this.enemyType = enemyType;
         initHitBox(x, y, width, height);
     }
 
+    /**
+     * Gets the number of sprite frames for a given enemy state.
+     *
+     * @param enemyType  the type of enemy.
+     * @param enemyState the current state of the enemy.
+     * @return the number of sprite frames for the enemy's animation.
+     */
     private int getSpriteAmount(final int enemyType, final int enemyState) {
         switch (enemyState) {
             case SkeletonsValues.IDLE:
@@ -31,10 +50,14 @@ public class EnemyEntity extends EntityManager {
                 return SkeletonsValues.HURT_SPRITES;
             case SkeletonsValues.DIE:
                 return SkeletonsValues.DIE_SPRITES;
+            default:
+                return SkeletonsValues.IDLE_SPRITES; // Default per evitare errori
         }
-        return enemyState;
     }
 
+    /**
+     * Updates the enemy's animation state.
+     */
     private void updateAnimation() {
         aniTick++;
         if (aniTick >= Application.ANI_SPEED) {
@@ -46,19 +69,35 @@ public class EnemyEntity extends EntityManager {
         }
     }
 
-    public void update(int[][] lvlData) {
+    /**
+     * Updates the enemy's movement and animation.
+     *
+     * @param lvlData the level data containing collision information.
+     */
+    public void update(final int[][] lvlData) {
         updateMove(lvlData);
         updateAnimation();
     }
 
-    private void updateMove(int[][] lvlData) {
+    /**
+     * Updates the enemy's movement logic.
+     *
+     * @param lvlData the level data for collision detection.
+     */
+    private void updateMove(final int[][] lvlData) {
         if (firstUpdate) {
-            if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData))
+            if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) {
                 inAir = true;
+            }
             firstUpdate = false;
         }
         if (inAir) {
-            if (HelpMethods.canMoveHere(getHitbox().x, getHitbox().y + fallSpeed, getHitbox().width, getHitbox().height, lvlData)) {
+            if (HelpMethods.canMoveHere(
+                    getHitbox().x,
+                    getHitbox().y + fallSpeed,
+                    getHitbox().width,
+                    getHitbox().height,
+                    lvlData)) {
                 getHitbox().y += fallSpeed;
                 fallSpeed += Physics.GRAVITY;
             } else {
@@ -71,12 +110,13 @@ public class EnemyEntity extends EntityManager {
                     enemyState = SkeletonsValues.RUN;
                     break;
                 case SkeletonsValues.RUN:
-                    float xSpeed = 0;
-                    if (walkDir == Directions.LEFT) {
-                        xSpeed = -Skeletons.SPEED;
-                    } else
-                        xSpeed = Skeletons.SPEED;
-                    if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
+                    float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
+                    if (HelpMethods.canMoveHere(
+                            getHitbox().x + xSpeed,
+                            getHitbox().y,
+                            getHitbox().width,
+                            getHitbox().height,
+                            lvlData)) {
                         if (HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
                             getHitbox().x += xSpeed;
                             return;
@@ -84,25 +124,44 @@ public class EnemyEntity extends EntityManager {
                     }
                     changeWalkDir();
                     break;
+                default:
+                    break;
             }
         }
     }
 
+    /**
+     * Changes the walking direction of the enemy.
+     */
     private void changeWalkDir() {
         if (walkDir == Directions.LEFT) {
             walkDir = Directions.RIGHT;
-        } else
+        } else {
             walkDir = Directions.LEFT;
+        }
     }
 
+    /**
+     * Gets the current animation index.
+     *
+     * @return the current animation index.
+     */
     public int getIndex() {
         return aniIndex;
     }
 
+    /**
+     * Gets the current enemy state.
+     *
+     * @return the enemy's state.
+     */
     public int getEnemyState() {
         return enemyState;
     }
 
+    /**
+     * Updates the entity's state (not used in this class).
+     */
     @Override
     public void update() {
     }
