@@ -53,9 +53,9 @@ public final class ApplicationImpl implements Runnable {
 
     private void playSong() {
         switch (Gamestate.getState()) {
-            case MENU -> 
+            case MENU ->
                 this.audioUtilities.playMenuSong();
-            case PLAYING -> 
+            case PLAYING ->
                 this.audioUtilities.playLevelSong();
             default -> {
             }
@@ -166,10 +166,20 @@ public final class ApplicationImpl implements Runnable {
         return this.menu;
     }
 
+    /**
+     * Gets the audio instance.
+     *
+     * @return the audio instance.
+     */
     public Audio getAudio() {
         return this.audio;
     }
 
+    /**
+     * Gets the audio utilities instance.
+     *
+     * @return the audio utilities instance.
+     */
     public AudioUtilities getAudioUtilities() {
         return this.audioUtilities;
     }

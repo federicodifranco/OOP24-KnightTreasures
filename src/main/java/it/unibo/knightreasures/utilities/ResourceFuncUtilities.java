@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
-import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Utility class for handling resource-related operations, such as loading images and creating levels.

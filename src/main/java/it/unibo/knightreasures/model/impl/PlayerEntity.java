@@ -85,6 +85,7 @@ public final class PlayerEntity extends EntityManager {
      * Renders the player on the screen.
      *
      * @param g the graphics object used for rendering.
+     * @param lvlOffset the level's offset.
      */
     public void render(final Graphics g, final int lvlOffset) {
         g.drawImage(animation[playerAction][aniIndex],

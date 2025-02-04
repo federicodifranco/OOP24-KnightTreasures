@@ -12,31 +12,62 @@ import javax.sound.sampled.FloatControl;
 
 import it.unibo.knightreasures.utilities.ModelConstants.SongGame;
 
-public class AudioUtilities {
+/**
+ * Utility class for handling audio playback in the game.
+ */
+public final class AudioUtilities {
 
-    public Clip[] songs;
+    /**
+     * Array of audio clips used in the game.
+     */
+    private Clip[] songs;
+
+    /**
+     * ID of the currently playing song.
+     */
     private int currentSongId;
+
+    /**
+     * Indicates whether the audio is muted.
+     */
     private boolean isMuted;
 
+    /**
+     * Constructs an instance of AudioUtilities and loads audio files.
+     */
     public AudioUtilities() {
         loadSongs();
     }
 
+    /**
+     * Stops the currently playing song.
+     */
     public void stopSong() {
         if (songs[currentSongId] != null && songs[currentSongId].isActive()) {
             songs[currentSongId].stop();
         }
     }
 
+    /**
+     * Plays the menu background music.
+     */
     public void playMenuSong() {
         playSong(SongGame.MENU_SONG);
     }
 
+    /**
+     * Plays the level background music.
+     */
     public void playLevelSong() {
         playSong(SongGame.LEVEL_SONG);
     }
 
-    public void playSong(int song) {
+    /**
+     * Plays a specific song.
+     *
+     * @param song the ID of the song to be played.
+     */
+    public void playSong(final int song) {
         stopSong();
         currentSongId = song;
         updateVolume();
@@ -46,35 +77,51 @@ public class AudioUtilities {
         }
     }
 
+    /**
+     * Toggles the mute state of the audio.
+     */
     public void setMuted() {
         this.isMuted = !isMuted;
-        for (Clip c : songs) {
+        for (final Clip c : songs) {
             if (c != null) {
-                BooleanControl booleanControl = (BooleanControl) c.getControl(BooleanControl.Type.MUTE);
+                final BooleanControl booleanControl = (BooleanControl) c.getControl(BooleanControl.Type.MUTE);
                 booleanControl.setValue(isMuted);
             }
         }
     }
 
+    /**
+     * Checks if the audio is muted.
+     *
+     * @return true if muted, false otherwise.
+     */
     public boolean isMuted() {
         return isMuted;
     }
 
-    public void setVolume(float volume) {
-        volume = Math.max(SongGame.VOLUME_OFF, Math.min(SongGame.VOLUME_BASE, volume));
-        for (Clip c : songs) {
+    /**
+     * Sets the volume of the audio.
+     *
+     * @param volume the volume level to set.
+     */
+    public void setVolume(final float volume) {
+        final float adjustedVolume = Math.max(SongGame.VOLUME_OFF, Math.min(SongGame.VOLUME_BASE, volume));
+        for (final Clip c : songs) {
             if (c != null) {
-                FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
-                float min = gainControl.getMinimum();
-                float max = gainControl.getMaximum();
-                gainControl.setValue(min + (max - min) * volume);
+                final FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+                final float min = gainControl.getMinimum();
+                final float max = gainControl.getMaximum();
+                gainControl.setValue(min + (max - min) * adjustedVolume);
             }
         }
     }
 
+    /**
+     * Loads all available audio files from the resources folder.
+     */
     private void loadSongs() {
         final File directory = new File("src/main/resources/songs");
-        File[] audioFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".wav"));
+        final File[] audioFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".wav"));
         if (audioFiles == null || audioFiles.length == 0) {
             songs = new Clip[0];
             return;
@@ -82,28 +129,39 @@ public class AudioUtilities {
         Arrays.sort(audioFiles, Comparator.comparing(File::getName));
         songs = new Clip[audioFiles.length];
         int index = 0;
-        for (File file : audioFiles) {
+        for (final File file : audioFiles) {
             songs[index] = getClip(file);
             index++;
         }
     }
 
-    private Clip getClip(File file) {
+    /**
+     * Retrieves a Clip instance from an audio file.
+     *
+     * @param file the audio file to be loaded.
+     * @return a Clip instance or null if an error occurs.
+     */
+    private Clip getClip(final File file) {
         try {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
+            final AudioInputStream audio = AudioSystem.getAudioInputStream(file);
+            final Clip clip = AudioSystem.getClip();
             clip.open(audio);
             return clip;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Updates the volume of the currently playing song.
+     */
     private void updateVolume() {
         if (songs[currentSongId] != null) {
-            FloatControl gainControl = (FloatControl) songs[currentSongId].getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(((gainControl.getMaximum() - gainControl.getMinimum()) * SongGame.VOLUME_BASE) + gainControl.getMinimum());
+            final FloatControl gainControl = (FloatControl) songs[currentSongId].getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(
+                ((gainControl.getMaximum() - gainControl.getMinimum()) * SongGame.VOLUME_BASE) + gainControl.getMinimum()
+            );
         }
     }
 }

@@ -58,6 +58,7 @@ public final class LevelManager {
      * Draws the current level on the screen.
      *
      * @param g the graphics object used for rendering.
+     * @param lvlOffset the level's offset.
      */
     public void draw(final Graphics g, final int lvlOffset) {
         for (int j = 0; j < Window.TILES_IN_HEIGHT; j++) {

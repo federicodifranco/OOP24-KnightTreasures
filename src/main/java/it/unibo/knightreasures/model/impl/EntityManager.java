@@ -13,30 +13,61 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 public abstract class EntityManager {
 
     /**
-     * The X and the Y coordinate of the entity.
+     * The X coordinate of the entity.
      */
-    private float x, y;
+    private float x;
 
     /**
-     * The width and the height of the entity.
+     * The Y coordinate of the entity.
      */
-    private int width, height;
+    private float y;
+
+    /**
+     * The width of the entity.
+     */
+    private int width;
+
+    /**
+     * The height of the entity.
+     */
+    private int height;
 
     /**
      * The hitbox used for collision detection.
      */
     private Rectangle2D.Float hitBox;
 
+    /**
+     * Indicates whether the entity is in the air.
+     */
     private boolean inAir;
+
+    /**
+     * The vertical speed of the entity.
+     */
     private float airSpeed;
-    private int aniIndex, aniTick, state;
+
+    /**
+     * The current animation index.
+     */
+    private int aniIndex;
+
+    /**
+     * The animation tick counter.
+     */
+    private int aniTick;
+
+    /**
+     * The state of the entity.
+     */
+    private int state;
 
     /**
      * Constructs an EntityManager instance.
      *
-     * @param x the X coordinate of the entity.
-     * @param y the Y coordinate of the entity.
-     * @param width the width of the entity.
+     * @param x      the X coordinate of the entity.
+     * @param y      the Y coordinate of the entity.
+     * @param width  the width of the entity.
      * @param height the height of the entity.
      */
     public EntityManager(final float x, final float y, final int width, final int height) {
@@ -65,9 +96,7 @@ public abstract class EntityManager {
     /**
      * Initializes the hitbox of the entity.
      *
-     * @param x the X coordinate of the hitbox.
-     * @param y the Y coordinate of the hitbox.
-     * @param width the width of the hitbox.
+     * @param width  the width of the hitbox.
      * @param height the height of the hitbox.
      */
     protected void initHitBox(final float width, final float height) {
@@ -155,50 +184,106 @@ public abstract class EntityManager {
         this.height = height;
     }
 
+    /**
+     * Gets the current state of the entity.
+     *
+     * @return the current state.
+     */
     public int getState() {
         return this.state;
     }
 
+    /**
+     * Gets the current animation index.
+     *
+     * @return the animation index.
+     */
     public int getIndex() {
         return this.aniIndex;
     }
 
+    /**
+     * Gets the current animation tick.
+     *
+     * @return the animation tick.
+     */
     public int getTick() {
         return this.aniTick;
     }
 
+    /**
+     * Checks if the entity is in the air.
+     *
+     * @return true if the entity is in the air, false otherwise.
+     */
     public boolean getInAir() {
         return this.inAir;
     }
 
+    /**
+     * Gets the air speed of the entity.
+     *
+     * @return the air speed.
+     */
     public float getAirSpeed() {
         return this.airSpeed;
     }
 
+    /**
+     * Sets whether the entity is in the air.
+     *
+     * @param inAir true if the entity is in the air, false otherwise.
+     */
     public void setInAir(final boolean inAir) {
         this.inAir = inAir;
     }
 
+    /**
+     * Sets the air speed of the entity.
+     *
+     * @param airSpeed the new air speed.
+     */
     public void setAirSpeed(final float airSpeed) {
         this.airSpeed = airSpeed;
     }
 
+    /**
+     * Sets the state of the entity.
+     *
+     * @param state the new state.
+     */
     public void setState(final int state) {
         this.state = state;
     }
 
+    /**
+     * Sets the animation index.
+     *
+     * @param aniIndex the new animation index.
+     */
     public void setAniIndex(final int aniIndex) {
         this.aniIndex = aniIndex;
     }
 
+    /**
+     * Sets the animation tick.
+     *
+     * @param aniTick the new animation tick.
+     */
     public void setAniTick(final int aniTick) {
         this.aniTick = aniTick;
     }
 
+    /**
+     * Increments the animation index.
+     */
     public void incrementAniIndex() {
         this.aniIndex++;
     }
 
+    /**
+     * Increments the animation tick.
+     */
     public void incrementAniTick() {
         this.aniTick++;
     }

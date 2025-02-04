@@ -16,17 +16,29 @@ import it.unibo.knightreasures.utilities.ViewConstants.RRHButtons;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 
-public class Pause implements View {
+/**
+ * Represents the pause menu in the game.
+ * It allows resuming, restarting, or returning to the home menu.
+ */
+public final class Pause implements View {
 
     private final Gameplay playing;
     private final LevelManager level;
     private final ApplicationImpl game;
     private final Audio audio;
-    private final ResumeRestartHomeButtons[] resumeRestartHomeButtonsBtns = new ResumeRestartHomeButtons[ButtonsValues.RRH_NUM_BUTTONS];
+    private final ResumeRestartHomeButtons[] resumeRestartHomeButtonsBtns = 
+            new ResumeRestartHomeButtons[ButtonsValues.RRH_NUM_BUTTONS];
     private BufferedImage pauseImg;
     private int pauseX, pauseY, pauseW, pauseH;
 
-    public Pause(Gameplay playing, LevelManager level, ApplicationImpl game) {
+    /**
+     * Constructs the pause menu.
+     *
+     * @param playing the current game session.
+     * @param level the level manager.
+     * @param game the main application instance.
+     */
+    public Pause(final Gameplay playing, final LevelManager level, final ApplicationImpl game) {
         this.playing = playing;
         this.level = level;
         this.game = game;
@@ -36,14 +48,17 @@ public class Pause implements View {
     }
 
     private void createdRRHButtons() {
-        resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON] = new ResumeRestartHomeButtons(
-                RRHButtons.RESUME_X, RRHButtons.RRH_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE,
-                ButtonsValues.FIRST_ROW_INDEX);
-        resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON] = new ResumeRestartHomeButtons(
-                RRHButtons.RESTART_X, RRHButtons.RRH_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE,
-                ButtonsValues.SECOND_ROW_INDEX);
-        resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON] = new ResumeRestartHomeButtons(RRHButtons.HOME_X,
-                RRHButtons.RRH_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON] = 
+                new ResumeRestartHomeButtons(RRHButtons.RESUME_X, RRHButtons.RRH_Y, 
+                RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
+        
+        resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON] = 
+                new ResumeRestartHomeButtons(RRHButtons.RESTART_X, RRHButtons.RRH_Y, 
+                RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
+        
+        resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON] = 
+                new ResumeRestartHomeButtons(RRHButtons.HOME_X, RRHButtons.RRH_Y, 
+                RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
     }
 
     private void loadBackground() {
@@ -54,40 +69,60 @@ public class Pause implements View {
         pauseY = PanelSize.PAUSE_Y;
     }
 
-    private boolean isIn(MouseEvent e, ResumeRestartHomeButtons rrh) {
+    private boolean isIn(final MouseEvent e, final ResumeRestartHomeButtons rrh) {
         return rrh.getBounds().contains(e.getX(), e.getY());
     }
 
+    /**
+     * Updates the pause menu elements.
+     */
     @Override
     public void update() {
-        for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.update();
         }
         this.audio.update();
     }
 
+    /**
+     * Draws the pause menu elements.
+     *
+     * @param g the graphics object used for rendering.
+     */
     @Override
-    public void draw(Graphics g) {
+    public void draw(final Graphics g) {
         g.drawImage(pauseImg, pauseX, pauseY, pauseW, pauseH, null);
-        for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.draw(g);
         }
         audio.draw(g);
     }
 
+    /**
+     * Handles mouse press events on buttons.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON].setMousePressed(true);
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON].setMousePressed(true);
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON].setMousePressed(true);
-        } else audio.mousePressed(e);
+        } else {
+            audio.mousePressed(e);
+        }
     }
 
+    /**
+     * Handles mouse release events on buttons.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(final MouseEvent e) {
         if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON])) {
             playing.unpauseGame();
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON])) {
@@ -97,17 +132,23 @@ public class Pause implements View {
             Gamestate.setState(Gamestate.MENU);
             game.getAudioUtilities().playMenuSong();
             playing.unpauseGame();
-        } else audio.mouseReleased(e);
+        } else {
+            audio.mouseReleased(e);
+        }
 
-        for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.resetBools();
         }
     }
 
+    /**
+     * Handles mouse movement events for hover effects.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-        for (ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+    public void mouseMoved(final MouseEvent e) {
+        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
             rrh.setMouseOver(false);
         }
 
@@ -117,23 +158,37 @@ public class Pause implements View {
             resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON].setMouseOver(true);
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON])) {
             resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON].setMouseOver(true);
-        } else audio.mouseMoved(e);
-
+        } else {
+            audio.mouseMoved(e);
+        }
     }
 
+    /**
+     * Handles mouse click events.
+     *
+     * @param e the mouse event.
+     */
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
+    public void mouseClicked(final MouseEvent e) {
         
     }
 
+    /**
+     * Handles key press events.
+     *
+     * @param e the key event.
+     */
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
         
     }
 
+    /**
+     * Handles key release events.
+     *
+     * @param e the key event.
+     */
+    @Override
+    public void keyReleased(final KeyEvent e) {
+    }
 }

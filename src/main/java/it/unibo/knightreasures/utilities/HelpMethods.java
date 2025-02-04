@@ -92,8 +92,8 @@ public final class HelpMethods {
         return isTileSolid((int) xIndex, (int) yIndex, lvlData);
     }
 
-    public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {
-        int value = lvlData[yTile][xTile];
+    public static boolean isTileSolid(final int xTile, final int yTile, final int[][] lvlData) {
+        final int value = lvlData[yTile][xTile];
         return (value >= LevelsValues.TILE_1_NOT_SOLID)
                 || (value < LevelsValues.TILE_2_NOT_SOLID)
                 || (value != LevelsValues.TILE_3_NOT_SOLID);
@@ -111,7 +111,7 @@ public final class HelpMethods {
                 || isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
     }
 
-    public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+    public static boolean isFloor(final Rectangle2D.Float hitbox, final float xSpeed, final int[][] lvlData) {
         return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + LevelsValues.FLOOR_OFFSET, lvlData);
     }
 
@@ -127,14 +127,16 @@ public final class HelpMethods {
         return true;
     }
 
-    public static boolean isSightClear(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox,
+    public static boolean isSightClear(final int[][] lvlData, final Rectangle2D.Float firstHitbox, final Rectangle2D.Float secondHitbox,
             int yTile) {
         int firstXTile = (int) (firstHitbox.x / Window.TILES_SIZE);
         int secondXTile;
-        if (isSolid(secondHitbox.x, secondHitbox.y + secondHitbox.height + LevelsValues.FLOOR_OFFSET, lvlData))
+        if (isSolid(secondHitbox.x, secondHitbox.y + secondHitbox.height + LevelsValues.FLOOR_OFFSET, lvlData)) {
             secondXTile = (int) (secondHitbox.x / Window.TILES_SIZE);
-        else
+        }
+        else {
             secondXTile = (int) ((secondHitbox.x + secondHitbox.width) / Window.TILES_SIZE);
+        }
         if (firstXTile > secondXTile) {
             return isAllTileWalkable(secondXTile, firstXTile, yTile, lvlData);
         } else {
