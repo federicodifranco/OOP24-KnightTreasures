@@ -76,7 +76,7 @@ public final class Gameplay extends State implements View {
         if (!this.paused) {
             player.update();
             levelManager.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData(), this.player);
             checkCloseToBorder();
         } else {
             pause.update();

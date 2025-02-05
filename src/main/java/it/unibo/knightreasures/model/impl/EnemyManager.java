@@ -45,9 +45,9 @@ public final class EnemyManager {
      *
      * @param lvlData the level data containing collision information.
      */
-    public void update(final int[][] lvlData) {
+    public void update(final int[][] lvlData, PlayerEntity player) {
         for (final Skeleton skt : skeletons) {
-            skt.update(lvlData);
+            skt.update(lvlData, player);
         }
     }
 
@@ -71,9 +71,9 @@ public final class EnemyManager {
         for (final Skeleton skt : skeletons) {
             g.drawImage(
                 skeletonArr[skt.getEnemyState()][skt.getIndex()],
-                (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X,
+                (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X + skt.flipX(),
                 (int) skt.getHitbox().y - Skeletons.DRAW_OFFSET_Y,
-                Skeletons.WIDTH, Skeletons.HEIGHT,
+                Skeletons.WIDTH * skt.flipW(), Skeletons.HEIGHT,
                 null
             );
             skt.drawHitbox(g, xLvlOffset);

@@ -1,5 +1,7 @@
 package it.unibo.knightreasures.model.impl;
 
+import it.unibo.knightreasures.utilities.ModelConstants.Directions;
+import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 
 /**
@@ -16,5 +18,44 @@ public class Skeleton extends EnemyEntity {
     public Skeleton(final float x, final float y) {
         super(x, y, Skeletons.WIDTH, Skeletons.HEIGHT);
         initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
+    }
+
+    public void update(int[][] lvlData, PlayerEntity player) {
+        updateBehavior(lvlData, player);
+        updateAnimation();
+    }
+
+    protected void updateBehavior(int[][] lvlData, PlayerEntity player) {
+        if (firstUpdate) firstUpdateCheck(lvlData);
+        if (isInAir()) {
+            updateInAir(lvlData);
+        } else {
+            switch (getEnemyState()) {
+                case SkeletonsValues.IDLE:
+                    newState(SkeletonsValues.RUN);
+                    break;
+                case SkeletonsValues.RUN:
+                    if (canSeePlayer(lvlData, player)) turnTowardsPlayer(player);
+                    if (isPlayerCloseForAttack(player)) {
+                        newState(SkeletonsValues.ATTACK);
+                        //player.loseLife();
+                    }
+                    move(lvlData);
+                    break;
+            }
+        }
+    }
+
+    public int flipX() {
+        return (walkDir == Directions.LEFT) ? Skeletons.WIDTH : 0;
+    }
+
+    public int flipW() {
+        return (walkDir == Directions.LEFT) ? -1 : 1;
+    }
+
+    @Override
+    public void update() {
+        
     }
 }
