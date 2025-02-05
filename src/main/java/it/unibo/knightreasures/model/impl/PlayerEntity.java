@@ -71,17 +71,6 @@ public final class PlayerEntity extends EntityManager {
         super(x, y, width, height);
         loadAnimations();
         initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
-        initAttackBox();
-    }
-
-    private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, Player.ATTACKBOX_WIDTH, Player.ATTACKBOX_HEIGHT);
-    }
-
-    private void checkAttack() {
-        if (attackChecked || aniIndex != PlayerValues.ATTACK_INDEX) return;
-        attackChecked = true;
-        playing.checkEnemyHit(attackBox);
     }
 
     /**
