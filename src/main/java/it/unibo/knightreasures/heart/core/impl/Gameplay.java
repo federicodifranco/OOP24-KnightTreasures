@@ -242,4 +242,8 @@ public final class Gameplay extends State implements View {
             this.pause.mouseMoved(e);
         }
     }
+
+    public EnemyManager getEnemyManager(){
+        return this.enemyManager;
+    }
 }

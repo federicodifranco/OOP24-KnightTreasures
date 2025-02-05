@@ -127,7 +127,7 @@ public final class ApplicationImpl implements Runnable {
         long previousTime = System.nanoTime();
         long lastCheck = System.currentTimeMillis();
 
-        while (true) {
+        while (Gamestate.getState() != Gamestate.EXIT) {
             final long currentTime = System.nanoTime();
             deltaU += (currentTime - previousTime) / timePerUpdate;
             deltaF += (currentTime - previousTime) / timePerFrame;
@@ -147,6 +147,7 @@ public final class ApplicationImpl implements Runnable {
                 lastCheck = System.currentTimeMillis();
             }
         }
+        Runtime.getRuntime().exit(0);
     }
 
     /**
