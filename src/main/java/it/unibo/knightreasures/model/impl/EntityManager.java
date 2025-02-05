@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.utilities.ViewConstants.Window;
+
 /**
  * Represents a generic entity in the game, providing common functionality for
  * position, dimensions, and hitbox management.
@@ -33,7 +35,7 @@ public abstract class EntityManager {
     /**
      * The hitbox used for collision detection.
      */
-    private Rectangle2D.Float hitBox;
+    private Rectangle2D.Float hitBox, attackBox;
 
     /**
      * Indicates whether the entity is in the air.
@@ -92,16 +94,21 @@ public abstract class EntityManager {
         g.drawRect((int) hitBox.x - lvlOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
+    public void setAttackBox(final Rectangle2D.Float attackBox) {
+        this.attackBox = attackBox;
+    }
+
+    protected Rectangle2D.Float getAttackBox() {
+        return this.attackBox;
+    }
+
     /**
      * Initializes the hitbox of the entity.
-     *
-     * @param x the x position of the hitbox.
-     * @param y the y position of the hitbox.
      * @param width the width of the hitbox.
      * @param height the height of the hitbox.
      */
-    protected void initHitBox(final float x, final float y, final int width, final int height) {
-        this.hitBox = new Rectangle2D.Float(x, y, width, height);
+    protected void initHitBox(final int width, final int height) {
+        this.hitBox = new Rectangle2D.Float(x, y, (int) (width * Window.SCALE), (int) (height * Window.SCALE));
     }
 
     /**

@@ -15,6 +15,6 @@ public class Skeleton extends EnemyEntity {
      */
     public Skeleton(final float x, final float y) {
         super(x, y, Skeletons.WIDTH, Skeletons.HEIGHT);
-        initHitBox(x, y, Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
+        initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
     }
 }

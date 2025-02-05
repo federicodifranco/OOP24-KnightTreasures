@@ -28,7 +28,7 @@ public class EnemyEntity extends EntityManager {
      */
     public EnemyEntity(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
-        initHitBox(x, y, width, height);
+        initHitBox(width, height);
     }
 
     /**

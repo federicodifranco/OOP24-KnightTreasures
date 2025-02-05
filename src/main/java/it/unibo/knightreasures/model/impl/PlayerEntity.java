@@ -32,6 +32,8 @@ public final class PlayerEntity extends EntityManager {
      */
     private int aniIndex;
 
+    private int flipX = PlayerValues.FLIPX_DEFAULT, flipW = PlayerValues.FLIPW_DEFAULT, playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
+
     /**
      * Player movement and state flags.
      */
@@ -68,7 +70,18 @@ public final class PlayerEntity extends EntityManager {
     public PlayerEntity(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
         loadAnimations();
-        initHitBox(x, y, Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
+        initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
+        initAttackBox();
+    }
+
+    private void initAttackBox() {
+        attackBox = new Rectangle2D.Float(x, y, Player.ATTACKBOX_WIDTH, Player.ATTACKBOX_HEIGHT);
+    }
+
+    private void checkAttack() {
+        if (attackChecked || aniIndex != PlayerValues.ATTACK_INDEX) return;
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
     }
 
     /**
@@ -89,9 +102,9 @@ public final class PlayerEntity extends EntityManager {
      */
     public void render(final Graphics g, final int lvlOffset) {
         g.drawImage(animation[playerAction][aniIndex],
-                (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset,
+                (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset + flipX - playerOffsetX,
                 (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
-                this.getWidth(), this.getHeight(), null);
+                this.getWidth() * flipW, this.getHeight(), null);
         drawHitbox(g, lvlOffset);
     }
 
@@ -124,9 +137,17 @@ public final class PlayerEntity extends EntityManager {
         float xSpeed = 0;
         if (left) {
             xSpeed -= Physics.SPEED;
+            flipX = getWidth();
+            flipW = -PlayerValues.FLIPW_DEFAULT;
+            playerOffsetX = Player.HITBOX_X_OFFSET;
+            setX(getHitbox().x - playerOffsetX);
         }
         if (right) {
             xSpeed += Physics.SPEED;
+            flipX = PlayerValues.FLIPX_DEFAULT;
+            flipW = PlayerValues.FLIPW_DEFAULT;
+            playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
+            setX(getHitbox().x);
         }
         if (!inAir && !HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) {
             inAir = true;
