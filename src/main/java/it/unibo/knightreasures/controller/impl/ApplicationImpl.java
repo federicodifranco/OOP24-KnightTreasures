@@ -10,6 +10,7 @@ import it.unibo.knightreasures.view.impl.ApplicationPanel;
 import it.unibo.knightreasures.view.impl.ApplicationWindow;
 import it.unibo.knightreasures.view.impl.Audio;
 import it.unibo.knightreasures.view.impl.Menu;
+import it.unibo.knightreasures.view.impl.Settings;
 
 /**
  * Main application controller that manages the game loop, rendering, and game
@@ -32,6 +33,8 @@ public final class ApplicationImpl implements Runnable {
      */
     private final Menu menu;
 
+    private final Settings settings;
+
     private final Audio audio;
 
     private final AudioUtilities audioUtilities;
@@ -45,6 +48,7 @@ public final class ApplicationImpl implements Runnable {
         this.audio = new Audio(this);
         this.gameplay = new Gameplay(this);
         this.menu = new Menu(this);
+        this.settings = new Settings(this);
         this.applicationPanel = new ApplicationPanel(this);
         new ApplicationWindow(applicationPanel);
         applicationPanel.requestFocus();
@@ -70,6 +74,9 @@ public final class ApplicationImpl implements Runnable {
             case MENU:
                 this.menu.update();
                 break;
+            case SETTINGS:
+                this.settings.update();
+                break;
             case PLAYING:
                 this.gameplay.update();
                 break;
@@ -87,6 +94,9 @@ public final class ApplicationImpl implements Runnable {
         switch (Gamestate.getState()) {
             case MENU:
                 this.menu.draw(g);
+                break;
+            case SETTINGS:
+                this.settings.draw(g);
                 break;
             case PLAYING:
                 this.gameplay.draw(g);
@@ -164,6 +174,10 @@ public final class ApplicationImpl implements Runnable {
      */
     public Menu getMenu() {
         return this.menu;
+    }
+
+    public Settings getSettings() {
+        return this.settings;
     }
 
     /**
