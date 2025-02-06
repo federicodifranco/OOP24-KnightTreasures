@@ -3,9 +3,17 @@ package it.unibo.knightreasures.utilities;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
+import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
+import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
+import it.unibo.knightreasures.model.impl.Chest;
+import it.unibo.knightreasures.model.impl.Skeleton;
+import it.unibo.knightreasures.model.impl.Spike;
+import it.unibo.knightreasures.model.impl.Treasure;
 
 /**
  * Utility class containing methods for entity movement and collision handling.
@@ -193,5 +201,61 @@ public final class HelpMethods {
             }
         }
         return level;
+    }
+
+    public static List<Skeleton> getSkeletons(BufferedImage img) {
+        List<Skeleton> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == SkeletonsValues.SKELETON) {
+                    list.add(new Skeleton(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<Treasure> getTreasure(BufferedImage img) {
+        List<Treasure> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == ObjectsValues.RING || value == ObjectsValues.CROWN || value == ObjectsValues.CUP) {
+                    list.add(new Treasure(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<Chest> getChest(BufferedImage img) {
+        List<Chest> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == ObjectsValues.CHEST) {
+                    list.add(new Chest(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<Spike> getSpike(BufferedImage img) {
+        List<Spike> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == ObjectsValues.SPIKE) {
+                    list.add(new Spike(i * Window.TILES_SIZE, j * Window.TILES_SIZE, ObjectsValues.SPIKE));
+                }
+            }
+        }
+        return list;
     }
 }

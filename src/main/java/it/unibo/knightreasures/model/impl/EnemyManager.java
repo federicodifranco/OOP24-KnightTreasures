@@ -9,6 +9,7 @@ import it.unibo.knightreasures.heart.core.impl.Gameplay;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
+import it.unibo.knightreasures.view.impl.Level;
 
 /**
  * Manages enemies in the game, including their state, rendering, and updates.
@@ -78,6 +79,10 @@ public final class EnemyManager {
             );
             skt.drawHitbox(g, xLvlOffset);
         }
+    }
+
+    public void addEnemies(final Level level) {
+        this.skeletons = level.getSkeletons();
     }
 
     /**

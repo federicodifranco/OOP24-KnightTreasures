@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.model.impl.EnemyManager;
+import it.unibo.knightreasures.model.impl.ObjectManager;
 import it.unibo.knightreasures.model.impl.PlayerEntity;
-import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
@@ -36,7 +37,19 @@ public final class Gameplay extends State implements View {
     private final PlayerEntity player;
 
     private final EnemyManager enemyManager;
+
+    private final ObjectManager objects;
+
+    /**
+     * The level manager that controls level rendering and updates.
+     */
+    private final LevelManager levelManager;
+
     private final Hearts hearts;
+
+    /**
+     * The pause state of the game.
+     */
     private final Pause pausedOverlay;
 
     private final GameOver gameOverOverlay;
@@ -44,16 +57,6 @@ public final class Gameplay extends State implements View {
     private boolean gameOver, lvlComplete, paused;
 
     private final LvlCompleted lvlCompletedOverlay;
-
-    /**
-     * The level manager that controls level rendering and updates.
-     */
-    private final LevelManager levelManager;
-
-    /**
-     * The pause state of the game.
-     */
-    private final Pause pauseOverlay;
 
     /**
      * The level offset and the max offset of the level.
@@ -71,11 +74,13 @@ public final class Gameplay extends State implements View {
         this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
         this.levelManager = new LevelManager(getGame());
         this.enemyManager = new EnemyManager(this);
+        this.objects = new ObjectManager(this, levelManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-        this.pauseOverlay = new Pause(this, this.levelManager, this.getGame());
+        this.pausedOverlay = new Pause(this, this.levelManager, this.getGame());
         this.gameOverOverlay = new GameOver(this, levelManager, game);
         this.lvlCompletedOverlay = new LvlCompleted(this, levelManager, game);
         calcLvlOffset();
+        loadStartLvl();
     }
 
     /**
@@ -91,6 +96,7 @@ public final class Gameplay extends State implements View {
             gameOverOverlay.update();
         else if (!gameOver) {
             player.update();
+            objects.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             hearts.setCurrentHearts(player.getLives());
             checkCloseToBorder();
@@ -108,6 +114,7 @@ public final class Gameplay extends State implements View {
                 null);
         levelManager.draw(g, xLvlOffset);
         enemyManager.draw(g, xLvlOffset);
+        objects.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
         hearts.draw(g);
         if (paused) {
@@ -118,8 +125,6 @@ public final class Gameplay extends State implements View {
             gameOverOverlay.draw(g);
         else if (lvlComplete)
             lvlCompletedOverlay.draw(g);
-    }
-
     }
 
     /**
@@ -175,6 +180,11 @@ public final class Gameplay extends State implements View {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    private void loadStartLvl() {
+        this.enemyManager.addEnemies(this.levelManager.getCurrentLevel());
+        this.objects.loadObjects(this.levelManager.getCurrentLevel());
     }
 
     /**
@@ -273,6 +283,10 @@ public final class Gameplay extends State implements View {
 
     public EnemyManager getEnemyManager() {
         return this.enemyManager;
+    }
+
+    public ObjectManager getObjectManager() {
+        return this.objects;
     }
 
     public LevelManager getLevel() {

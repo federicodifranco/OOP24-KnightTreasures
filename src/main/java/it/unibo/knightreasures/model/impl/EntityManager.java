@@ -120,6 +120,10 @@ public abstract class EntityManager {
         return this.hitBox;
     }
 
+    public int getCurrentHealth() {
+        return this.currentHealth;
+    }
+
     /**
      * Gets the X coordinate of the entity.
      *
