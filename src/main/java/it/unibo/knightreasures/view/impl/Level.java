@@ -1,5 +1,6 @@
 package it.unibo.knightreasures.view.impl;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class Level {
     private List<Spike> spikes;
     private int [][] lvlData;
     private int lvlTilesWide, maxLvlOffsetX, maxTilesOffset;
+    private Point playerSpawn;
 
     /**
      * Constructs a new Level with the given level data.
@@ -37,6 +39,11 @@ public class Level {
         createTreasure();
         createChests();
         calculateOffset();
+        calculatePlayerSpawn();
+    }
+
+    private void calculatePlayerSpawn() {
+        playerSpawn = HelpMethods.getPlayerSpawn(img);
     }
 
     private void createSpikes() {
@@ -106,5 +113,9 @@ public class Level {
 
     public List<Spike> getSpikes() {
         return spikes;
+    }
+
+    public Point getPlayerSpawn() {
+        return this.playerSpawn;
     }
 }

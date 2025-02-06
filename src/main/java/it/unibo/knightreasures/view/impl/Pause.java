@@ -124,12 +124,16 @@ public final class Pause implements View {
         if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON])) {
             playing.unpauseGame();
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON])) {
+            playing.resetAll();
             playing.unpauseGame();
+            playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
             game.getAudioUtilities().playLevelSong();
         } else if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON])) {
             Gamestate.setState(Gamestate.MENU);
             game.getAudioUtilities().playMenuSong();
+            playing.resetAll();
             playing.unpauseGame();
+            playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
         } else {
             audio.mouseReleased(e);
         }

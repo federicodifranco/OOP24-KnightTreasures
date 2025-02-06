@@ -90,16 +90,16 @@ public class GameOver implements View {
     public void mouseReleased(MouseEvent e) {
         if (isIn(home, e)) {
             if (home.isMousePressed()) {
-                //playing.resetAll();
+                playing.resetAll();
                 game.getAudioUtilities().playMenuSong();
                 Gamestate.setState(Gamestate.MENU);
-                //playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
+                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
                 game.getAudioUtilities().playMenuSong();
             }
         } else if (isIn(restart, e)) {
             if (restart.isMousePressed()) {
-                //playing.resetAll();
-                //playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
+                playing.resetAll();
+                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
                 game.getAudioUtilities().playLevelSong();
             }
         }

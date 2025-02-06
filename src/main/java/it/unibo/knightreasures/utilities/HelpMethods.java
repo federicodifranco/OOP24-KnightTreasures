@@ -1,6 +1,7 @@
 package it.unibo.knightreasures.utilities;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -257,5 +258,18 @@ public final class HelpMethods {
             }
         }
         return list;
+    }
+
+    public static Point getPlayerSpawn(BufferedImage img) {
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == LevelsValues.SPAWN) {
+                    return new Point(i * Window.TILES_SIZE, j * Window.TILES_SIZE);
+                }
+            }
+        }
+        return new Point(LevelsValues.FLOOR_OFFSET * Window.TILES_SIZE, LevelsValues.FLOOR_OFFSET * Window.TILES_SIZE);
     }
 }

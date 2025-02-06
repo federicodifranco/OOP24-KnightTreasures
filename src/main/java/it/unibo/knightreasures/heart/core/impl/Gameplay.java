@@ -34,29 +34,29 @@ public final class Gameplay extends State implements View {
     /**
      * The player entity.
      */
-    private final PlayerEntity player;
+    private PlayerEntity player;
 
-    private final EnemyManager enemyManager;
+    private EnemyManager enemyManager;
 
-    private final ObjectManager objects;
+    private ObjectManager objects;
 
     /**
      * The level manager that controls level rendering and updates.
      */
-    private final LevelManager levelManager;
+    private LevelManager levelManager;
 
-    private final Hearts hearts;
+    private Hearts hearts;
 
     /**
      * The pause state of the game.
      */
-    private final Pause pausedOverlay;
+    private Pause pausedOverlay;
 
-    private final GameOver gameOverOverlay;
+    private GameOver gameOverOverlay;
 
     private boolean gameOver, lvlComplete, paused;
 
-    private final LvlCompleted lvlCompletedOverlay;
+    private LvlCompleted lvlCompletedOverlay;
 
     /**
      * The level offset and the max offset of the level.
@@ -70,17 +70,22 @@ public final class Gameplay extends State implements View {
      */
     public Gameplay(final ApplicationImpl game) {
         super(game);
+        initClasses();
+        calcLvlOffset();
+        loadStartLvl();
+    }
+
+    private void initClasses() {
         this.hearts = new Hearts(Heart.INIT_X, Heart.INIT_Y);
         this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
         this.levelManager = new LevelManager(getGame());
         this.enemyManager = new EnemyManager(this);
         this.objects = new ObjectManager(this, levelManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         this.pausedOverlay = new Pause(this, this.levelManager, this.getGame());
-        this.gameOverOverlay = new GameOver(this, levelManager, game);
-        this.lvlCompletedOverlay = new LvlCompleted(this, levelManager, game);
-        calcLvlOffset();
-        loadStartLvl();
+        this.gameOverOverlay = new GameOver(this, levelManager, getGame());
+        this.lvlCompletedOverlay = new LvlCompleted(this, levelManager, getGame());
     }
 
     /**

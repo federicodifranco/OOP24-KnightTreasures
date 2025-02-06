@@ -1,6 +1,7 @@
 package it.unibo.knightreasures.model.impl;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -439,5 +440,12 @@ public final class PlayerEntity extends EntityManager {
         getHitbox().x = getX();
         getHitbox().y = getY();
         if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) inAir = true;
+    }
+
+    public void setSpawn(final Point spawn) {
+        setX(spawn.x);
+        setY(spawn.y);
+        getHitbox().x = getX();
+        getHitbox().y = getY();
     }
 }
