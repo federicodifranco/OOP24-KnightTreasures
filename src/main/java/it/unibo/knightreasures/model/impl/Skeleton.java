@@ -56,9 +56,8 @@ public class Skeleton extends EnemyEntity {
                     if (canSeePlayer(lvlData, player)) {
                         turnTowardsPlayer(player);
                     }
-                    if (isPlayerCloseForAttack(player)) {
+                    if (isPlayerCloseForAttack(player) && canSeePlayer(lvlData, player)) {
                         newState(SkeletonsValues.ATTACK);
-                        //player.loseLife();
                     }
                     move(lvlData);
                     break;

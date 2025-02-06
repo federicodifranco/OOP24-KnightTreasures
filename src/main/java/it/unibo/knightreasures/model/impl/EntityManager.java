@@ -103,14 +103,6 @@ public abstract class EntityManager {
         g.drawRect((int) attackBox.x - lvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
-    public void setAttackBox(final Rectangle2D.Float attackBox) {
-        this.attackBox = attackBox;
-    }
-
-    protected Rectangle2D.Float getAttackBox() {
-        return this.attackBox;
-    }
-
     /**
      * Initializes the hitbox of the entity.
      * @param width the width of the hitbox.

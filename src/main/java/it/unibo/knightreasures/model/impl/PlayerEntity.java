@@ -149,8 +149,8 @@ public final class PlayerEntity extends EntityManager {
                 (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset + flipX - playerOffsetX,
                 (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
                 this.getWidth() * flipW, this.getHeight(), null);
-        drawHitbox(g, lvlOffset);
-        drawAttackBox(g, lvlOffset);
+        // drawHitbox(g, lvlOffset);
+        // drawAttackBox(g, lvlOffset);
     }
 
     /**
@@ -164,6 +164,7 @@ public final class PlayerEntity extends EntityManager {
             if (aniIndex >= PlayerValues.INDEX_SPRITE) {
                 aniIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }
@@ -421,5 +422,22 @@ public final class PlayerEntity extends EntityManager {
      */
     public void setDown(final boolean down) {
         this.down = down;
+    }
+
+    public void resetAll() {
+        resetDirBooleans();
+        updateLives();
+        setState(PlayerValues.IDLE);
+        inAir = true;
+        attacking = false;
+        moving = false;
+        jump = false;
+        airSpeed = PlayerValues.AIR_SPEED_DEFAULT;
+        flipW = PlayerValues.FLIPW_DEFAULT;
+        flipX = PlayerValues.FLIPX_DEFAULT;
+        playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
+        getHitbox().x = getX();
+        getHitbox().y = getY();
+        if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) inAir = true;
     }
 }

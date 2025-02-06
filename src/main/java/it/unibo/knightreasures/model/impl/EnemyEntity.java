@@ -16,12 +16,14 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 public abstract class EnemyEntity extends EntityManager {
 
     protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
-    protected boolean firstUpdate = true, inAir, attackChecked, active;
+    protected boolean firstUpdate = true, inAir, attackChecked, active = true;
     protected float attackDistance = Window.TILES_SIZE, fallSpeed;
 
     public EnemyEntity(float x, float y, int width, int height) {
         super(x, y, width, height);
         initHitBox(width, height);
+        maxHealth = SkeletonsValues.NUM_LIVES;
+        currentHealth = maxHealth;
     }
 
     protected void firstUpdateCheck(int[][] lvlData) {
@@ -140,7 +142,10 @@ public abstract class EnemyEntity extends EntityManager {
             aniIndex++;
             if (aniIndex >= getSpriteAmount(enemyState)) {
                 aniIndex = 0;
-                if (enemyState == SkeletonsValues.ATTACK) enemyState = SkeletonsValues.IDLE;
+                switch(enemyState) {
+                    case SkeletonsValues.ATTACK, SkeletonsValues.HURT -> enemyState = SkeletonsValues.IDLE;
+                    case SkeletonsValues.DIE -> active = false;
+                }
             }
         }
     }
@@ -153,8 +158,19 @@ public abstract class EnemyEntity extends EntityManager {
         }
     }
 
+    @Override
     public int getIndex() {
         return aniIndex;
+    }
+
+    public void resetEnemy() {
+        getHitbox().x = getX();
+        getHitbox().y = getY();
+        firstUpdate = true;
+        currentHealth = maxHealth;
+        newState(SkeletonsValues.IDLE);
+        active = true;
+        setAirSpeed(0);
     }
 
     public int getEnemyState() {

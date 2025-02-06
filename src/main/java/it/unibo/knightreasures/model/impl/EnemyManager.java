@@ -48,9 +48,14 @@ public final class EnemyManager {
      * @param lvlData the level data containing collision information.
      */
     public void update(final int[][] lvlData, PlayerEntity player) {
-        for (final Skeleton skt : skeletons) {
-            skt.update(lvlData, player);
+        boolean isAnyActive = false;
+        for (Skeleton skt : skeletons) {
+            if (skt.isActive()) {
+                skt.update(lvlData, player);
+                isAnyActive = true;
+            }
         }
+        //if (!isAnyActive) playing.setLevelCompleted(true);
     }
 
     /**
@@ -80,14 +85,14 @@ public final class EnemyManager {
      */
     public void drawSkeletons(final Graphics g, final int xLvlOffset) {
         for (final Skeleton skt : skeletons) {
-            g.drawImage(
-                skeletonArr[skt.getEnemyState()][skt.getIndex()],
-                (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X + skt.flipX(),
-                (int) skt.getHitbox().y - Skeletons.DRAW_OFFSET_Y,
-                Skeletons.WIDTH * skt.flipW(), Skeletons.HEIGHT,
-                null
-            );
-            skt.drawHitbox(g, xLvlOffset);
+             if (skt.isActive()) {
+                g.drawImage(skeletonArr[skt.getEnemyState()][skt.getIndex()], 
+                (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X + skt.flipX(), 
+                (int) skt.getHitbox().y - Skeletons.DRAW_OFFSET_Y, 
+                Skeletons.WIDTH * skt.flipW(), 
+                Skeletons.HEIGHT, null);
+            }
+            //skt.drawHitbox(g, xLvlOffset);
         }
     }
 
@@ -107,5 +112,20 @@ public final class EnemyManager {
                 );
             }
         }
+    }
+
+    public void resetAllEnemies() {
+        for (Skeleton skt : skeletons) {
+            skt.resetEnemy();
+        }
+    }
+
+    public boolean hasActiveEnemies() {
+        for (Skeleton skt : skeletons) {
+            if (skt.isActive()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

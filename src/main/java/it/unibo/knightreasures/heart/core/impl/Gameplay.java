@@ -312,4 +312,13 @@ public final class Gameplay extends State implements View {
     public void checkSpikeTouched(final PlayerEntity player, final Hearts hearts) {
         this.objects.checkSpikeTouched(player, hearts);
     }
+
+    public void resetAll() {
+        gameOver = false;
+        paused = false;
+        lvlComplete = false;
+        player.resetAll();
+        enemyManager.resetAllEnemies();
+        objects.resetAllObjects();
+    }
 }
