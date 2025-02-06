@@ -87,8 +87,14 @@ public class LvlCompleted implements View{
             if (home.isMousePressed()) {
                 Gamestate.setState(Gamestate.MENU);
                 game.getAudioUtilities().playMenuSong();
+                playing.resetAll();
+                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
             }
-        } 
+        } else if (isIn(next, e)) {
+            if (next.isMousePressed()) {
+                playing.loadNextLvl();
+            }
+        }
         home.resetBools();
         next.resetBools();
     }

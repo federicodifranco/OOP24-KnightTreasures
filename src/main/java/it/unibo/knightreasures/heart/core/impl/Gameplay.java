@@ -187,9 +187,19 @@ public final class Gameplay extends State implements View {
         this.gameOver = gameOver;
     }
 
+    public void setLevelCompleted(boolean lvlComplete){
+        this.lvlComplete = lvlComplete;
+    }
+
     private void loadStartLvl() {
         this.enemyManager.addEnemies(this.levelManager.getCurrentLevel());
         this.objects.loadObjects(this.levelManager.getCurrentLevel());
+    }
+
+    public void loadNextLvl() {
+        resetAll();
+        levelManager.loadNextLvl();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
     /**

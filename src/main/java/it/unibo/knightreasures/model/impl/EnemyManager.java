@@ -55,7 +55,7 @@ public final class EnemyManager {
                 isAnyActive = true;
             }
         }
-        //if (!isAnyActive) playing.setLevelCompleted(true);
+        if (!isAnyActive) playing.setLevelCompleted(true);
     }
 
     /**
