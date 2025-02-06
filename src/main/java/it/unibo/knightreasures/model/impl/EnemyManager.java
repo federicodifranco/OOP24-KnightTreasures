@@ -1,11 +1,13 @@
 package it.unibo.knightreasures.model.impl;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
@@ -31,14 +33,13 @@ public final class EnemyManager {
     public EnemyManager(final Gameplay playing) {
         this.playing = playing;
         loadEnemyImgs();
-        addEnemies();
     }
 
     /**
      * Loads enemy instances into the game.
      */
-    private void addEnemies() {
-        skeletons = ResourceFuncUtilities.getSkeletons();
+    public void addEnemies(final Level level) {
+        skeletons = level.getSkeletons();
     }
 
     /**
@@ -62,6 +63,15 @@ public final class EnemyManager {
         drawSkeletons(g, xLvlOffset);
     }
 
+    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+        for (Skeleton skt : skeletons) {
+            if (skt.isActive() && attackBox.intersects(skt.getHitbox()) && skt.getCurrentHealth() > 0) {
+                skt.hurt(SkeletonsValues.DAMAGE);
+                break;
+            }
+        }
+    }
+
     /**
      * Draws all skeletons in the game.
      *
@@ -79,10 +89,6 @@ public final class EnemyManager {
             );
             skt.drawHitbox(g, xLvlOffset);
         }
-    }
-
-    public void addEnemies(final Level level) {
-        this.skeletons = level.getSkeletons();
     }
 
     /**

@@ -32,10 +32,14 @@ public abstract class EntityManager {
      */
     private int height;
 
+    protected int currentHealth, maxHealth;
+
     /**
      * The hitbox used for collision detection.
      */
-    private Rectangle2D.Float hitBox, attackBox;
+    private Rectangle2D.Float hitBox;
+
+    protected Rectangle2D.Float attackBox;
 
     /**
      * Indicates whether the entity is in the air.
@@ -94,6 +98,11 @@ public abstract class EntityManager {
         g.drawRect((int) hitBox.x - lvlOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
+    protected void drawAttackBox(final Graphics g, final int lvlOffset) {
+        g.setColor(Color.BLUE);
+        g.drawRect((int) attackBox.x - lvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+    }
+
     public void setAttackBox(final Rectangle2D.Float attackBox) {
         this.attackBox = attackBox;
     }
@@ -121,7 +130,7 @@ public abstract class EntityManager {
     }
 
     public int getCurrentHealth() {
-        return this.currentHealth;
+        return currentHealth;
     }
 
     /**

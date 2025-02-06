@@ -1,25 +1,19 @@
 package it.unibo.knightreasures.utilities;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import it.unibo.knightreasures.model.impl.Skeleton;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
-import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
-import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Utility class for handling resource-related operations, such as loading images and creating levels.
@@ -99,25 +93,4 @@ public final class ResourceFuncUtilities {
         }
         return images;
     }
-
-    /**
-     * Retrieves a list of Skeleton enemies from the level image.
-     *
-     * @return A list of Skeleton objects based on level data.
-     */
-    public static List<Skeleton> getSkeletons() {
-        final BufferedImage img = loadSources("level_1");
-        final List<Skeleton> list = new ArrayList<>();
-        for (int j = 0; j < img.getHeight(); j++) {
-            for (int i = 0; i < img.getWidth(); i++) {
-                final Color color = new Color(img.getRGB(i, j));
-                final int value = color.getGreen();
-                if (value == SkeletonsValues.SKELETON) {
-                    list.add(new Skeleton(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
-                }
-            }
-        }
-        return list;
-    }
-
 }

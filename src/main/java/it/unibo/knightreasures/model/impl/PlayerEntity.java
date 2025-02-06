@@ -1,6 +1,7 @@
 package it.unibo.knightreasures.model.impl;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
@@ -23,8 +24,8 @@ public final class PlayerEntity extends EntityManager {
      * The player's animation frames.
      */
     private BufferedImage[][] animation;
+
     private Hearts hearts;
-    private final Gameplay playing;
 
     /**
      * Animation tick counter.
@@ -41,7 +42,7 @@ public final class PlayerEntity extends EntityManager {
     /**
      * Player movement and state flags.
      */
-    private boolean moving, attacking, inAir;
+    private boolean moving, attacking, attackChecked, inAir;
 
     /**
      * Movement direction flags.
@@ -63,6 +64,8 @@ public final class PlayerEntity extends EntityManager {
      */
     private float airSpeed;
 
+    private final Gameplay playing;
+
     /**
      * Constructs a new PlayerEntity with the specified parameters.
      *
@@ -71,12 +74,35 @@ public final class PlayerEntity extends EntityManager {
      * @param width the width of the player entity.
      * @param height the height of the player entity.
      */
-    public PlayerEntity(final float x, final float y, final int width, final int height, final Gameplay playing, final Hearts hearts) {
+    public PlayerEntity(final float x, final float y, final int width, final int height, Gameplay playing, Hearts hearts) {
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;
         loadAnimations();
         initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
+        initAttackBox();
+    }
+
+    private void initAttackBox() {
+        attackBox = new Rectangle2D.Float(getX(), getY(), Player.ATTACKBOX_WIDTH, Player.ATTACKBOX_HEIGHT);
+    }
+
+    private void checkAttack() {
+        if (attackChecked || aniIndex != PlayerValues.ATTACK_INDEX) return;
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
+    }
+
+    private void updateAttackBox() {
+        if (right && left) {
+            if (flipW == PlayerValues.FLIPW_DEFAULT) attackBox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
+            else attackBox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
+        } else if (right) {
+            attackBox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
+        } else if (left) {
+            attackBox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
+        }
+        attackBox.y = getHitbox().y + Player.ATTACKBOX_OFFSET;
     }
 
     /**
@@ -84,11 +110,16 @@ public final class PlayerEntity extends EntityManager {
      */
     @Override
     public void update() {
-        if (this.hearts.getCurrentHearts() == 0){
-            this.playing.setGameOver(true);
+        if (hearts.getCurrentHearts() == 0) {
+            playing.setGameOver(true);
+            return;
         }
         updatePosition();
         updateAnimation();
+        if (attacking) {
+            checkAttack();
+        }
+        updateAttackBox();
         setAnimation();
     }
 
@@ -104,6 +135,7 @@ public final class PlayerEntity extends EntityManager {
                 (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
                 this.getWidth() * flipW, this.getHeight(), null);
         drawHitbox(g, lvlOffset);
+        drawAttackBox(g, lvlOffset);
     }
 
     /**

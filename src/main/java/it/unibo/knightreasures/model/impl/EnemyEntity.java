@@ -16,7 +16,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 public abstract class EnemyEntity extends EntityManager {
 
     protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
-    protected boolean firstUpdate = true, inAir;
+    protected boolean firstUpdate = true, inAir, attackChecked, active;
     protected float attackDistance = Window.TILES_SIZE, fallSpeed;
 
     public EnemyEntity(float x, float y, int width, int height) {
@@ -31,6 +31,21 @@ public abstract class EnemyEntity extends EntityManager {
             }
             firstUpdate = false;
         }
+    }
+
+    public void hurt(int amount) {
+        currentHealth -= amount;
+        if (currentHealth <= 0) newState(SkeletonsValues.DIE);
+        else newState(SkeletonsValues.HURT);
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    protected void checkPlayerHit(Rectangle2D.Float attackBox, PlayerEntity player) {
+        if (attackBox.intersects(player.getHitbox())) player.loseHeart();
+        attackChecked = true;
     }
 
     protected void updateInAir(int[][] lvlData) {

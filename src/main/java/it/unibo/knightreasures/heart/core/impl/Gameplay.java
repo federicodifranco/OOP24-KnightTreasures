@@ -223,6 +223,10 @@ public final class Gameplay extends State implements View {
         return this.player;
     }
 
+    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+        enemyManager.checkEnemyHit(attackBox);
+    }
+
     /**
      * Resets the player's movement when the game window loses focus.
      */
