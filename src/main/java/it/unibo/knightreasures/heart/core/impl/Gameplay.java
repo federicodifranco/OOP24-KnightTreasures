@@ -301,4 +301,15 @@ public final class Gameplay extends State implements View {
         this.maxLvlOffsetX = lvlOffset;
     }
 
+    public void checkChestOpened(final Rectangle2D.Float hitbox) {
+        this.objects.checkChestOpened(hitbox);
+    }
+
+    public void checkCollectTreasure(final Rectangle2D.Float hitbox) {
+        this.objects.checkObjectTouched(hitbox);
+    }
+
+    public void checkSpikeTouched(final PlayerEntity player, final Hearts hearts) {
+        this.objects.checkSpikeTouched(player, hearts);
+    }
 }

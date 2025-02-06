@@ -105,6 +105,18 @@ public final class PlayerEntity extends EntityManager {
         attackBox.y = getHitbox().y + Player.ATTACKBOX_OFFSET;
     }
 
+    private void checkChestOpened() {
+        this.playing.checkChestOpened(getHitbox());
+    }
+
+    private void checkSpikeTouched() {
+        this.playing.checkSpikeTouched(this, hearts);
+    }
+
+    private void checkCollectedOpened() {
+        this.playing.checkCollectTreasure(getHitbox());
+    }
+
     /**
      * Updates the player's state, including movement and animations.
      */
@@ -115,10 +127,13 @@ public final class PlayerEntity extends EntityManager {
             return;
         }
         updatePosition();
-        updateAnimation();
+        checkCollectedOpened();
+        checkChestOpened();
+        checkSpikeTouched();
         if (attacking) {
             checkAttack();
         }
+        updateAnimation();
         updateAttackBox();
         setAnimation();
     }
