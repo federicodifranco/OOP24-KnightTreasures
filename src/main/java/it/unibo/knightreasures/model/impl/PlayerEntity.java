@@ -3,6 +3,7 @@ package it.unibo.knightreasures.model.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import it.unibo.knightreasures.heart.core.impl.Gameplay;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
@@ -10,6 +11,7 @@ import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Physics;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
+import it.unibo.knightreasures.view.impl.Hearts;
 
 /**
  * Represents the player entity in the game, handling movement, animations, and
@@ -21,6 +23,8 @@ public final class PlayerEntity extends EntityManager {
      * The player's animation frames.
      */
     private BufferedImage[][] animation;
+    private Hearts hearts;
+    private final Gameplay playing;
 
     /**
      * Animation tick counter.
@@ -67,8 +71,10 @@ public final class PlayerEntity extends EntityManager {
      * @param width the width of the player entity.
      * @param height the height of the player entity.
      */
-    public PlayerEntity(final float x, final float y, final int width, final int height) {
+    public PlayerEntity(final float x, final float y, final int width, final int height, final Gameplay playing, final Hearts hearts) {
         super(x, y, width, height);
+        this.playing = playing;
+        this.hearts = hearts;
         loadAnimations();
         initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
     }
@@ -78,6 +84,9 @@ public final class PlayerEntity extends EntityManager {
      */
     @Override
     public void update() {
+        if (this.hearts.getCurrentHearts() == 0){
+            this.playing.setGameOver(true);
+        }
         updatePosition();
         updateAnimation();
         setAnimation();
@@ -163,6 +172,20 @@ public final class PlayerEntity extends EntityManager {
             updateXPos(xSpeed);
         }
         moving = true;
+    }
+
+    public void loseHeart() {
+        int currentHearts = hearts.getCurrentHearts();
+        if (currentHearts > 0) hearts.setCurrentHearts(currentHearts - PlayerValues.DAMAGE);
+        if (currentHearts < 0) hearts.setCurrentHearts(PlayerValues.NO_LIVES);
+    }
+
+    public int getLives() {
+        return hearts.getCurrentHearts();
+    }
+
+    public void updateLives() {
+        hearts.setCurrentHearts(PlayerValues.NUM_LIVES);
     }
 
     /**

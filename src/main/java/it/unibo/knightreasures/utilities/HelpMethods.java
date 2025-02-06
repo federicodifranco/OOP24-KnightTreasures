@@ -1,6 +1,8 @@
 package it.unibo.knightreasures.utilities;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
@@ -176,5 +178,20 @@ public final class HelpMethods {
         } else {
             return isAllTileWalkable(firstXTile, secondXTile, yTile, lvlData);
         }
+    }
+
+    public static int[][] createLevel(BufferedImage img) {
+        int[][] level = new int[img.getHeight()][img.getWidth()];
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getRed();
+                if (value >= LevelsValues.LEVEL) {
+                    value = 0;
+                }
+                level[j][i] = value;
+            }
+        }
+        return level;
     }
 }

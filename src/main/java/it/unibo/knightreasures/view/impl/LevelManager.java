@@ -2,8 +2,11 @@ package it.unibo.knightreasures.view.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
+import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -21,7 +24,9 @@ public final class LevelManager {
     private BufferedImage[] levelSprite;
 
     /** Represents the first level of the game. */
-    private final Level levelOne;
+    private final List<Level> levels;
+    private int lvlIndex = LevelsValues.LVL_INDEX;
+
 
     /**
      * Constructs a new LevelManager.
@@ -31,7 +36,8 @@ public final class LevelManager {
     public LevelManager(final ApplicationImpl game) {
         this.game = game;
         importOutsideSprite();
-        levelOne = new Level(ResourceFuncUtilities.createLevel());
+        this.levels = new ArrayList<>();
+        buildAllLevels();
     }
 
     /**
@@ -62,8 +68,8 @@ public final class LevelManager {
      */
     public void draw(final Graphics g, final int lvlOffset) {
         for (int j = 0; j < Window.TILES_IN_HEIGHT; j++) {
-            for (int i = 0; i < levelOne.getLevelData()[0].length; i++) {
-                final int index = levelOne.getSpriteIndex(i, j);
+            for (int i = 0; i < levels.get(lvlIndex).getLevelData()[LevelsValues.LVL_DATA_INDEX].length; i++) {
+                final int index = levels.get(lvlIndex).getSpriteIndex(i, j);
                 g.drawImage(levelSprite[index],
                         Window.TILES_SIZE * i - lvlOffset,
                         Window.TILES_SIZE * j,
@@ -73,6 +79,27 @@ public final class LevelManager {
                 );
             }
         }
+    }
+
+    private void buildAllLevels() {
+        BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
+        for (BufferedImage img : allLvl) {
+            levels.add(new Level(img));
+        }
+    }
+
+    public void loadNextLvl() {
+        lvlIndex++;
+        if (lvlIndex >= levels.size()) {
+            lvlIndex = LevelsValues.LVL_INDEX;
+            Gamestate.setState(Gamestate.MENU);
+            game.getAudioUtilities().playMenuSong();
+        }
+        Level newLevel = levels.get(lvlIndex);
+        game.getPlaying().getEnemyManager().addEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+        game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
+        game.getPlaying().getObjectManager().loadObjects(newLevel);
     }
 
     /**
@@ -88,6 +115,14 @@ public final class LevelManager {
      * @return the current level.
      */
     public Level getCurrentLevel() {
-        return this.levelOne;
+        return this.levels.get(lvlIndex);
+    }
+
+    public int getAmountOfLvls() {
+        return levels.size();
+    }
+
+    public int getLevelIndex() {
+        return this.lvlIndex;
     }
 }

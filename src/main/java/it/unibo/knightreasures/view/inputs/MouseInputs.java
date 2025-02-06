@@ -131,6 +131,9 @@ public final class MouseInputs implements MouseListener, MouseMotionListener {
             case MENU:
                 this.gamePanel.getGame().getMenu().mouseMoved(e);
                 break;
+                case SETTINGS:
+                this.gamePanel.getGame().getSettings().mouseMoved(e);
+                break;
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().mouseMoved(e);
                 break;

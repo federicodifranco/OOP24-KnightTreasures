@@ -12,11 +12,13 @@ import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
+import it.unibo.knightreasures.utilities.ViewConstants.Heart;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.LevelOffset;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
+import it.unibo.knightreasures.view.impl.Hearts;
 import it.unibo.knightreasures.view.impl.LevelManager;
 import it.unibo.knightreasures.view.impl.Pause;
 
@@ -32,6 +34,7 @@ public final class Gameplay extends State implements View {
     private final PlayerEntity player;
 
     private final EnemyManager enemyManager;
+    private final Hearts hearts;
 
     /**
      * The level manager that controls level rendering and updates.
@@ -60,7 +63,8 @@ public final class Gameplay extends State implements View {
      */
     public Gameplay(final ApplicationImpl game) {
         super(game);
-        this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT);
+        this.hearts = new Hearts(Heart.INIT_X, Heart.INIT_Y);
+        this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
         this.levelManager = new LevelManager(getGame());
         this.enemyManager = new EnemyManager(this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
@@ -94,6 +98,7 @@ public final class Gameplay extends State implements View {
         levelManager.draw(g, xLvlOffset);
         enemyManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
+        hearts.draw(g);
         if (paused) {
             g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
             g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
@@ -176,7 +181,7 @@ public final class Gameplay extends State implements View {
      * Calculates the offset of the level.
      */
     private void calcLvlOffset() {
-        this.maxLvlOffsetX = (ResourceFuncUtilities.createLevel()[0].length - Window.TILES_IN_WIDTH) * Window.TILES_SIZE;
+        this.maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffset();
     }
 
     /**
@@ -246,4 +251,13 @@ public final class Gameplay extends State implements View {
     public EnemyManager getEnemyManager(){
         return this.enemyManager;
     }
+
+    public LevelManager getLevel() {
+        return this.levelManager;
+    }
+
+    public void setMaxLvlOffset(int lvlOffset) {
+        this.maxLvlOffsetX = lvlOffset;
+    }
+
 }

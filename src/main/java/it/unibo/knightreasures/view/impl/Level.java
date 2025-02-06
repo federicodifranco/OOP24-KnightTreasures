@@ -1,45 +1,58 @@
 package it.unibo.knightreasures.view.impl;
 
-import java.util.Arrays;
+import java.awt.image.BufferedImage;
+import java.util.List;
+
+import it.unibo.knightreasures.model.impl.Chest;
+import it.unibo.knightreasures.model.impl.Skeleton;
+import it.unibo.knightreasures.model.impl.Spike;
+import it.unibo.knightreasures.model.impl.Treasure;
+import it.unibo.knightreasures.utilities.HelpMethods;
+import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Represents a game level containing level data in a 2D array. This class is
  * designed for managing level structures and retrieving sprite indices.
- *
- * <p>
- * Note: If this class is not meant for inheritance, consider making it
- * final.</p>
  */
 public class Level {
 
-    private final int[][] lvlData;
+    private final BufferedImage img;
+    private List<Skeleton> skeletons;
+    private List<Chest> chests;
+    private List<Treasure> treasures;
+    private List<Spike> spikes;
+    private int [][] lvlData;
+    private int lvlTilesWide, maxLvlOffsetX, maxTilesOffset;
 
     /**
      * Constructs a new Level with the given level data.
      *
-     * @param lvlData A 2D integer array representing the level structure.
+     * @param img the image of the level.
      */
-    public Level(final int[][] lvlData) {
-        this.lvlData = deepCopyArray(lvlData);
+    public Level(final BufferedImage img) {
+        this.img = img;
+        createLvlData();
+        createEnemies();
+        createSpikes();
+        createTreasure();
+        createChests();
+        calculateOffset();
     }
 
-    /**
-     * Creates a deep copy of a two-dimensional integer array. If the input
-     * array is null, an empty 2D array is returned instead of null.
-     *
-     * @param original the original 2D array to copy.
-     * @return a new 2D array that is a deep copy of the input array, or an
-     * empty array if the input is null.
-     */
-    private static int[][] deepCopyArray(final int[][] original) {
-        if (original == null) {
-            return new int[0][0];
-        }
-        final int[][] copy = new int[original.length][];
-        for (int i = 0; i < original.length; i++) {
-            copy[i] = original[i].clone();
-        }
-        return copy;
+    private void createSpikes() {
+        spikes = HelpMethods.getSpike(img);
+    }
+
+    private void createTreasure() {
+        treasures = HelpMethods.getTreasure(img);
+    }
+
+    private void createChests() {
+        chests = HelpMethods.getChest(img);
+    }
+
+    private void createEnemies() {
+        skeletons = HelpMethods.getSkeletons(img);
     }
 
     /**
@@ -53,6 +66,16 @@ public class Level {
         return lvlData[y][x];
     }
 
+    private void createLvlData() {
+        lvlData = HelpMethods.createLevel(img);
+    }
+
+    private void calculateOffset() {
+        lvlTilesWide = img.getWidth();
+        maxTilesOffset = lvlTilesWide - Window.TILES_IN_WIDTH;
+        maxLvlOffsetX = Window.TILES_SIZE * maxTilesOffset;
+    }
+
     /**
      * Returns the entire level data as a 2D array.
      *
@@ -62,6 +85,26 @@ public class Level {
      * @return A 2D array representing the level structure.
      */
     public int[][] getLevelData() {
-        return Arrays.stream(this.lvlData).map(int[]::clone).toArray(int[][]::new);
+        return lvlData;
+    }
+
+    public int getLvlOffset() {
+        return maxLvlOffsetX;
+    }
+
+    public List<Skeleton> getSkeletons() {
+        return skeletons;
+    }
+
+    public List<Treasure> getTreasures() {
+        return treasures;
+    }
+
+    public List<Chest> getChests() {
+        return chests;
+    }
+
+    public List<Spike> getSpikes() {
+        return spikes;
     }
 }

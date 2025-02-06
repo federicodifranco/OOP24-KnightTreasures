@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,26 +80,24 @@ public final class ResourceFuncUtilities {
         return img;
     }
 
-    /**
-     * Creates a 2D array representing a game level based on an image resource.
-     *
-     * @return A 2D array where each value corresponds to a tile in the level.
-     */
-    public static int[][] createLevel() {
-        final BufferedImage img = loadSources("level_1");
-        final int[][] level = new int [img.getHeight()][img.getWidth()];
-
-        for (int j = 0; j < img.getHeight(); j++) {
-            for (int i = 0; i < img.getWidth(); i++) {
-                final Color color = new Color(img.getRGB(i, j));
-                int value = color.getRed();
-                if (value >= LevelsValues.LEVEL) {
-                    value = 0;
-                }
-                level[j][i] = value;
-            }
+    public static BufferedImage[] getAllLevels() {
+        final File directory = new File("src/main/resources/levels");
+        File[] levelFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+        if (levelFiles == null || levelFiles.length == LevelsValues.NO_LEVEL_FILES_LENGHT) {
+            return new BufferedImage[LevelsValues.FIRST_LEVEL_POSITION];
         }
-        return level;
+        Arrays.sort(levelFiles, Comparator.comparing(File::getName));
+        BufferedImage[] images = new BufferedImage[levelFiles.length];
+        int index = 0;
+        for (File file : levelFiles) {
+            try {
+                images[index] = ImageIO.read(file);
+            } catch (IOException e) {
+                images[index] = null;
+            }
+            index++;
+        }
+        return images;
     }
 
     /**
