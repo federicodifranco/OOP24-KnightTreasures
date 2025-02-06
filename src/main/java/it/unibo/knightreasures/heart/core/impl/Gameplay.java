@@ -18,8 +18,10 @@ import it.unibo.knightreasures.utilities.ViewConstants.LevelOffset;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
+import it.unibo.knightreasures.view.impl.GameOver;
 import it.unibo.knightreasures.view.impl.Hearts;
 import it.unibo.knightreasures.view.impl.LevelManager;
+import it.unibo.knightreasures.view.impl.LvlCompleted;
 import it.unibo.knightreasures.view.impl.Pause;
 
 /**
@@ -35,6 +37,13 @@ public final class Gameplay extends State implements View {
 
     private final EnemyManager enemyManager;
     private final Hearts hearts;
+    private final Pause pausedOverlay;
+
+    private final GameOver gameOverOverlay;
+
+    private boolean gameOver, lvlComplete, paused;
+
+    private final LvlCompleted lvlCompletedOverlay;
 
     /**
      * The level manager that controls level rendering and updates.
@@ -42,14 +51,9 @@ public final class Gameplay extends State implements View {
     private final LevelManager levelManager;
 
     /**
-     * Check when the game is paused or not.
-     */
-    private boolean paused;
-
-    /**
      * The pause state of the game.
      */
-    private final Pause pause;
+    private final Pause pauseOverlay;
 
     /**
      * The level offset and the max offset of the level.
@@ -68,7 +72,9 @@ public final class Gameplay extends State implements View {
         this.levelManager = new LevelManager(getGame());
         this.enemyManager = new EnemyManager(this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-        this.pause = new Pause(this, this.levelManager, this.getGame());
+        this.pauseOverlay = new Pause(this, this.levelManager, this.getGame());
+        this.gameOverOverlay = new GameOver(this, levelManager, game);
+        this.lvlCompletedOverlay = new LvlCompleted(this, levelManager, game);
         calcLvlOffset();
     }
 
@@ -77,13 +83,17 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void update() {
-        if (!this.paused) {
+        if (paused)
+            pausedOverlay.update();
+        else if (lvlComplete)
+            lvlCompletedOverlay.update();
+        else if (gameOver)
+            gameOverOverlay.update();
+        else if (!gameOver) {
             player.update();
-            levelManager.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLevelData(), this.player);
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
+            hearts.setCurrentHearts(player.getLives());
             checkCloseToBorder();
-        } else {
-            pause.update();
         }
     }
 
@@ -94,7 +104,8 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void draw(final Graphics g) {
-        g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
+        g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT,
+                null);
         levelManager.draw(g, xLvlOffset);
         enemyManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
@@ -102,8 +113,13 @@ public final class Gameplay extends State implements View {
         if (paused) {
             g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
             g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
-            pause.draw(g);
-        }
+            pausedOverlay.draw(g);
+        } else if (gameOver)
+            gameOverOverlay.draw(g);
+        else if (lvlComplete)
+            lvlCompletedOverlay.draw(g);
+    }
+
     }
 
     /**
@@ -113,19 +129,20 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void keyPressed(final KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A ->
-                player.setLeft(true);
-            case KeyEvent.VK_D ->
-                player.setRight(true);
-            case KeyEvent.VK_SPACE ->
-                player.setJump(true);
-            case KeyEvent.VK_BACK_SPACE ->
-                Gamestate.setState(Gamestate.MENU);
-            case KeyEvent.VK_P ->
-                this.paused = !this.paused;
-            default -> {
-                // No action for other keys
+        if (gameOver) {
+            gameOverOverlay.keyPressed(e);
+        } else {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A ->
+                    player.setLeft(true);
+                case KeyEvent.VK_D ->
+                    player.setRight(true);
+                case KeyEvent.VK_SPACE ->
+                    player.setJump(true);
+                case KeyEvent.VK_M ->
+                    player.setAttacking(true);
+                case KeyEvent.VK_P ->
+                    paused = !paused;
             }
         }
     }
@@ -144,17 +161,20 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void keyReleased(final KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A ->
-                player.setLeft(false);
-            case KeyEvent.VK_D ->
-                player.setRight(false);
-            case KeyEvent.VK_SPACE ->
-                player.setJump(false);
-            default -> {
-                // No action for other keys
+        if (!gameOver) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A ->
+                    player.setLeft(false);
+                case KeyEvent.VK_D ->
+                    player.setRight(false);
+                case KeyEvent.VK_SPACE ->
+                    player.setJump(false);
             }
         }
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
     /**
@@ -219,9 +239,10 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mousePressed(final MouseEvent e) {
-        if (this.paused) {
-            this.pause.mousePressed(e);
-        }
+        if (!gameOver) {
+            if (paused) pausedOverlay.mousePressed(e);
+            else if (lvlComplete) lvlCompletedOverlay.mousePressed(e);
+        } else gameOverOverlay.mousePressed(e);
     }
 
     /**
@@ -231,9 +252,10 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (this.paused) {
-            this.pause.mouseReleased(e);
-        }
+        if (!gameOver) {
+            if (paused) pausedOverlay.mouseReleased(e);
+            else if (lvlComplete) lvlCompletedOverlay.mouseReleased(e);
+        } else gameOverOverlay.mouseReleased(e);
     }
 
     /**
@@ -243,12 +265,13 @@ public final class Gameplay extends State implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        if (this.paused) {
-            this.pause.mouseMoved(e);
-        }
+        if (!gameOver) {
+            if (paused) pausedOverlay.mouseMoved(e);
+            else if (lvlComplete) lvlCompletedOverlay.mouseMoved(e);
+        } else gameOverOverlay.mouseMoved(e);
     }
 
-    public EnemyManager getEnemyManager(){
+    public EnemyManager getEnemyManager() {
         return this.enemyManager;
     }
 
