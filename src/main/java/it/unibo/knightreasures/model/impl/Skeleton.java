@@ -9,7 +9,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 /**
  * Represents a skeleton enemy in the game.
  */
-public class Skeleton extends EnemyEntity {
+public class Skeleton extends EnemyEntityImpl {
 
     private int attackxOffsetX;
 

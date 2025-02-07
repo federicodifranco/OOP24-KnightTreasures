@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.model.impl.ObjectManager;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
@@ -23,7 +23,7 @@ import it.unibo.knightreasures.view.api.View;
 
 public class LvlCompleted implements View {
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
     private final LevelManager level;
     private final ApplicationImpl game;
     private final Stars stars;
@@ -34,7 +34,7 @@ public class LvlCompleted implements View {
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
     private int playerLives, collectedTreasure;
 
-    public LvlCompleted(Gameplay playing, LevelManager level, ApplicationImpl game) {
+    public LvlCompleted(GameplayImpl playing, LevelManager level, ApplicationImpl game) {
         this.playing = playing;
         this.game = game;
         this.level = level;

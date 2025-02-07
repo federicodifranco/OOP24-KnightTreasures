@@ -3,11 +3,11 @@ package it.unibo.knightreasures.model.impl;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class Chest extends GameObject {
+public class ChestImpl extends GameObject {
 
     private boolean opened = false;
 
-    public Chest(int x, int y, int objType) {
+    public ChestImpl(int x, int y, int objType) {
         super(x, y, objType);
         createHitbox();
     }

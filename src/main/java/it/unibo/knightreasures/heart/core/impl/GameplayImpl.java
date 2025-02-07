@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
-import it.unibo.knightreasures.model.impl.EnemyManager;
+import it.unibo.knightreasures.model.impl.EnemyManagerImpl;
 import it.unibo.knightreasures.model.impl.ObjectManager;
 import it.unibo.knightreasures.model.impl.PlayerEntity;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
@@ -29,14 +29,14 @@ import it.unibo.knightreasures.view.impl.Pause;
  * Handles the gameplay logic, including player movement, interactions, and
  * rendering of the game world.
  */
-public final class Gameplay extends State implements View {
+public final class GameplayImpl extends State implements View {
 
     /**
      * The player entity.
      */
     private PlayerEntity player;
 
-    private EnemyManager enemyManager;
+    private EnemyManagerImpl enemyManager;
 
     private ObjectManager objects;
 
@@ -68,7 +68,7 @@ public final class Gameplay extends State implements View {
      *
      * @param game the main application instance.
      */
-    public Gameplay(final ApplicationImpl game) {
+    public GameplayImpl(final ApplicationImpl game) {
         super(game);
         initClasses();
         calcLvlOffset();
@@ -79,7 +79,7 @@ public final class Gameplay extends State implements View {
         this.hearts = new Hearts(Heart.INIT_X, Heart.INIT_Y);
         this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
         this.levelManager = new LevelManager(getGame());
-        this.enemyManager = new EnemyManager(this);
+        this.enemyManager = new EnemyManagerImpl(this);
         this.objects = new ObjectManager(this, levelManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -300,7 +300,7 @@ public final class Gameplay extends State implements View {
         } else gameOverOverlay.mouseMoved(e);
     }
 
-    public EnemyManager getEnemyManager() {
+    public EnemyManagerImpl getEnemyManager() {
         return this.enemyManager;
     }
 

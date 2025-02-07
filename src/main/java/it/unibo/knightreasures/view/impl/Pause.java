@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
@@ -22,7 +22,7 @@ import it.unibo.knightreasures.view.api.View;
  */
 public final class Pause implements View {
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
     private final LevelManager level;
     private final ApplicationImpl game;
     private final Audio audio;
@@ -38,7 +38,7 @@ public final class Pause implements View {
      * @param level the level manager.
      * @param game the main application instance.
      */
-    public Pause(final Gameplay playing, final LevelManager level, final ApplicationImpl game) {
+    public Pause(final GameplayImpl playing, final LevelManager level, final ApplicationImpl game) {
         this.playing = playing;
         this.level = level;
         this.game = game;

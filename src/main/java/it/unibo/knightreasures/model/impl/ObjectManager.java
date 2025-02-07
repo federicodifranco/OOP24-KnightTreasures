@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -17,16 +17,16 @@ import it.unibo.knightreasures.view.impl.LevelManager;
 
 public class ObjectManager {
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
     private final LevelManager level;
     private BufferedImage[][] treasureImgs, chestImgs;
     private BufferedImage spikeImgs;
     private List<Treasure> treasures = new ArrayList<>();
-    private List<Chest> chests = new ArrayList<>();
+    private List<ChestImpl> chests = new ArrayList<>();
     private List<Spike> spikes = new ArrayList<>();
     private int collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;
 
-    public ObjectManager(Gameplay playing, LevelManager level) {
+    public ObjectManager(GameplayImpl playing, LevelManager level) {
         this.playing = playing;
         this.level = level;
         loadImgs();
@@ -55,7 +55,7 @@ public class ObjectManager {
     }
 
     private void drawChests(Graphics g, int xLvlOffset) {
-        for (Chest c : chests) {
+        for (ChestImpl c : chests) {
             if (c.isActive()) {
                 g.drawImage(chestImgs[ObjectsValues.CHEST_IMAGES_INDEX][c.getAniIndex()],
                         (int) (c.getHitbox().x - c.getXOffset() - ObjectConstants.CHEST_X_SHIFT - xLvlOffset),
@@ -98,7 +98,7 @@ public class ObjectManager {
             }
         }
 
-        for (Chest c : chests) {
+        for (ChestImpl c : chests) {
             if (c.isActive()) {
                 c.update();
             }
@@ -129,7 +129,7 @@ public class ObjectManager {
     }
 
     public void checkChestOpened(Rectangle2D.Float hitbox) {
-        for (Chest c : chests) {
+        for (ChestImpl c : chests) {
             if (c.isActive() && !c.isOpened() && c.getHitbox().intersects(hitbox)) {
                 c.setAnimation(true);
                 c.setOpened(true);
@@ -155,7 +155,7 @@ public class ObjectManager {
             t.reset();
         }
 
-        for (Chest c : chests) {
+        for (ChestImpl c : chests) {
             c.reset();
         }
         collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;

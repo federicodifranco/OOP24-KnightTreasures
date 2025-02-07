@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -16,12 +16,12 @@ import it.unibo.knightreasures.view.impl.Level;
 /**
  * Manages enemies in the game, including their state, rendering, and updates.
  */
-public final class EnemyManager {
+public final class EnemyManagerImpl {
 
     private static final int SKELETON_STATES = 5;
     private static final int SKELETON_ANIMATION_FRAMES = 11;
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
     private BufferedImage[][] skeletonArr;
     private List<Skeleton> skeletons = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public final class EnemyManager {
      *
      * @param playing the gameplay instance managing the game state.
      */
-    public EnemyManager(final Gameplay playing) {
+    public EnemyManagerImpl(final GameplayImpl playing) {
         this.playing = playing;
         loadEnemyImgs();
     }

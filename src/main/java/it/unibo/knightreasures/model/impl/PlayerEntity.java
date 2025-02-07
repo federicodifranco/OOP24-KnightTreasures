@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
@@ -65,7 +65,7 @@ public final class PlayerEntity extends EntityManager {
      */
     private float airSpeed;
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
 
     /**
      * Constructs a new PlayerEntity with the specified parameters.
@@ -75,7 +75,7 @@ public final class PlayerEntity extends EntityManager {
      * @param width the width of the player entity.
      * @param height the height of the player entity.
      */
-    public PlayerEntity(final float x, final float y, final int width, final int height, Gameplay playing, Hearts hearts) {
+    public PlayerEntity(final float x, final float y, final int width, final int height, GameplayImpl playing, Hearts hearts) {
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;

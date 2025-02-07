@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import it.unibo.knightreasures.model.impl.Chest;
+import it.unibo.knightreasures.model.impl.ChestImpl;
 import it.unibo.knightreasures.model.impl.Skeleton;
 import it.unibo.knightreasures.model.impl.Spike;
 import it.unibo.knightreasures.model.impl.Treasure;
@@ -19,7 +19,7 @@ public class Level {
 
     private final BufferedImage img;
     private List<Skeleton> skeletons;
-    private List<Chest> chests;
+    private List<ChestImpl> chests;
     private List<Treasure> treasures;
     private List<Spike> spikes;
     private int [][] lvlData;
@@ -107,7 +107,7 @@ public class Level {
         return treasures;
     }
 
-    public List<Chest> getChests() {
+    public List<ChestImpl> getChests() {
         return chests;
     }
 

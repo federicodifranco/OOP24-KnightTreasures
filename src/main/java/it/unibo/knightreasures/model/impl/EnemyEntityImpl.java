@@ -13,13 +13,13 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 /**
  * Represents an enemy entity in the game.
  */
-public abstract class EnemyEntity extends EntityManager {
+public abstract class EnemyEntityImpl extends EntityManager {
 
     protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
     protected boolean firstUpdate = true, inAir, attackChecked, active = true;
     protected float attackDistance = Window.TILES_SIZE, fallSpeed;
 
-    public EnemyEntity(float x, float y, int width, int height) {
+    public EnemyEntityImpl(float x, float y, int width, int height) {
         super(x, y, width, height);
         initHitBox(width, height);
         maxHealth = SkeletonsValues.NUM_LIVES;

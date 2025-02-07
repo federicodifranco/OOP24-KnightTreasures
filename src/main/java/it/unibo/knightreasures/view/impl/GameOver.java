@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
-import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
@@ -21,14 +21,14 @@ import it.unibo.knightreasures.view.api.View;
 
 public class GameOver implements View {
 
-    private final Gameplay playing;
+    private final GameplayImpl playing;
     private final LevelManager level;
     private final ApplicationImpl game;
     private BufferedImage gameoverImg;
     private int gameoverX, gameoverY, gameoverW, gameoverH;
     private ResumeRestartHomeButtons home, restart;
 
-    public GameOver(Gameplay playing, LevelManager levelEtity, ApplicationImpl game) {
+    public GameOver(GameplayImpl playing, LevelManager levelEtity, ApplicationImpl game) {
         this.playing = playing;
         this.level = levelEtity;
         this.game = game;

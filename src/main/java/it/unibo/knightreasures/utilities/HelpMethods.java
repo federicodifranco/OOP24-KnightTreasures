@@ -11,7 +11,7 @@ import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
-import it.unibo.knightreasures.model.impl.Chest;
+import it.unibo.knightreasures.model.impl.ChestImpl;
 import it.unibo.knightreasures.model.impl.Skeleton;
 import it.unibo.knightreasures.model.impl.Spike;
 import it.unibo.knightreasures.model.impl.Treasure;
@@ -232,14 +232,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static List<Chest> getChest(BufferedImage img) {
-        List<Chest> list = new ArrayList<>();
+    public static List<ChestImpl> getChest(BufferedImage img) {
+        List<ChestImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == ObjectsValues.CHEST) {
-                    list.add(new Chest(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
+                    list.add(new ChestImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
                 }
             }
         }
