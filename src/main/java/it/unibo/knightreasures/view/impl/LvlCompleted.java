@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.heart.core.impl.Gameplay;
+import it.unibo.knightreasures.model.impl.ObjectManager;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
@@ -16,21 +17,29 @@ import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.LvlCompletedButtons;
 import it.unibo.knightreasures.utilities.ViewConstants.PanelSize;
 import it.unibo.knightreasures.utilities.ViewConstants.RRHButtons;
+import it.unibo.knightreasures.utilities.ViewConstants.Star;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 
-public class LvlCompleted implements View{
+public class LvlCompleted implements View {
+
     private final Gameplay playing;
     private final LevelManager level;
     private final ApplicationImpl game;
+    private final Stars stars;
+    private final ObjectManager objects;
+    private boolean enemiesInactive;
     private ResumeRestartHomeButtons home, next;
     private BufferedImage lvlCompletedImg;
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
+    private int playerLives, collectedTreasure;
 
     public LvlCompleted(Gameplay playing, LevelManager level, ApplicationImpl game) {
         this.playing = playing;
         this.game = game;
         this.level = level;
+        this.objects = playing.getObjectManager();
+        this.stars = new Stars(Star.INIT_X, Star.INIT_Y, Star.STAR_SIZE);
         initlvlCompletedImg();
         initButtons();
     }
@@ -65,6 +74,11 @@ public class LvlCompleted implements View{
         g.drawImage(lvlCompletedImg, lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH, null);
         next.draw(g);
         home.draw(g);
+        this.enemiesInactive = !playing.getEnemyManager().hasActiveEnemies();
+        this.playerLives = playing.getPlayer().getLives();
+        this.collectedTreasure = objects.isAllCollectedTreasures();
+        stars.updateStarStates(enemiesInactive, playerLives, collectedTreasure);
+        stars.draw(g);
     }
 
     @Override
