@@ -26,7 +26,7 @@ public class GameOver implements View {
     private final ApplicationImpl game;
     private BufferedImage gameoverImg;
     private int gameoverX, gameoverY, gameoverW, gameoverH;
-    private ResumeRestartHomeButtons home, restart;
+    private ResumeRestartHomeButtonsImpl home, restart;
 
     public GameOver(GameplayImpl playing, LevelManagerImpl levelEtity, ApplicationImpl game) {
         this.playing = playing;
@@ -45,11 +45,11 @@ public class GameOver implements View {
     }
 
     private void createButtons() {
-        restart = new ResumeRestartHomeButtons(GameOverButtons.RESTART_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
-        home = new ResumeRestartHomeButtons(GameOverButtons.HOME_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        restart = new ResumeRestartHomeButtonsImpl(GameOverButtons.RESTART_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
+        home = new ResumeRestartHomeButtonsImpl(GameOverButtons.HOME_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
     }
 
-    private boolean isIn(ResumeRestartHomeButtons b, MouseEvent e) {
+    private boolean isIn(ResumeRestartHomeButtonsImpl b, MouseEvent e) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 

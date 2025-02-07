@@ -10,13 +10,13 @@ import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Star;
 
-public class Stars {
+public class StarsImpl {
 
     private BufferedImage fullStar, emptyStar, stars;
     private final int x, y, starSize;
     private final boolean[] starStates = new boolean[LevelsValues.NUM_STARS];
 
-    public Stars(int x, int y, int starSize) {
+    public StarsImpl(int x, int y, int starSize) {
         this.x = x;
         this.y = y;
         this.starSize = starSize;

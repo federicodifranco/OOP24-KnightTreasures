@@ -20,7 +20,7 @@ import it.unibo.knightreasures.view.api.View;
 public class Settings extends State implements View {
 
     private final Audio audio;
-    private final ResumeRestartHomeButtons[] homeButton = new ResumeRestartHomeButtons[ButtonsValues.RRH_NUM_BUTTONS];
+    private final ResumeRestartHomeButtonsImpl[] homeButton = new ResumeRestartHomeButtonsImpl[ButtonsValues.RRH_NUM_BUTTONS];
     private BufferedImage homeBackgroundImg, settingsImg;
     private int settingsWidth, settingsHeight, settingsX, settingsY;
 
@@ -45,7 +45,7 @@ public class Settings extends State implements View {
     }
 
     private void createHomeButton() {
-        homeButton[ButtonsValues.HOME_BUTTON] = new ResumeRestartHomeButtons(SettingsButtons.HOME_X, SettingsButtons.HOME_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        homeButton[ButtonsValues.HOME_BUTTON] = new ResumeRestartHomeButtonsImpl(SettingsButtons.HOME_X, SettingsButtons.HOME_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Settings extends State implements View {
         
     }
     
-    private boolean isIn(MouseEvent e, ResumeRestartHomeButtons h) {
+    private boolean isIn(MouseEvent e, ResumeRestartHomeButtonsImpl h) {
         return h.getBounds().contains(e.getX(), e.getY());
     }
 

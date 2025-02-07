@@ -19,7 +19,7 @@ public final class Audio implements View {
     /**
      * Array containing the sound buttons for volume control.
      */
-    private final SoundButton[] btns = new SoundButton[ButtonsValues.AUDIO_NUM_BUTTONS];
+    private final SoundButtonImpl[] btns = new SoundButtonImpl[ButtonsValues.AUDIO_NUM_BUTTONS];
 
     /**
      * Reference to the main game application.
@@ -40,12 +40,12 @@ public final class Audio implements View {
      * Initializes the sound buttons for controlling volume.
      */
     private void createSoundButtons() {
-        btns[ButtonsValues.VOLUME_OFF] = new SoundButton(
+        btns[ButtonsValues.VOLUME_OFF] = new SoundButtonImpl(
                 AudioButtons.VOLUME_OFF_X, AudioButtons.VOLUME_Y,
                 AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
                 ButtonsValues.FIRST_ROW_INDEX
         );
-        btns[ButtonsValues.VOLUME_ON] = new SoundButton(
+        btns[ButtonsValues.VOLUME_ON] = new SoundButtonImpl(
                 AudioButtons.VOLUME_ON_X, AudioButtons.VOLUME_Y,
                 AudioButtons.SOUND_SIZE, AudioButtons.SOUND_SIZE,
                 ButtonsValues.SECOND_ROW_INDEX
@@ -57,7 +57,7 @@ public final class Audio implements View {
      */
     @Override
     public void update() {
-        for (final SoundButton sb : btns) {
+        for (final SoundButtonImpl sb : btns) {
             sb.update();
         }
     }
@@ -69,7 +69,7 @@ public final class Audio implements View {
      */
     @Override
     public void draw(final Graphics g) {
-        for (final SoundButton sb : btns) {
+        for (final SoundButtonImpl sb : btns) {
             sb.draw(g);
         }
     }
@@ -134,7 +134,7 @@ public final class Audio implements View {
      * @param b the SoundButton to check.
      * @return true if the mouse is inside the button's bounds, false otherwise.
      */
-    private boolean isIn(final MouseEvent e, final SoundButton b) {
+    private boolean isIn(final MouseEvent e, final SoundButtonImpl b) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 

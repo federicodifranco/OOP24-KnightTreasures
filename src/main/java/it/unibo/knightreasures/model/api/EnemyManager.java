@@ -3,6 +3,9 @@ package it.unibo.knightreasures.model.api;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
+import it.unibo.knightreasures.view.impl.LevelImpl;
+
 public interface EnemyManager {
 
     void addEnemies(LevelImpl level);

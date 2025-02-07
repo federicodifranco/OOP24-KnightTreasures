@@ -11,7 +11,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.RRHButtons;
 /**
  * Represents buttons for Resume, Restart, and Home in the pause menu.
  */
-public final class ResumeRestartHomeButtons extends PauseButtonImpl {
+public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
 
     private final BufferedImage[] rrhButtonsImgs;
     private int index;
@@ -26,7 +26,7 @@ public final class ResumeRestartHomeButtons extends PauseButtonImpl {
      * @param height the button height.
      * @param rowIndex the index representing the button type.
      */
-    public ResumeRestartHomeButtons(final int x, final int y, final int width, final int height, final int rowIndex) {
+    public ResumeRestartHomeButtonsImpl(final int x, final int y, final int width, final int height, final int rowIndex) {
         super(x, y, width, height, rowIndex);
         this.rrhButtonsImgs = new BufferedImage[ButtonsValues.RRH_NUM_BUTTONS];
         loadImgs();

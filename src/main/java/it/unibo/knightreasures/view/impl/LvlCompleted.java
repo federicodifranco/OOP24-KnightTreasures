@@ -26,10 +26,10 @@ public class LvlCompleted implements View {
     private final GameplayImpl playing;
     private final LevelManagerImpl level;
     private final ApplicationImpl game;
-    private final Stars stars;
+    private final StarsImpl stars;
     private final ObjectManagerImpl objects;
     private boolean enemiesInactive;
-    private ResumeRestartHomeButtons home, next;
+    private ResumeRestartHomeButtonsImpl home, next;
     private BufferedImage lvlCompletedImg;
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
     private int playerLives, collectedTreasure;
@@ -39,7 +39,7 @@ public class LvlCompleted implements View {
         this.game = game;
         this.level = level;
         this.objects = playing.getObjectManager();
-        this.stars = new Stars(Star.INIT_X, Star.INIT_Y, Star.STAR_SIZE);
+        this.stars = new StarsImpl(Star.INIT_X, Star.INIT_Y, Star.STAR_SIZE);
         initlvlCompletedImg();
         initButtons();
     }
@@ -53,11 +53,11 @@ public class LvlCompleted implements View {
     }
 
     private void initButtons() {
-        next = new ResumeRestartHomeButtons(LvlCompletedButtons.NEXT_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
-        home = new ResumeRestartHomeButtons(LvlCompletedButtons.HOME_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        next = new ResumeRestartHomeButtonsImpl(LvlCompletedButtons.NEXT_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
+        home = new ResumeRestartHomeButtonsImpl(LvlCompletedButtons.HOME_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
     }
 
-    private boolean isIn(ResumeRestartHomeButtons b, MouseEvent e) {
+    private boolean isIn(ResumeRestartHomeButtonsImpl b, MouseEvent e) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 

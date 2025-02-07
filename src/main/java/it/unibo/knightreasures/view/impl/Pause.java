@@ -26,8 +26,8 @@ public final class Pause implements View {
     private final LevelManagerImpl level;
     private final ApplicationImpl game;
     private final Audio audio;
-    private final ResumeRestartHomeButtons[] resumeRestartHomeButtonsBtns = 
-            new ResumeRestartHomeButtons[ButtonsValues.RRH_NUM_BUTTONS];
+    private final ResumeRestartHomeButtonsImpl[] resumeRestartHomeButtonsBtns = 
+            new ResumeRestartHomeButtonsImpl[ButtonsValues.RRH_NUM_BUTTONS];
     private BufferedImage pauseImg;
     private int pauseX, pauseY, pauseW, pauseH;
 
@@ -49,13 +49,13 @@ public final class Pause implements View {
 
     private void createdRRHButtons() {
         resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON] = 
-                new ResumeRestartHomeButtons(RRHButtons.RESUME_X, RRHButtons.RRH_Y, 
+                new ResumeRestartHomeButtonsImpl(RRHButtons.RESUME_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
         resumeRestartHomeButtonsBtns[ButtonsValues.RESTART_BUTTON] = 
-                new ResumeRestartHomeButtons(RRHButtons.RESTART_X, RRHButtons.RRH_Y, 
+                new ResumeRestartHomeButtonsImpl(RRHButtons.RESTART_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
         resumeRestartHomeButtonsBtns[ButtonsValues.HOME_BUTTON] = 
-                new ResumeRestartHomeButtons(RRHButtons.HOME_X, RRHButtons.RRH_Y, 
+                new ResumeRestartHomeButtonsImpl(RRHButtons.HOME_X, RRHButtons.RRH_Y, 
                 RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
     }
 
@@ -67,7 +67,7 @@ public final class Pause implements View {
         pauseY = PanelSize.PAUSE_Y;
     }
 
-    private boolean isIn(final MouseEvent e, final ResumeRestartHomeButtons rrh) {
+    private boolean isIn(final MouseEvent e, final ResumeRestartHomeButtonsImpl rrh) {
         return rrh.getBounds().contains(e.getX(), e.getY());
     }
 
@@ -76,7 +76,7 @@ public final class Pause implements View {
      */
     @Override
     public void update() {
-        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
             rrh.update();
         }
         this.audio.update();
@@ -90,7 +90,7 @@ public final class Pause implements View {
     @Override
     public void draw(final Graphics g) {
         g.drawImage(pauseImg, pauseX, pauseY, pauseW, pauseH, null);
-        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
             rrh.draw(g);
         }
         audio.draw(g);
@@ -138,7 +138,7 @@ public final class Pause implements View {
             audio.mouseReleased(e);
         }
 
-        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
             rrh.resetBools();
         }
     }
@@ -150,7 +150,7 @@ public final class Pause implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        for (final ResumeRestartHomeButtons rrh : resumeRestartHomeButtonsBtns) {
+        for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
             rrh.setMouseOver(false);
         }
 
