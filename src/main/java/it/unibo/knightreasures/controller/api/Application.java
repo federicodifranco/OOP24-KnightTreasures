@@ -1,4 +1,4 @@
-package it.unibo.knightreasures.api;
+package it.unibo.knightreasures.controller.api;
 
 import java.awt.Graphics;
 
