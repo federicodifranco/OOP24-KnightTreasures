@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
+import it.unibo.knightreasures.model.api.EnemyManager;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -16,7 +17,7 @@ import it.unibo.knightreasures.view.impl.LevelImpl;
 /**
  * Manages enemies in the game, including their state, rendering, and updates.
  */
-public final class EnemyManagerImpl {
+public final class EnemyManagerImpl implements EnemyManager{
 
     private static final int SKELETON_STATES = 5;
     private static final int SKELETON_ANIMATION_FRAMES = 11;
@@ -38,6 +39,7 @@ public final class EnemyManagerImpl {
     /**
      * Loads enemy instances into the game.
      */
+    @Override
     public void addEnemies(final LevelImpl level) {
         skeletons = level.getSkeletons();
     }
@@ -47,6 +49,7 @@ public final class EnemyManagerImpl {
      *
      * @param lvlData the level data containing collision information.
      */
+    @Override
     public void update(final int[][] lvlData, PlayerEntityImpl player) {
         boolean isAnyActive = false;
         for (SkeletonImpl skt : skeletons) {
@@ -64,10 +67,12 @@ public final class EnemyManagerImpl {
      * @param g          the graphics object used for rendering.
      * @param xLvlOffset the level's x-axis offset.
      */
+    @Override
     public void draw(final Graphics g, final int xLvlOffset) {
         drawSkeletons(g, xLvlOffset);
     }
 
+    @Override
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         for (SkeletonImpl skt : skeletons) {
             if (skt.isActive() && attackBox.intersects(skt.getHitbox()) && skt.getCurrentHealth() > 0) {
@@ -83,6 +88,7 @@ public final class EnemyManagerImpl {
      * @param g          the graphics object used for rendering.
      * @param xLvlOffset the level's x-axis offset.
      */
+    @Override
     public void drawSkeletons(final Graphics g, final int xLvlOffset) {
         for (final SkeletonImpl skt : skeletons) {
              if (skt.isActive()) {
@@ -114,12 +120,14 @@ public final class EnemyManagerImpl {
         }
     }
 
+    @Override
     public void resetAllEnemies() {
         for (SkeletonImpl skt : skeletons) {
             skt.resetEnemy();
         }
     }
 
+    @Override
     public boolean hasActiveEnemies() {
         for (SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {

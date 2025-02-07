@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.model.api.GameObject;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 
-public abstract class GameObjectImpl {
+public abstract class GameObjectImpl implements GameObject{
 
     protected int x, y, objType, xOffset, yOffset;
     protected Rectangle2D.Float hitbox;
@@ -47,6 +48,7 @@ public abstract class GameObjectImpl {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 
+    @Override
     public void reset() {
         aniIndex = 0;
         aniTick = 0;
@@ -54,39 +56,48 @@ public abstract class GameObjectImpl {
         doAnimation = false;
     }
 
+    @Override
     public void drawHitbox(Graphics g, int xLvlOffset) {
         g.setColor(Color.BLUE);
         g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
+    @Override
     public int getObjType() {
         return objType;
     }
 
+    @Override
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    @Override
     public void setAnimation(boolean doAnimation) {
         this.doAnimation = doAnimation;
     }
 
+    @Override
     public int getAniIndex() {
         return aniIndex;
     }
 
+    @Override
     public int getXOffset() {
         return xOffset;
     }
 
+    @Override
     public int getYOffset() {
         return yOffset;
     }

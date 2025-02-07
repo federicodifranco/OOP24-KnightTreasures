@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
+import it.unibo.knightreasures.model.api.ObjectManager;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
@@ -15,7 +16,7 @@ import it.unibo.knightreasures.view.impl.HeartsImpl;
 import it.unibo.knightreasures.view.impl.LevelImpl;
 import it.unibo.knightreasures.view.impl.LevelManagerImpl;
 
-public class ObjectManagerImpl {
+public class ObjectManagerImpl implements ObjectManager{
 
     private final GameplayImpl playing;
     private final LevelManagerImpl level;
@@ -91,6 +92,7 @@ public class ObjectManagerImpl {
         }
     }
 
+    @Override
     public void update() {
         for (TreasureImpl t : treasures) {
             if (t.isActive()) {
@@ -105,12 +107,14 @@ public class ObjectManagerImpl {
         }
     }
 
+    @Override
     public void draw(Graphics g, int xLvlOffset) {
         drawTreasures(g, xLvlOffset);
         drawChests(g, xLvlOffset);
         drawSpikes(g, xLvlOffset);
     }
 
+    @Override
     public void checkSpikeTouched(PlayerEntityImpl player, HeartsImpl hearts) {
         for (SpikeImpl spike : spikes) {
             if (spike.getHitbox().intersects(player.getHitbox())) {
@@ -119,6 +123,7 @@ public class ObjectManagerImpl {
         }
     }
 
+    @Override
     public void checkObjectTouched(Rectangle2D.Float hitbox) {
         for (TreasureImpl t : treasures) {
             if (t.isActive() && hitbox.intersects(t.getHitbox())) {
@@ -128,6 +133,7 @@ public class ObjectManagerImpl {
         }
     }
 
+    @Override
     public void checkChestOpened(Rectangle2D.Float hitbox) {
         for (ChestImpl c : chests) {
             if (c.isActive() && !c.isOpened() && c.getHitbox().intersects(hitbox)) {
@@ -143,12 +149,14 @@ public class ObjectManagerImpl {
         }
     }
 
+    @Override
     public void loadObjects(LevelImpl newLevel) {
         treasures = new ArrayList<>(newLevel.getTreasures());
         chests = new ArrayList<>(newLevel.getChests());
         spikes = newLevel.getSpikes();
     }
 
+    @Override
     public void resetAllObjects() {
         loadObjects(playing.getLevel().getCurrentLevel());
         for (TreasureImpl t : treasures) {
@@ -161,6 +169,7 @@ public class ObjectManagerImpl {
         collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;
     }
 
+    @Override
     public int isAllCollectedTreasures() {
         return collectedTreasure;
     }

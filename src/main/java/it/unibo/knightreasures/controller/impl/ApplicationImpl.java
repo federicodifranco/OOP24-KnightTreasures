@@ -2,6 +2,7 @@ package it.unibo.knightreasures.controller.impl;
 
 import java.awt.Graphics;
 
+import it.unibo.knightreasures.controller.api.Application;
 import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.utilities.AudioUtilities;
 import it.unibo.knightreasures.utilities.Gamestate;
@@ -16,7 +17,7 @@ import it.unibo.knightreasures.view.impl.Settings;
  * Main application controller that manages the game loop, rendering, and game
  * states.
  */
-public final class ApplicationImpl implements Runnable {
+public final class ApplicationImpl implements Application, Runnable {
 
     /**
      * The game panel where the game is drawn.
@@ -69,6 +70,7 @@ public final class ApplicationImpl implements Runnable {
     /**
      * Updates the game state based on the current gamestate.
      */
+    @Override
     public void update() {
         switch (Gamestate.getState()) {
             case MENU:
@@ -90,6 +92,7 @@ public final class ApplicationImpl implements Runnable {
      *
      * @param g the graphics object used for rendering.
      */
+    @Override
     public void render(final Graphics g) {
         switch (Gamestate.getState()) {
             case MENU:
@@ -153,6 +156,7 @@ public final class ApplicationImpl implements Runnable {
     /**
      * Handles the event when the game window loses focus.
      */
+    @Override
     public void windowLostFocus() {
         if (Gamestate.getState() == Gamestate.PLAYING) {
             this.gameplay.getPlayer().resetDirBooleans();
@@ -164,6 +168,7 @@ public final class ApplicationImpl implements Runnable {
      *
      * @return the gameplay instance.
      */
+    @Override
     public GameplayImpl getPlaying() {
         return this.gameplay;
     }
@@ -173,10 +178,12 @@ public final class ApplicationImpl implements Runnable {
      *
      * @return the menu instance.
      */
+    @Override
     public Menu getMenu() {
         return this.menu;
     }
 
+    @Override
     public Settings getSettings() {
         return this.settings;
     }
@@ -186,6 +193,7 @@ public final class ApplicationImpl implements Runnable {
      *
      * @return the audio instance.
      */
+    @Override
     public Audio getAudio() {
         return this.audio;
     }
@@ -195,6 +203,7 @@ public final class ApplicationImpl implements Runnable {
      *
      * @return the audio utilities instance.
      */
+    @Override
     public AudioUtilities getAudioUtilities() {
         return this.audioUtilities;
     }

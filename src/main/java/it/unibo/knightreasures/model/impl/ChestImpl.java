@@ -1,9 +1,10 @@
 package it.unibo.knightreasures.model.impl;
 
+import it.unibo.knightreasures.model.api.Chest;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class ChestImpl extends GameObjectImpl {
+public class ChestImpl extends GameObjectImpl implements Chest{
 
     private boolean opened = false;
 
@@ -20,6 +21,7 @@ public class ChestImpl extends GameObjectImpl {
         hitbox.x += yOffset;
     }
 
+    @Override
     public void update() {
         if (doAnimation) {
             updateAnimationTick();
@@ -30,10 +32,12 @@ public class ChestImpl extends GameObjectImpl {
         }
     }
 
+    @Override
     public boolean isOpened() {
         return opened;
     }
 
+    @Override
     public void setOpened(boolean opened) {
         this.opened = opened;
     }

@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
+import it.unibo.knightreasures.heart.core.api.Gameplay;
 import it.unibo.knightreasures.model.impl.EnemyManagerImpl;
 import it.unibo.knightreasures.model.impl.ObjectManagerImpl;
 import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
@@ -29,7 +30,7 @@ import it.unibo.knightreasures.view.impl.Pause;
  * Handles the gameplay logic, including player movement, interactions, and
  * rendering of the game world.
  */
-public final class GameplayImpl extends State implements View {
+public final class GameplayImpl extends State implements Gameplay, View {
 
     /**
      * The player entity.
@@ -160,6 +161,7 @@ public final class GameplayImpl extends State implements View {
     /**
      * Handles the pause state.
      */
+    @Override
     public void unpauseGame() {
         this.paused = false;
     }
@@ -183,10 +185,12 @@ public final class GameplayImpl extends State implements View {
         }
     }
 
+    @Override
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
+    @Override
     public void setLevelCompleted(boolean lvlComplete){
         this.lvlComplete = lvlComplete;
     }
@@ -196,6 +200,7 @@ public final class GameplayImpl extends State implements View {
         this.objects.loadObjects(this.levelManager.getCurrentLevel());
     }
 
+    @Override
     public void loadNextLvl() {
         resetAll();
         levelManager.loadNextLvl();
@@ -234,10 +239,12 @@ public final class GameplayImpl extends State implements View {
      *
      * @return the player entity.
      */
+    @Override
     public PlayerEntityImpl getPlayer() {
         return this.player;
     }
 
+    @Override
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         enemyManager.checkEnemyHit(attackBox);
     }
@@ -245,6 +252,7 @@ public final class GameplayImpl extends State implements View {
     /**
      * Resets the player's movement when the game window loses focus.
      */
+    @Override
     public void windowLostFocus() {
         player.resetDirBooleans();
     }
@@ -300,10 +308,12 @@ public final class GameplayImpl extends State implements View {
         } else gameOverOverlay.mouseMoved(e);
     }
 
+    @Override
     public EnemyManagerImpl getEnemyManager() {
         return this.enemyManager;
     }
 
+    @Override
     public ObjectManagerImpl getObjectManager() {
         return this.objects;
     }
@@ -312,22 +322,27 @@ public final class GameplayImpl extends State implements View {
         return this.levelManager;
     }
 
+    @Override
     public void setMaxLvlOffset(int lvlOffset) {
         this.maxLvlOffsetX = lvlOffset;
     }
 
+    @Override
     public void checkChestOpened(final Rectangle2D.Float hitbox) {
         this.objects.checkChestOpened(hitbox);
     }
 
+    @Override
     public void checkCollectTreasure(final Rectangle2D.Float hitbox) {
         this.objects.checkObjectTouched(hitbox);
     }
 
+    @Override
     public void checkSpikeTouched(final PlayerEntityImpl player, final HeartsImpl hearts) {
         this.objects.checkSpikeTouched(player, hearts);
     }
 
+    @Override
     public void resetAll() {
         gameOver = false;
         paused = false;

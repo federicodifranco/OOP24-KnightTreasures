@@ -2,6 +2,7 @@ package it.unibo.knightreasures.model.impl;
 
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.model.api.EnemyEntity;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.Directions;
@@ -13,7 +14,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 /**
  * Represents an enemy entity in the game.
  */
-public abstract class EnemyEntityImpl extends EntityManagerImpl {
+public abstract class EnemyEntityImpl extends EntityManagerImpl implements EnemyEntity{
 
     protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
     protected boolean firstUpdate = true, inAir, attackChecked, active = true;
@@ -35,12 +36,14 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl {
         }
     }
 
+    @Override
     public void hurt(int amount) {
         currentHealth -= amount;
         if (currentHealth <= 0) newState(SkeletonsValues.DIE);
         else newState(SkeletonsValues.HURT);
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -163,6 +166,7 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl {
         return aniIndex;
     }
 
+    @Override
     public void resetEnemy() {
         getHitbox().x = getX();
         getHitbox().y = getY();
