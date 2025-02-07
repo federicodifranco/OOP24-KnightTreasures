@@ -3,7 +3,7 @@ package it.unibo.knightreasures.utilities;
 import java.awt.event.MouseEvent;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
-import it.unibo.knightreasures.view.impl.MenuButton;
+import it.unibo.knightreasures.view.impl.MenuButtonImpl;
 
 /**
  * Represents the state of the game, providing utility methods
@@ -30,7 +30,7 @@ public class State {
      * @param mb the menu button to verify against.
      * @return true if the mouse event is inside the button's bounds, false otherwise.
      */
-    public boolean isIn(final MouseEvent e, final MenuButton mb) {
+    public boolean isIn(final MouseEvent e, final MenuButtonImpl mb) {
         return mb.getBounds().contains(e.getX(), e.getY());
     }
 

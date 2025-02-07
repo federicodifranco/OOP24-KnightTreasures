@@ -22,13 +22,13 @@ import it.unibo.knightreasures.view.api.View;
 public class GameOver implements View {
 
     private final GameplayImpl playing;
-    private final LevelManager level;
+    private final LevelManagerImpl level;
     private final ApplicationImpl game;
     private BufferedImage gameoverImg;
     private int gameoverX, gameoverY, gameoverW, gameoverH;
     private ResumeRestartHomeButtons home, restart;
 
-    public GameOver(GameplayImpl playing, LevelManager levelEtity, ApplicationImpl game) {
+    public GameOver(GameplayImpl playing, LevelManagerImpl levelEtity, ApplicationImpl game) {
         this.playing = playing;
         this.level = levelEtity;
         this.game = game;

@@ -8,12 +8,12 @@ import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Heart;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 
-public class Hearts {
+public class HeartsImpl {
     private BufferedImage fullHeart, emptyHeart, heartsImgs;
     private final int x, y, heartSize;
     private int currentHearts;
 
-    public Hearts(int x, int y) {
+    public HeartsImpl(int x, int y) {
         this.x = x;
         this.y = y;
         this.currentHearts =  PlayerValues.NUM_LIVES;

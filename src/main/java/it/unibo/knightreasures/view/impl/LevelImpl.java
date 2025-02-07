@@ -6,7 +6,7 @@ import java.util.List;
 
 import it.unibo.knightreasures.model.impl.ChestImpl;
 import it.unibo.knightreasures.model.impl.SkeletonImpl;
-import it.unibo.knightreasures.model.impl.Spike;
+import it.unibo.knightreasures.model.impl.SpikeImpl;
 import it.unibo.knightreasures.model.impl.TreasureImpl;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
@@ -15,13 +15,13 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
  * Represents a game level containing level data in a 2D array. This class is
  * designed for managing level structures and retrieving sprite indices.
  */
-public class Level {
+public class LevelImpl {
 
     private final BufferedImage img;
     private List<SkeletonImpl> skeletons;
     private List<ChestImpl> chests;
     private List<TreasureImpl> treasures;
-    private List<Spike> spikes;
+    private List<SpikeImpl> spikes;
     private int [][] lvlData;
     private int lvlTilesWide, maxLvlOffsetX, maxTilesOffset;
     private Point playerSpawn;
@@ -31,7 +31,7 @@ public class Level {
      *
      * @param img the image of the level.
      */
-    public Level(final BufferedImage img) {
+    public LevelImpl(final BufferedImage img) {
         this.img = img;
         createLvlData();
         createEnemies();
@@ -111,7 +111,7 @@ public class Level {
         return chests;
     }
 
-    public List<Spike> getSpikes() {
+    public List<SpikeImpl> getSpikes() {
         return spikes;
     }
 

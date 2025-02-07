@@ -24,7 +24,7 @@ import it.unibo.knightreasures.view.api.View;
 public final class Menu extends State implements View {
 
     private final ApplicationImpl game;
-    private final MenuButton[] btns = new MenuButton[ButtonsValues.MENU_NUM_BUTTONS];
+    private final MenuButtonImpl[] btns = new MenuButtonImpl[ButtonsValues.MENU_NUM_BUTTONS];
     private BufferedImage menuImg, homeBackgroundImg, legendImg;
     private int menuX, menuY, menuWidth, menuHeight;
     private int legendX, legendY, legendWidth, legendHeight;
@@ -76,13 +76,13 @@ public final class Menu extends State implements View {
      * Loads the menu buttons for Play, Settings, and Quit.
      */
     private void loadButtons() {
-        btns[ButtonsValues.PLAY_BUTTON] = new MenuButton(
+        btns[ButtonsValues.PLAY_BUTTON] = new MenuButtonImpl(
                 Window.GAME_WIDTH / 2, MenuButtons.PLAY_Y, ButtonsValues.FIRST_ROW_INDEX, Gamestate.PLAYING
         );
-        btns[ButtonsValues.SETTINGS_BUTTON] = new MenuButton(
+        btns[ButtonsValues.SETTINGS_BUTTON] = new MenuButtonImpl(
                 Window.GAME_WIDTH / 2, MenuButtons.SETTINGS_Y, ButtonsValues.SECOND_ROW_INDEX, Gamestate.SETTINGS
         );
-        btns[ButtonsValues.QUIT_BUTTON] = new MenuButton(
+        btns[ButtonsValues.QUIT_BUTTON] = new MenuButtonImpl(
                 Window.GAME_WIDTH / 2, MenuButtons.QUIT_Y, ButtonsValues.THIRD_ROW_INDEX, Gamestate.EXIT
         );
     }
@@ -91,7 +91,7 @@ public final class Menu extends State implements View {
      * Resets button states.
      */
     private void resetButtons() {
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             mb.resetBools();
         }
     }
@@ -101,7 +101,7 @@ public final class Menu extends State implements View {
      */
     @Override
     public void update() {
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             mb.update();
         }
     }
@@ -117,7 +117,7 @@ public final class Menu extends State implements View {
         g.drawImage(menuImg, menuX, menuY, menuWidth, menuHeight, null);
         g.drawImage(legendImg, legendX, legendY, legendWidth, legendHeight, null);
 
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             mb.draw(g);
         }
     }
@@ -129,7 +129,7 @@ public final class Menu extends State implements View {
      */
     @Override
     public void mousePressed(final MouseEvent e) {
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMousePressed(true);
             }
@@ -143,7 +143,7 @@ public final class Menu extends State implements View {
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             if (isIn(e, mb) && mb.isMousePressed()) {
                 mb.applyGameState();
             }
@@ -161,10 +161,10 @@ public final class Menu extends State implements View {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             mb.setMouseOver(false);
         }
-        for (final MenuButton mb : btns) {
+        for (final MenuButtonImpl mb : btns) {
             if (isIn(e, mb)) {
                 mb.setMouseOver(true);
                 break;

@@ -11,7 +11,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Images;
 /**
  * Represents a sound button used for audio settings in the game.
  */
-public final class SoundButton extends PauseButton {
+public final class SoundButton extends PauseButtonImpl {
 
     /**
      * Array containing images for different button states.

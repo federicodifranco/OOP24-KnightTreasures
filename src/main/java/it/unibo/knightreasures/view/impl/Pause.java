@@ -23,7 +23,7 @@ import it.unibo.knightreasures.view.api.View;
 public final class Pause implements View {
 
     private final GameplayImpl playing;
-    private final LevelManager level;
+    private final LevelManagerImpl level;
     private final ApplicationImpl game;
     private final Audio audio;
     private final ResumeRestartHomeButtons[] resumeRestartHomeButtonsBtns = 
@@ -38,7 +38,7 @@ public final class Pause implements View {
      * @param level the level manager.
      * @param game the main application instance.
      */
-    public Pause(final GameplayImpl playing, final LevelManager level, final ApplicationImpl game) {
+    public Pause(final GameplayImpl playing, final LevelManagerImpl level, final ApplicationImpl game) {
         this.playing = playing;
         this.level = level;
         this.game = game;

@@ -11,22 +11,22 @@ import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
-import it.unibo.knightreasures.view.impl.Hearts;
-import it.unibo.knightreasures.view.impl.Level;
-import it.unibo.knightreasures.view.impl.LevelManager;
+import it.unibo.knightreasures.view.impl.HeartsImpl;
+import it.unibo.knightreasures.view.impl.LevelImpl;
+import it.unibo.knightreasures.view.impl.LevelManagerImpl;
 
 public class ObjectManagerImpl {
 
     private final GameplayImpl playing;
-    private final LevelManager level;
+    private final LevelManagerImpl level;
     private BufferedImage[][] treasureImgs, chestImgs;
     private BufferedImage spikeImgs;
     private List<TreasureImpl> treasures = new ArrayList<>();
     private List<ChestImpl> chests = new ArrayList<>();
-    private List<Spike> spikes = new ArrayList<>();
+    private List<SpikeImpl> spikes = new ArrayList<>();
     private int collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;
 
-    public ObjectManagerImpl(GameplayImpl playing, LevelManager level) {
+    public ObjectManagerImpl(GameplayImpl playing, LevelManagerImpl level) {
         this.playing = playing;
         this.level = level;
         loadImgs();
@@ -81,7 +81,7 @@ public class ObjectManagerImpl {
     }
 
     private void drawSpikes(Graphics g, int xLvlOffset) {
-        for (Spike s : spikes) {
+        for (SpikeImpl s : spikes) {
             g.drawImage(spikeImgs,
                     (int) (s.getHitbox().x - xLvlOffset),
                     (int) (s.getHitbox().y - s.getYOffset()),
@@ -111,8 +111,8 @@ public class ObjectManagerImpl {
         drawSpikes(g, xLvlOffset);
     }
 
-    public void checkSpikeTouched(PlayerEntityImpl player, Hearts hearts) {
-        for (Spike spike : spikes) {
+    public void checkSpikeTouched(PlayerEntityImpl player, HeartsImpl hearts) {
+        for (SpikeImpl spike : spikes) {
             if (spike.getHitbox().intersects(player.getHitbox())) {
                 hearts.setCurrentHearts(player.getCurrentHealth() - ObjectsValues.SPIKE_DAMAGE);
             }
@@ -143,7 +143,7 @@ public class ObjectManagerImpl {
         }
     }
 
-    public void loadObjects(Level newLevel) {
+    public void loadObjects(LevelImpl newLevel) {
         treasures = new ArrayList<>(newLevel.getTreasures());
         chests = new ArrayList<>(newLevel.getChests());
         spikes = newLevel.getSpikes();

@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 /**
  * Represents a button used in the pause menu.
  */
-public class PauseButton {
+public class PauseButtonImpl {
 
     /**
      * The X coordinate of the button.
@@ -46,7 +46,7 @@ public class PauseButton {
      * @param height   the height of the button.
      * @param rowIndex the row index for button sprite selection.
      */
-    public PauseButton(final int x, final int y, final int width, final int height, final int rowIndex) {
+    public PauseButtonImpl(final int x, final int y, final int width, final int height, final int rowIndex) {
         this.x = x;
         this.y = y;
         this.width = width;

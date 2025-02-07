@@ -11,7 +11,7 @@ import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
-import it.unibo.knightreasures.view.impl.Level;
+import it.unibo.knightreasures.view.impl.LevelImpl;
 
 /**
  * Manages enemies in the game, including their state, rendering, and updates.
@@ -38,7 +38,7 @@ public final class EnemyManagerImpl {
     /**
      * Loads enemy instances into the game.
      */
-    public void addEnemies(final Level level) {
+    public void addEnemies(final LevelImpl level) {
         skeletons = level.getSkeletons();
     }
 

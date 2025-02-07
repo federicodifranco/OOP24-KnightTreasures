@@ -9,7 +9,7 @@ import java.util.List;
 
 import it.unibo.knightreasures.model.impl.ChestImpl;
 import it.unibo.knightreasures.model.impl.SkeletonImpl;
-import it.unibo.knightreasures.model.impl.Spike;
+import it.unibo.knightreasures.model.impl.SpikeImpl;
 import it.unibo.knightreasures.model.impl.TreasureImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
@@ -246,14 +246,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static List<Spike> getSpike(BufferedImage img) {
-        List<Spike> list = new ArrayList<>();
+    public static List<SpikeImpl> getSpike(BufferedImage img) {
+        List<SpikeImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == ObjectsValues.SPIKE) {
-                    list.add(new Spike(i * Window.TILES_SIZE, j * Window.TILES_SIZE, ObjectsValues.SPIKE));
+                    list.add(new SpikeImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, ObjectsValues.SPIKE));
                 }
             }
         }

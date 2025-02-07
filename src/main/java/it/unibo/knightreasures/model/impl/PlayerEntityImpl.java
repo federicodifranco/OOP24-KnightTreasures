@@ -13,7 +13,7 @@ import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Physics;
 import it.unibo.knightreasures.utilities.ViewConstants.Player;
-import it.unibo.knightreasures.view.impl.Hearts;
+import it.unibo.knightreasures.view.impl.HeartsImpl;
 
 /**
  * Represents the player entity in the game, handling movement, animations, and
@@ -26,7 +26,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      */
     private BufferedImage[][] animation;
 
-    private Hearts hearts;
+    private HeartsImpl hearts;
 
     /**
      * Animation tick counter.
@@ -75,7 +75,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      * @param width the width of the player entity.
      * @param height the height of the player entity.
      */
-    public PlayerEntityImpl(final float x, final float y, final int width, final int height, GameplayImpl playing, Hearts hearts) {
+    public PlayerEntityImpl(final float x, final float y, final int width, final int height, GameplayImpl playing, HeartsImpl hearts) {
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;

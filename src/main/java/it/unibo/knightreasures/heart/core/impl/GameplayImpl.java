@@ -20,8 +20,8 @@ import it.unibo.knightreasures.utilities.ViewConstants.Player;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 import it.unibo.knightreasures.view.impl.GameOver;
-import it.unibo.knightreasures.view.impl.Hearts;
-import it.unibo.knightreasures.view.impl.LevelManager;
+import it.unibo.knightreasures.view.impl.HeartsImpl;
+import it.unibo.knightreasures.view.impl.LevelManagerImpl;
 import it.unibo.knightreasures.view.impl.LvlCompleted;
 import it.unibo.knightreasures.view.impl.Pause;
 
@@ -43,9 +43,9 @@ public final class GameplayImpl extends State implements View {
     /**
      * The level manager that controls level rendering and updates.
      */
-    private LevelManager levelManager;
+    private LevelManagerImpl levelManager;
 
-    private Hearts hearts;
+    private HeartsImpl hearts;
 
     /**
      * The pause state of the game.
@@ -76,9 +76,9 @@ public final class GameplayImpl extends State implements View {
     }
 
     private void initClasses() {
-        this.hearts = new Hearts(Heart.INIT_X, Heart.INIT_Y);
+        this.hearts = new HeartsImpl(Heart.INIT_X, Heart.INIT_Y);
         this.player = new PlayerEntityImpl(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
-        this.levelManager = new LevelManager(getGame());
+        this.levelManager = new LevelManagerImpl(getGame());
         this.enemyManager = new EnemyManagerImpl(this);
         this.objects = new ObjectManagerImpl(this, levelManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
@@ -308,7 +308,7 @@ public final class GameplayImpl extends State implements View {
         return this.objects;
     }
 
-    public LevelManager getLevel() {
+    public LevelManagerImpl getLevel() {
         return this.levelManager;
     }
 
@@ -324,7 +324,7 @@ public final class GameplayImpl extends State implements View {
         this.objects.checkObjectTouched(hitbox);
     }
 
-    public void checkSpikeTouched(final PlayerEntityImpl player, final Hearts hearts) {
+    public void checkSpikeTouched(final PlayerEntityImpl player, final HeartsImpl hearts) {
         this.objects.checkSpikeTouched(player, hearts);
     }
 

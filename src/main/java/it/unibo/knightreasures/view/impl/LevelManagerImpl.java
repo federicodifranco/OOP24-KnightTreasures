@@ -15,7 +15,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 /**
  * Manages the levels in the game, including rendering and loading level assets.
  */
-public final class LevelManager {
+public final class LevelManagerImpl {
 
     /** Reference to the main game application. */
     private final ApplicationImpl game;
@@ -24,7 +24,7 @@ public final class LevelManager {
     private BufferedImage[] levelSprite;
 
     /** Represents the first level of the game. */
-    private final List<Level> levels;
+    private final List<LevelImpl> levels;
     private int lvlIndex = LevelsValues.LVL_INDEX;
 
 
@@ -33,7 +33,7 @@ public final class LevelManager {
      *
      * @param game the game application instance.
      */
-    public LevelManager(final ApplicationImpl game) {
+    public LevelManagerImpl(final ApplicationImpl game) {
         this.game = game;
         importOutsideSprite();
         this.levels = new ArrayList<>();
@@ -84,7 +84,7 @@ public final class LevelManager {
     private void buildAllLevels() {
         BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
         for (BufferedImage img : allLvl) {
-            levels.add(new Level(img));
+            levels.add(new LevelImpl(img));
         }
     }
 
@@ -95,7 +95,7 @@ public final class LevelManager {
             Gamestate.setState(Gamestate.MENU);
             game.getAudioUtilities().playMenuSong();
         }
-        Level newLevel = levels.get(lvlIndex);
+        LevelImpl newLevel = levels.get(lvlIndex);
         game.getPlaying().getEnemyManager().addEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
@@ -114,7 +114,7 @@ public final class LevelManager {
      *
      * @return the current level.
      */
-    public Level getCurrentLevel() {
+    public LevelImpl getCurrentLevel() {
         return this.levels.get(lvlIndex);
     }
 

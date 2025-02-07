@@ -13,7 +13,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Images;
  * Represents a menu button in the game's UI.
  * Handles rendering, state changes, and mouse interactions.
  */
-public final class MenuButton {
+public final class MenuButtonImpl {
 
     /** X coordinate of the button. */
     private final int xPos;
@@ -50,7 +50,7 @@ public final class MenuButton {
      * @param rowIndex  the row index in the sprite sheet.
      * @param gameState the game state this button represents.
      */
-    public MenuButton(final int xPos, final int yPos, final int rowIndex, final Gamestate gameState) {
+    public MenuButtonImpl(final int xPos, final int yPos, final int rowIndex, final Gamestate gameState) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.rowIndex = rowIndex;

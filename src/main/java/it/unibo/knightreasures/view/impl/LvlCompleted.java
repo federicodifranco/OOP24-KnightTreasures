@@ -24,7 +24,7 @@ import it.unibo.knightreasures.view.api.View;
 public class LvlCompleted implements View {
 
     private final GameplayImpl playing;
-    private final LevelManager level;
+    private final LevelManagerImpl level;
     private final ApplicationImpl game;
     private final Stars stars;
     private final ObjectManagerImpl objects;
@@ -34,7 +34,7 @@ public class LvlCompleted implements View {
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
     private int playerLives, collectedTreasure;
 
-    public LvlCompleted(GameplayImpl playing, LevelManager level, ApplicationImpl game) {
+    public LvlCompleted(GameplayImpl playing, LevelManagerImpl level, ApplicationImpl game) {
         this.playing = playing;
         this.game = game;
         this.level = level;
