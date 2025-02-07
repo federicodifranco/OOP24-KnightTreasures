@@ -11,11 +11,12 @@ import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
+import it.unibo.knightreasures.view.api.LevelManager;
 
 /**
  * Manages the levels in the game, including rendering and loading level assets.
  */
-public final class LevelManagerImpl {
+public final class LevelManagerImpl implements LevelManager{
 
     /** Reference to the main game application. */
     private final ApplicationImpl game;
@@ -66,6 +67,7 @@ public final class LevelManagerImpl {
      * @param g the graphics object used for rendering.
      * @param lvlOffset the level's offset.
      */
+   @Override
     public void draw(final Graphics g, final int lvlOffset) {
         for (int j = 0; j < Window.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levels.get(lvlIndex).getLevelData()[LevelsValues.LVL_DATA_INDEX].length; i++) {
@@ -88,6 +90,7 @@ public final class LevelManagerImpl {
         }
     }
 
+    @Override
     public void loadNextLvl() {
         lvlIndex++;
         if (lvlIndex >= levels.size()) {
@@ -114,14 +117,17 @@ public final class LevelManagerImpl {
      *
      * @return the current level.
      */
+   @Override
     public LevelImpl getCurrentLevel() {
         return this.levels.get(lvlIndex);
     }
 
+    @Override
     public int getAmountOfLvls() {
         return levels.size();
     }
 
+    @Override
     public int getLevelIndex() {
         return this.lvlIndex;
     }

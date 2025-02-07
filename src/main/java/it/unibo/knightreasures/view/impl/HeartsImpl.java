@@ -7,8 +7,9 @@ import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Heart;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.view.api.Hearts;
 
-public class HeartsImpl {
+public class HeartsImpl implements Hearts {
     private BufferedImage fullHeart, emptyHeart, heartsImgs;
     private final int x, y, heartSize;
     private int currentHearts;
@@ -29,16 +30,17 @@ public class HeartsImpl {
         emptyHeart = heartsImgs.getSubimage(heartWidth, 0, heartWidth, heartHeight);
     }
 
-   
+   @Override
     public void setCurrentHearts(int currentHearts) {
         this.currentHearts = Math.max(0, Math.min(currentHearts, PlayerValues.NUM_LIVES));
     }
 
-   
+    @Override
     public int getCurrentHearts() {
         return currentHearts;
     }
 
+    @Override
     public void draw(Graphics g) {
         for (int i = 0; i < PlayerValues.NUM_LIVES; i++) {
             int xPos = x + i * (heartSize + Heart.SPACING);

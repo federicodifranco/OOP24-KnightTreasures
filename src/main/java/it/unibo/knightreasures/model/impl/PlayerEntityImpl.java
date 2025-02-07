@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
+import it.unibo.knightreasures.model.api.PlayerEntity;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
@@ -19,14 +20,14 @@ import it.unibo.knightreasures.view.impl.HeartsImpl;
  * Represents the player entity in the game, handling movement, animations, and
  * interactions with the game world.
  */
-public final class PlayerEntityImpl extends EntityManagerImpl {
+public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerEntity {
 
     /**
      * The player's animation frames.
      */
     private BufferedImage[][] animation;
 
-    private HeartsImpl hearts;
+    private final HeartsImpl hearts;
 
     /**
      * Animation tick counter.
@@ -145,6 +146,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      * @param g the graphics object used for rendering.
      * @param lvlOffset the level's offset.
      */
+    @Override
     public void render(final Graphics g, final int lvlOffset) {
         g.drawImage(animation[playerAction][aniIndex],
                 (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset + flipX - playerOffsetX,
@@ -223,16 +225,19 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
         moving = true;
     }
 
+    @Override
     public void loseHeart() {
         int currentHearts = hearts.getCurrentHearts();
         if (currentHearts > 0) hearts.setCurrentHearts(currentHearts - PlayerValues.DAMAGE);
         if (currentHearts < 0) hearts.setCurrentHearts(PlayerValues.NO_LIVES);
     }
 
+    @Override
     public int getLives() {
         return hearts.getCurrentHearts();
     }
 
+    @Override
     public void updateLives() {
         hearts.setCurrentHearts(PlayerValues.NUM_LIVES);
     }
@@ -273,6 +278,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
     /**
      * Sets the player's animation based on their current state.
      */
+    @Override
     public void setAnimation() {
         final int startAni = playerAction;
         if (moving) {
@@ -318,6 +324,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @param lvlData the level data array.
      */
+    @Override
     public void loadLvlData(final int[][] lvlData) {
         this.lvlData = lvlData.clone();
         if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) {
@@ -328,6 +335,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
     /**
      * Resets movement direction booleans.
      */
+    @Override
     public void resetDirBooleans() {
         left = false;
         right = false;
@@ -340,6 +348,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @param jump true if the player is jumping, false otherwise.
      */
+    @Override
     public void setJump(final boolean jump) {
         this.jump = jump;
     }
@@ -349,6 +358,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @param attacking true if the player is attacking, false otherwise.
      */
+    @Override
     public void setAttacking(final boolean attacking) {
         this.attacking = attacking;
     }
@@ -367,6 +377,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @param left true if the player is moving left, false otherwise.
      */
+    @Override
     public void setLeft(final boolean left) {
         this.left = left;
     }
@@ -376,6 +387,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @return true if the player is moving right, false otherwise.
      */
+    @Override
     public boolean isRight() {
         return right;
     }
@@ -385,6 +397,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
      *
      * @param right true if the player is moving right, false otherwise.
      */
+    @Override
     public void setRight(final boolean right) {
         this.right = right;
     }
@@ -425,6 +438,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
         this.down = down;
     }
 
+    @Override
     public void resetAll() {
         resetDirBooleans();
         updateLives();
@@ -442,6 +456,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl {
         if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) inAir = true;
     }
 
+    @Override
     public void setSpawn(final Point spawn) {
         setX(spawn.x);
         setY(spawn.y);

@@ -8,12 +8,13 @@ import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Buttons;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.view.api.MenuButton;
 
 /**
  * Represents a menu button in the game's UI.
  * Handles rendering, state changes, and mouse interactions.
  */
-public final class MenuButtonImpl {
+public final class MenuButtonImpl implements MenuButton {
 
     /** X coordinate of the button. */
     private final int xPos;
@@ -80,6 +81,7 @@ public final class MenuButtonImpl {
      *
      * @param g the graphics object used for rendering.
      */
+   @Override
     public void draw(final Graphics g) {
         g.drawImage(
                 imgs[index],
@@ -94,6 +96,7 @@ public final class MenuButtonImpl {
     /**
      * Updates the button state based on mouse interactions.
      */
+   @Override
     public void update() {
         index = 0;
         if (mouseOver) {
@@ -109,6 +112,7 @@ public final class MenuButtonImpl {
      *
      * @return true if the mouse is over the button, false otherwise.
      */
+   @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
@@ -118,6 +122,7 @@ public final class MenuButtonImpl {
      *
      * @param mouseOver true if the mouse is over the button.
      */
+   @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
@@ -127,6 +132,7 @@ public final class MenuButtonImpl {
      *
      * @return true if the button is pressed, false otherwise.
      */
+   @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
@@ -136,6 +142,7 @@ public final class MenuButtonImpl {
      *
      * @param mousePressed true if the button is pressed.
      */
+   @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
@@ -145,6 +152,7 @@ public final class MenuButtonImpl {
      *
      * @return the button's bounding box.
      */
+   @Override
     public Rectangle getBounds() {
         return new Rectangle(bounds);
     }
@@ -152,6 +160,7 @@ public final class MenuButtonImpl {
     /**
      * Applies the game state associated with this button.
      */
+   @Override
     public void applyGameState() {
         Gamestate.setState(gameState);
     }
@@ -159,6 +168,7 @@ public final class MenuButtonImpl {
     /**
      * Resets the button states (mouse over and pressed).
      */
+   @Override
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;

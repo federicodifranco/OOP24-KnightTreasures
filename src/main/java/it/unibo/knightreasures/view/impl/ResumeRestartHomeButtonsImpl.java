@@ -7,11 +7,12 @@ import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.RRHButtons;
+import it.unibo.knightreasures.view.api.ResumeRestartHomeButtons;
 
 /**
  * Represents buttons for Resume, Restart, and Home in the pause menu.
  */
-public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
+public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl implements ResumeRestartHomeButtons {
 
     private final BufferedImage[] rrhButtonsImgs;
     private int index;
@@ -47,6 +48,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
     /**
      * Updates the button state based on user interactions.
      */
+   @Override
     public void update() {
         index = ButtonsValues.FIRST_ROW_INDEX;
         if (mouseOver) {
@@ -62,6 +64,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
      *
      * @param g the graphics object used for rendering.
      */
+   @Override
     public void draw(final Graphics g) {
         g.drawImage(rrhButtonsImgs[index], getX(), getY(), getWidth(), getHeight(), null);
     }
@@ -69,6 +72,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
     /**
      * Resets the button states.
      */
+   @Override
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;
@@ -79,6 +83,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
      *
      * @return true if the mouse is over the button, false otherwise.
      */
+   @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
@@ -88,6 +93,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
      *
      * @param mouseOver true if the mouse is over, false otherwise.
      */
+   @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
@@ -97,6 +103,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
      *
      * @return true if the button is pressed, false otherwise.
      */
+   @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
@@ -106,6 +113,7 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl {
      *
      * @param mousePressed true if the button is pressed, false otherwise.
      */
+   @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;
     }

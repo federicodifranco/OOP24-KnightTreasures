@@ -2,6 +2,7 @@ package it.unibo.knightreasures.model.impl;
 
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.model.api.Skeleton;
 import it.unibo.knightreasures.utilities.ModelConstants.Directions;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
@@ -9,7 +10,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 /**
  * Represents a skeleton enemy in the game.
  */
-public class SkeletonImpl extends EnemyEntityImpl {
+public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
 
     private int attackxOffsetX;
 
@@ -35,6 +36,7 @@ public class SkeletonImpl extends EnemyEntityImpl {
         attackBox.y = getHitbox().y;
     }
 
+    @Override
     public void update(int[][] lvlData, PlayerEntityImpl player) {
         updateBehavior(lvlData, player);
         updateAnimation();
@@ -74,10 +76,12 @@ public class SkeletonImpl extends EnemyEntityImpl {
         }
     }
 
+    @Override
     public int flipX() {
         return (walkDir == Directions.LEFT) ? Skeletons.WIDTH : 0;
     }
 
+    @Override
     public int flipW() {
         return (walkDir == Directions.LEFT) ? -1 : 1;
     }

@@ -3,7 +3,7 @@ package it.unibo.knightreasures.model.api;
 import java.awt.Graphics;
 import java.awt.Point;
 
-interface PlayerEntity {
+public interface PlayerEntity {
 
     void render(Graphics g, int lvlOffset);
 
@@ -32,4 +32,6 @@ interface PlayerEntity {
     void setJump(boolean jump);
 
     void resetAll();
+
+    boolean isRight();
 }

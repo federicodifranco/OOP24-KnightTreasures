@@ -3,8 +3,6 @@ package it.unibo.knightreasures.view.api;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import it.unibo.knightreasures.utilities.Gamestate;
-
 public interface MenuButton {
 
     void draw(Graphics g);
@@ -24,6 +22,4 @@ public interface MenuButton {
     void applyGameState();
 
     void resetBools();
-
-    Gamestate getGameState();
 }

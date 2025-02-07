@@ -1,9 +1,10 @@
 package it.unibo.knightreasures.model.impl;
 
+import it.unibo.knightreasures.model.api.Treasure;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class TreasureImpl extends GameObjectImpl {
+public class TreasureImpl extends GameObjectImpl implements Treasure{
 
     private float hoverOffset;
 	private int hoverDir = ObjectsValues.HOVER_DIRECTION;
@@ -25,6 +26,7 @@ public class TreasureImpl extends GameObjectImpl {
 		hitbox.y = y + hoverOffset;
 	}
 
+	@Override
 	public void update() {
 		updateAnimationTick();
 		updateHover();

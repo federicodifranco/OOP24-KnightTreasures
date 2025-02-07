@@ -10,11 +10,11 @@ import it.unibo.knightreasures.model.impl.TreasureImpl;
 
 public interface Level {
 
-    List<TreasureImpl> getTreasure();
+    List<TreasureImpl> getTreasures();
 
-    List<ChestImpl> getChest();
+    List<ChestImpl> getChests();
 
-    List<SpikeImpl> getSpikeImpl();
+    List<SpikeImpl> getSpikes();
 
     int getSpriteIndex(int x, int y);
 
@@ -22,7 +22,7 @@ public interface Level {
 
     int getLvlOffset();
 
-    List<SkeletonImpl> getSkeletonImpl();
+    List<SkeletonImpl> getSkeletons();
 
     Point getPlayerSpawn();
 }

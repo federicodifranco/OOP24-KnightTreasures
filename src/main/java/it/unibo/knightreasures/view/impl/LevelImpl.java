@@ -10,12 +10,13 @@ import it.unibo.knightreasures.model.impl.SpikeImpl;
 import it.unibo.knightreasures.model.impl.TreasureImpl;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
+import it.unibo.knightreasures.view.api.Level;
 
 /**
  * Represents a game level containing level data in a 2D array. This class is
  * designed for managing level structures and retrieving sprite indices.
  */
-public class LevelImpl {
+public class LevelImpl implements Level {
 
     private final BufferedImage img;
     private List<SkeletonImpl> skeletons;
@@ -69,6 +70,7 @@ public class LevelImpl {
      * @param y The y-coordinate in the level grid.
      * @return The sprite index at the specified position.
      */
+   @Override
     public int getSpriteIndex(final int x, final int y) {
         return lvlData[y][x];
     }
@@ -91,30 +93,37 @@ public class LevelImpl {
      *
      * @return A 2D array representing the level structure.
      */
+   @Override
     public int[][] getLevelData() {
         return lvlData;
     }
 
+    @Override
     public int getLvlOffset() {
         return maxLvlOffsetX;
     }
 
+    @Override
     public List<SkeletonImpl> getSkeletons() {
         return skeletons;
     }
 
+    @Override
     public List<TreasureImpl> getTreasures() {
         return treasures;
     }
 
+    @Override
     public List<ChestImpl> getChests() {
         return chests;
     }
 
+    @Override
     public List<SpikeImpl> getSpikes() {
         return spikes;
     }
 
+    @Override
     public Point getPlayerSpawn() {
         return this.playerSpawn;
     }

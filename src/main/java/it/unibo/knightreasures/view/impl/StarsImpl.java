@@ -9,8 +9,9 @@ import it.unibo.knightreasures.utilities.ModelConstants.PlayerValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
 import it.unibo.knightreasures.utilities.ViewConstants.Star;
+import it.unibo.knightreasures.view.api.Stars;
 
-public class StarsImpl {
+public class StarsImpl implements Stars {
 
     private BufferedImage fullStar, emptyStar, stars;
     private final int x, y, starSize;
@@ -31,12 +32,14 @@ public class StarsImpl {
         emptyStar = stars.getSubimage(starWidth, 0, starWidth, starHeight);
     }
 
+    @Override
     public void updateStarStates(boolean enemiesInactive, int playerLives, int collectedTreasure) {
         starStates[LevelsValues.FIRST_STARS] = enemiesInactive;
         starStates[LevelsValues.SECOND_STARS] = playerLives == PlayerValues.NUM_LIVES;
         starStates[LevelsValues.THIRD_STARS] = collectedTreasure == ObjectsValues.TOT_TREASURES;
     }
 
+    @Override
     public void draw(Graphics g) {
         for (int i = 0; i < LevelsValues.NUM_STARS; i++) {
             int xPos = x + i * (starSize + Star.SPACING);

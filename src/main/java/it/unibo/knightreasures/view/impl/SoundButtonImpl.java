@@ -7,11 +7,12 @@ import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.ViewConstants.AudioButtons;
 import it.unibo.knightreasures.utilities.ViewConstants.Images;
+import it.unibo.knightreasures.view.api.SoundButton;
 
 /**
  * Represents a sound button used for audio settings in the game.
  */
-public final class SoundButtonImpl extends PauseButtonImpl {
+public final class SoundButtonImpl extends PauseButtonImpl implements SoundButton {
 
     /**
      * Array containing images for different button states.
@@ -70,6 +71,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @param g the graphics object used for rendering.
      */
+   @Override
     public void draw(final Graphics g) {
         g.drawImage(soundImgs[index], getX(), getY(), getWidth(), getHeight(), null);
     }
@@ -77,6 +79,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
     /**
      * Updates the button state based on interactions.
      */
+   @Override
     public void update() {
         if (muted) {
             setRowIndex(ButtonsValues.SECOND_ROW_INDEX);
@@ -97,6 +100,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @return true if the mouse is over the button, false otherwise.
      */
+   @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
@@ -106,6 +110,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @param mouseOver true if the mouse is over the button, false otherwise.
      */
+   @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
@@ -115,6 +120,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @return true if the button is pressed, false otherwise.
      */
+   @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
@@ -124,6 +130,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @param mousePressed true if the button is pressed, false otherwise.
      */
+   @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
@@ -131,6 +138,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
     /**
      * Resets the button state flags.
      */
+   @Override
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;
@@ -141,6 +149,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @return true if the sound is muted, false otherwise.
      */
+   @Override
     public boolean isMuted() {
         return muted;
     }
@@ -150,6 +159,7 @@ public final class SoundButtonImpl extends PauseButtonImpl {
      *
      * @param muted true to mute the sound, false to unmute.
      */
+   @Override
     public void setMuted(final boolean muted) {
         this.muted = muted;
     }

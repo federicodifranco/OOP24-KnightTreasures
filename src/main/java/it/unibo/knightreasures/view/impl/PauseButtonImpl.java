@@ -2,10 +2,12 @@ package it.unibo.knightreasures.view.impl;
 
 import java.awt.Rectangle;
 
+import it.unibo.knightreasures.view.api.PauseButton;
+
 /**
  * Represents a button used in the pause menu.
  */
-public class PauseButtonImpl {
+public class PauseButtonImpl implements PauseButton {
 
     /**
      * The X coordinate of the button.
@@ -67,6 +69,7 @@ public class PauseButtonImpl {
      *
      * @return the X coordinate.
      */
+   @Override
     public int getX() {
         return x;
     }
@@ -76,6 +79,7 @@ public class PauseButtonImpl {
      *
      * @param x the new X coordinate.
      */
+   @Override
     public void setX(final int x) {
         this.x = x;
     }
@@ -85,6 +89,7 @@ public class PauseButtonImpl {
      *
      * @return the Y coordinate.
      */
+   @Override
     public int getY() {
         return y;
     }
@@ -94,6 +99,7 @@ public class PauseButtonImpl {
      *
      * @param y the new Y coordinate.
      */
+   @Override
     public void setY(final int y) {
         this.y = y;
     }
@@ -103,6 +109,7 @@ public class PauseButtonImpl {
      *
      * @return the width.
      */
+   @Override
     public int getWidth() {
         return width;
     }
@@ -112,6 +119,7 @@ public class PauseButtonImpl {
      *
      * @param width the new width.
      */
+   @Override
     public void setWidth(final int width) {
         this.width = width;
     }
@@ -121,6 +129,7 @@ public class PauseButtonImpl {
      *
      * @return the height.
      */
+   @Override
     public int getHeight() {
         return height;
     }
@@ -130,6 +139,7 @@ public class PauseButtonImpl {
      *
      * @param height the new height.
      */
+   @Override
     public void setHeight(final int height) {
         this.height = height;
     }
@@ -157,6 +167,7 @@ public class PauseButtonImpl {
      *
      * @return the bounding box.
      */
+   @Override
     public Rectangle getBounds() {
         return bounds;
     }
@@ -166,6 +177,7 @@ public class PauseButtonImpl {
      *
      * @param bounds the new bounding box.
      */
+   @Override
     public void setBounds(final Rectangle bounds) {
         this.bounds = bounds;
     }
