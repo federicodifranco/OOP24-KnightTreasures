@@ -2,7 +2,7 @@ package it.unibo.knightreasures.model.impl;
 
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class Spike extends GameObject {
+public class Spike extends GameObjectImpl {
 
     public Spike(int x, int y, int objType) {
         super(x, y, objType);

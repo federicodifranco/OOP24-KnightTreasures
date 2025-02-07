@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import it.unibo.knightreasures.model.impl.ChestImpl;
-import it.unibo.knightreasures.model.impl.Skeleton;
+import it.unibo.knightreasures.model.impl.SkeletonImpl;
 import it.unibo.knightreasures.model.impl.Spike;
-import it.unibo.knightreasures.model.impl.Treasure;
+import it.unibo.knightreasures.model.impl.TreasureImpl;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
@@ -18,9 +18,9 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 public class Level {
 
     private final BufferedImage img;
-    private List<Skeleton> skeletons;
+    private List<SkeletonImpl> skeletons;
     private List<ChestImpl> chests;
-    private List<Treasure> treasures;
+    private List<TreasureImpl> treasures;
     private List<Spike> spikes;
     private int [][] lvlData;
     private int lvlTilesWide, maxLvlOffsetX, maxTilesOffset;
@@ -99,11 +99,11 @@ public class Level {
         return maxLvlOffsetX;
     }
 
-    public List<Skeleton> getSkeletons() {
+    public List<SkeletonImpl> getSkeletons() {
         return skeletons;
     }
 
-    public List<Treasure> getTreasures() {
+    public List<TreasureImpl> getTreasures() {
         return treasures;
     }
 

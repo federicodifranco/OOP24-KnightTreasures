@@ -3,12 +3,12 @@ package it.unibo.knightreasures.model.impl;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class Treasure extends GameObject {
+public class TreasureImpl extends GameObjectImpl {
 
     private float hoverOffset;
 	private int hoverDir = ObjectsValues.HOVER_DIRECTION;
 
-	public Treasure(int x, int y, int objType) {
+	public TreasureImpl(int x, int y, int objType) {
 		super(x, y, objType);
 		doAnimation = true;
 		initHitbox(ObjectConstants.TREASURE_HITBOX_WIDTH, ObjectConstants.TREASURE_HITBOX_HEIGHT);

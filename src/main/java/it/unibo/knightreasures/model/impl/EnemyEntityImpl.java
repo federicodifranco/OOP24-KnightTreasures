@@ -13,7 +13,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 /**
  * Represents an enemy entity in the game.
  */
-public abstract class EnemyEntityImpl extends EntityManager {
+public abstract class EnemyEntityImpl extends EntityManagerImpl {
 
     protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
     protected boolean firstUpdate = true, inAir, attackChecked, active = true;
@@ -45,7 +45,7 @@ public abstract class EnemyEntityImpl extends EntityManager {
         return active;
     }
 
-    protected void checkPlayerHit(Rectangle2D.Float attackBox, PlayerEntity player) {
+    protected void checkPlayerHit(Rectangle2D.Float attackBox, PlayerEntityImpl player) {
         if (attackBox.intersects(player.getHitbox())) player.loseHeart();
         attackChecked = true;
     }
@@ -90,13 +90,13 @@ public abstract class EnemyEntityImpl extends EntityManager {
         aniIndex = 0;
     }
 
-    protected void turnTowardsPlayer(PlayerEntity player) {
+    protected void turnTowardsPlayer(PlayerEntityImpl player) {
         if (player.getHitbox().x > getHitbox().x) {
             walkDir = Directions.RIGHT;
         } else walkDir = Directions.LEFT;
     }
 
-    protected boolean canSeePlayer(int[][] lvlData, PlayerEntity player) {
+    protected boolean canSeePlayer(int[][] lvlData, PlayerEntityImpl player) {
         int playerTileY = (int) (player.getHitbox().y / Window.TILES_SIZE);
         if (playerTileY == tileY) {
             if (isPlayerInRange(player)) {
@@ -108,12 +108,12 @@ public abstract class EnemyEntityImpl extends EntityManager {
         return false;
     }
 
-    protected boolean isPlayerInRange(PlayerEntity player) {
+    protected boolean isPlayerInRange(PlayerEntityImpl player) {
         int absValue = (int) Math.abs(player.getHitbox().x - getHitbox().x);
         return absValue <= attackDistance * 5;
     }
 
-    protected boolean isPlayerCloseForAttack(PlayerEntity player) {
+    protected boolean isPlayerCloseForAttack(PlayerEntityImpl player) {
         int absValue = (int) Math.abs(player.getHitbox().x - getHitbox().x);
         return absValue <= attackDistance;
     }

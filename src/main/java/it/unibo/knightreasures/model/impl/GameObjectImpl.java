@@ -7,14 +7,14 @@ import java.awt.geom.Rectangle2D;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 
-public abstract class GameObject {
+public abstract class GameObjectImpl {
 
     protected int x, y, objType, xOffset, yOffset;
     protected Rectangle2D.Float hitbox;
     protected boolean doAnimation, active = true;
     protected int aniTick, aniIndex;
 
-    public GameObject(int x, int y, int objType) {
+    public GameObjectImpl(int x, int y, int objType) {
         this.x = x;
         this.y = y;
         this.objType = objType;

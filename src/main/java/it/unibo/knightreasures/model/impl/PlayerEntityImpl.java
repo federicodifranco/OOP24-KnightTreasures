@@ -19,7 +19,7 @@ import it.unibo.knightreasures.view.impl.Hearts;
  * Represents the player entity in the game, handling movement, animations, and
  * interactions with the game world.
  */
-public final class PlayerEntity extends EntityManager {
+public final class PlayerEntityImpl extends EntityManagerImpl {
 
     /**
      * The player's animation frames.
@@ -75,7 +75,7 @@ public final class PlayerEntity extends EntityManager {
      * @param width the width of the player entity.
      * @param height the height of the player entity.
      */
-    public PlayerEntity(final float x, final float y, final int width, final int height, GameplayImpl playing, Hearts hearts) {
+    public PlayerEntityImpl(final float x, final float y, final int width, final int height, GameplayImpl playing, Hearts hearts) {
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;

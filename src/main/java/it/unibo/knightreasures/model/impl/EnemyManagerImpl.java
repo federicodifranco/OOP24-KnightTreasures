@@ -23,7 +23,7 @@ public final class EnemyManagerImpl {
 
     private final GameplayImpl playing;
     private BufferedImage[][] skeletonArr;
-    private List<Skeleton> skeletons = new ArrayList<>();
+    private List<SkeletonImpl> skeletons = new ArrayList<>();
 
     /**
      * Constructs the enemy manager and initializes enemy images.
@@ -47,9 +47,9 @@ public final class EnemyManagerImpl {
      *
      * @param lvlData the level data containing collision information.
      */
-    public void update(final int[][] lvlData, PlayerEntity player) {
+    public void update(final int[][] lvlData, PlayerEntityImpl player) {
         boolean isAnyActive = false;
-        for (Skeleton skt : skeletons) {
+        for (SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {
                 skt.update(lvlData, player);
                 isAnyActive = true;
@@ -69,7 +69,7 @@ public final class EnemyManagerImpl {
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
-        for (Skeleton skt : skeletons) {
+        for (SkeletonImpl skt : skeletons) {
             if (skt.isActive() && attackBox.intersects(skt.getHitbox()) && skt.getCurrentHealth() > 0) {
                 skt.hurt(SkeletonsValues.DAMAGE);
                 break;
@@ -84,7 +84,7 @@ public final class EnemyManagerImpl {
      * @param xLvlOffset the level's x-axis offset.
      */
     public void drawSkeletons(final Graphics g, final int xLvlOffset) {
-        for (final Skeleton skt : skeletons) {
+        for (final SkeletonImpl skt : skeletons) {
              if (skt.isActive()) {
                 g.drawImage(skeletonArr[skt.getEnemyState()][skt.getIndex()], 
                 (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X + skt.flipX(), 
@@ -115,13 +115,13 @@ public final class EnemyManagerImpl {
     }
 
     public void resetAllEnemies() {
-        for (Skeleton skt : skeletons) {
+        for (SkeletonImpl skt : skeletons) {
             skt.resetEnemy();
         }
     }
 
     public boolean hasActiveEnemies() {
-        for (Skeleton skt : skeletons) {
+        for (SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {
                 return true;
             }

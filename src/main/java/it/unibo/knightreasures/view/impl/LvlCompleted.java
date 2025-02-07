@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
-import it.unibo.knightreasures.model.impl.ObjectManager;
+import it.unibo.knightreasures.model.impl.ObjectManagerImpl;
 import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.utilities.ModelConstants.ButtonsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
@@ -27,7 +27,7 @@ public class LvlCompleted implements View {
     private final LevelManager level;
     private final ApplicationImpl game;
     private final Stars stars;
-    private final ObjectManager objects;
+    private final ObjectManagerImpl objects;
     private boolean enemiesInactive;
     private ResumeRestartHomeButtons home, next;
     private BufferedImage lvlCompletedImg;

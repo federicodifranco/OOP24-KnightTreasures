@@ -9,7 +9,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 /**
  * Represents a skeleton enemy in the game.
  */
-public class Skeleton extends EnemyEntityImpl {
+public class SkeletonImpl extends EnemyEntityImpl {
 
     private int attackxOffsetX;
 
@@ -19,7 +19,7 @@ public class Skeleton extends EnemyEntityImpl {
      * @param x the x-coordinate of the skeleton.
      * @param y the y-coordinate of the skeleton.      
      */
-    public Skeleton(final float x, final float y) {
+    public SkeletonImpl(final float x, final float y) {
         super(x, y, Skeletons.WIDTH, Skeletons.HEIGHT);
         initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
         initAttackBox();
@@ -35,13 +35,13 @@ public class Skeleton extends EnemyEntityImpl {
         attackBox.y = getHitbox().y;
     }
 
-    public void update(int[][] lvlData, PlayerEntity player) {
+    public void update(int[][] lvlData, PlayerEntityImpl player) {
         updateBehavior(lvlData, player);
         updateAnimation();
         updateAttackBox();
     }
 
-    protected void updateBehavior(int[][] lvlData, PlayerEntity player) {
+    protected void updateBehavior(int[][] lvlData, PlayerEntityImpl player) {
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }

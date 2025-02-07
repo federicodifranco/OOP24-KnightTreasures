@@ -8,8 +8,8 @@ import java.awt.geom.Rectangle2D;
 
 import it.unibo.knightreasures.controller.impl.ApplicationImpl;
 import it.unibo.knightreasures.model.impl.EnemyManagerImpl;
-import it.unibo.knightreasures.model.impl.ObjectManager;
-import it.unibo.knightreasures.model.impl.PlayerEntity;
+import it.unibo.knightreasures.model.impl.ObjectManagerImpl;
+import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ResourceFuncUtilities;
 import it.unibo.knightreasures.utilities.State;
@@ -34,11 +34,11 @@ public final class GameplayImpl extends State implements View {
     /**
      * The player entity.
      */
-    private PlayerEntity player;
+    private PlayerEntityImpl player;
 
     private EnemyManagerImpl enemyManager;
 
-    private ObjectManager objects;
+    private ObjectManagerImpl objects;
 
     /**
      * The level manager that controls level rendering and updates.
@@ -77,10 +77,10 @@ public final class GameplayImpl extends State implements View {
 
     private void initClasses() {
         this.hearts = new Hearts(Heart.INIT_X, Heart.INIT_Y);
-        this.player = new PlayerEntity(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
+        this.player = new PlayerEntityImpl(Player.INIT_X, Player.INIT_Y, Player.WIDTH, Player.HEIGHT, this, this.hearts);
         this.levelManager = new LevelManager(getGame());
         this.enemyManager = new EnemyManagerImpl(this);
-        this.objects = new ObjectManager(this, levelManager);
+        this.objects = new ObjectManagerImpl(this, levelManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         this.pausedOverlay = new Pause(this, this.levelManager, this.getGame());
@@ -234,7 +234,7 @@ public final class GameplayImpl extends State implements View {
      *
      * @return the player entity.
      */
-    public PlayerEntity getPlayer() {
+    public PlayerEntityImpl getPlayer() {
         return this.player;
     }
 
@@ -304,7 +304,7 @@ public final class GameplayImpl extends State implements View {
         return this.enemyManager;
     }
 
-    public ObjectManager getObjectManager() {
+    public ObjectManagerImpl getObjectManager() {
         return this.objects;
     }
 
@@ -324,7 +324,7 @@ public final class GameplayImpl extends State implements View {
         this.objects.checkObjectTouched(hitbox);
     }
 
-    public void checkSpikeTouched(final PlayerEntity player, final Hearts hearts) {
+    public void checkSpikeTouched(final PlayerEntityImpl player, final Hearts hearts) {
         this.objects.checkSpikeTouched(player, hearts);
     }
 

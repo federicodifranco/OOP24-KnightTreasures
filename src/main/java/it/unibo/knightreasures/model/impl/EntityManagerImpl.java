@@ -10,7 +10,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
  * Represents a generic entity in the game, providing common functionality for
  * position, dimensions, and hitbox management.
  */
-public abstract class EntityManager {
+public abstract class EntityManagerImpl {
 
     /**
      * The X coordinate of the entity.
@@ -74,7 +74,7 @@ public abstract class EntityManager {
      * @param width  the width of the entity.
      * @param height the height of the entity.
      */
-    public EntityManager(final float x, final float y, final int width, final int height) {
+    public EntityManagerImpl(final float x, final float y, final int width, final int height) {
         this.x = x;
         this.y = y;
         this.width = width;

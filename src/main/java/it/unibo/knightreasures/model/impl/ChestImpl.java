@@ -3,7 +3,7 @@ package it.unibo.knightreasures.model.impl;
 import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
-public class ChestImpl extends GameObject {
+public class ChestImpl extends GameObjectImpl {
 
     private boolean opened = false;
 

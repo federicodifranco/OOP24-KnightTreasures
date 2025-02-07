@@ -15,18 +15,18 @@ import it.unibo.knightreasures.view.impl.Hearts;
 import it.unibo.knightreasures.view.impl.Level;
 import it.unibo.knightreasures.view.impl.LevelManager;
 
-public class ObjectManager {
+public class ObjectManagerImpl {
 
     private final GameplayImpl playing;
     private final LevelManager level;
     private BufferedImage[][] treasureImgs, chestImgs;
     private BufferedImage spikeImgs;
-    private List<Treasure> treasures = new ArrayList<>();
+    private List<TreasureImpl> treasures = new ArrayList<>();
     private List<ChestImpl> chests = new ArrayList<>();
     private List<Spike> spikes = new ArrayList<>();
     private int collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;
 
-    public ObjectManager(GameplayImpl playing, LevelManager level) {
+    public ObjectManagerImpl(GameplayImpl playing, LevelManager level) {
         this.playing = playing;
         this.level = level;
         loadImgs();
@@ -68,7 +68,7 @@ public class ObjectManager {
     }
 
     private void drawTreasures(Graphics g, int xLvlOffset) {
-        for (Treasure t : treasures) {
+        for (TreasureImpl t : treasures) {
             if (t.isActive()) {
                 g.drawImage(treasureImgs[t.getObjType()][t.getAniIndex()],
                         (int) (t.getHitbox().x - ObjectConstants.TREASURE_X_OFFSET - xLvlOffset),
@@ -92,7 +92,7 @@ public class ObjectManager {
     }
 
     public void update() {
-        for (Treasure t : treasures) {
+        for (TreasureImpl t : treasures) {
             if (t.isActive()) {
                 t.update();
             }
@@ -111,7 +111,7 @@ public class ObjectManager {
         drawSpikes(g, xLvlOffset);
     }
 
-    public void checkSpikeTouched(PlayerEntity player, Hearts hearts) {
+    public void checkSpikeTouched(PlayerEntityImpl player, Hearts hearts) {
         for (Spike spike : spikes) {
             if (spike.getHitbox().intersects(player.getHitbox())) {
                 hearts.setCurrentHearts(player.getCurrentHealth() - ObjectsValues.SPIKE_DAMAGE);
@@ -120,7 +120,7 @@ public class ObjectManager {
     }
 
     public void checkObjectTouched(Rectangle2D.Float hitbox) {
-        for (Treasure t : treasures) {
+        for (TreasureImpl t : treasures) {
             if (t.isActive() && hitbox.intersects(t.getHitbox())) {
                 t.setActive(false);
                 collectedTreasure++;
@@ -133,7 +133,7 @@ public class ObjectManager {
             if (c.isActive() && !c.isOpened() && c.getHitbox().intersects(hitbox)) {
                 c.setAnimation(true);
                 c.setOpened(true);
-                treasures.add(new Treasure(
+                treasures.add(new TreasureImpl(
                         (int) (c.getHitbox().x + ObjectConstants.TREASURE_X_SHIFT),
                         (int) (c.getHitbox().y - ObjectConstants.TREASURE_Y_SHIFT),
                         ObjectsValues.LEVEL_TREASURES[level.getLevelIndex()]
@@ -151,7 +151,7 @@ public class ObjectManager {
 
     public void resetAllObjects() {
         loadObjects(playing.getLevel().getCurrentLevel());
-        for (Treasure t : treasures) {
+        for (TreasureImpl t : treasures) {
             t.reset();
         }
 
