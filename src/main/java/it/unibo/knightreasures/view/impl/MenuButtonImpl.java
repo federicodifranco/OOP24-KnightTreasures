@@ -16,32 +16,12 @@ import it.unibo.knightreasures.view.api.MenuButton;
  */
 public final class MenuButtonImpl implements MenuButton {
 
-    /** X coordinate of the button. */
-    private final int xPos;
-
-    /** Y coordinate of the button. */
-    private final int yPos;
-
-    /** Row index in the sprite sheet. */
-    private final int rowIndex;
-
-    /** The game state associated with this button. */
+    private final int xPos, yPos, rowIndex;
     private final Gamestate gameState;
-
-    /** The array of button images for different states. */
     private final BufferedImage[] imgs;
-
-    /** The bounding box for mouse interaction. */
     private final Rectangle bounds;
-
-    /** The current index of the button state (default, hover, pressed). */
     private int index;
-
-    /** Whether the mouse is hovering over the button. */
-    private boolean mouseOver;
-
-    /** Whether the button is pressed. */
-    private boolean mousePressed;
+    private boolean mouseOver, mousePressed;
 
     /**
      * Creates a new MenuButton.
@@ -76,11 +56,6 @@ public final class MenuButtonImpl implements MenuButton {
         }
     }
 
-    /**
-     * Draws the button on the screen.
-     *
-     * @param g the graphics object used for rendering.
-     */
    @Override
     public void draw(final Graphics g) {
         g.drawImage(
@@ -93,9 +68,6 @@ public final class MenuButtonImpl implements MenuButton {
         );
     }
 
-    /**
-     * Updates the button state based on mouse interactions.
-     */
    @Override
     public void update() {
         index = 0;
@@ -107,67 +79,36 @@ public final class MenuButtonImpl implements MenuButton {
         }
     }
 
-    /**
-     * Checks if the mouse is hovering over the button.
-     *
-     * @return true if the mouse is over the button, false otherwise.
-     */
    @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
 
-    /**
-     * Sets the mouse hover state.
-     *
-     * @param mouseOver true if the mouse is over the button.
-     */
    @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
 
-    /**
-     * Checks if the button is pressed.
-     *
-     * @return true if the button is pressed, false otherwise.
-     */
    @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
 
-    /**
-     * Sets the mouse pressed state.
-     *
-     * @param mousePressed true if the button is pressed.
-     */
    @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
 
-    /**
-     * Gets the bounding box of the button.
-     *
-     * @return the button's bounding box.
-     */
    @Override
     public Rectangle getBounds() {
         return new Rectangle(bounds);
     }
 
-    /**
-     * Applies the game state associated with this button.
-     */
    @Override
     public void applyGameState() {
         Gamestate.setState(gameState);
     }
 
-    /**
-     * Resets the button states (mouse over and pressed).
-     */
    @Override
     public void resetBools() {
         mouseOver = false;

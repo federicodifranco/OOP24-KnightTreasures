@@ -40,7 +40,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
     private Pause pausedOverlay;
     private GameOver gameOverOverlay;
     private LvlCompleted lvlCompletedOverlay;
-
     private boolean gameOver, lvlComplete, paused;
     private int xLvlOffset, maxLvlOffsetX;
 
@@ -70,8 +69,30 @@ public final class GameplayImpl extends State implements Gameplay, View {
     }
 
     /**
-     * Updates the player and level state.
+     * Calculates the offset of the level.
      */
+    private void calcLvlOffset() {
+        this.maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffset();
+    }
+
+    /**
+     * Check if the player is close to the border.
+     */
+    private void checkCloseToBorder() {
+        final int playerX = (int) player.getHitbox().x;
+        final int diff = playerX - xLvlOffset;
+        if (diff > LevelOffset.RIGHT_BORDER) {
+            xLvlOffset += diff - LevelOffset.RIGHT_BORDER;
+        } else if (diff < LevelOffset.LEFT_BORDER) {
+            xLvlOffset += diff - LevelOffset.LEFT_BORDER;
+        }
+        if (xLvlOffset > maxLvlOffsetX) {
+            xLvlOffset = maxLvlOffsetX;
+        } else if (xLvlOffset < 0) {
+            xLvlOffset = 0;
+        }
+    }
+
     @Override
     public void update() {
         if (paused) {
@@ -89,11 +110,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Draws the game elements, including the player and level.
-     *
-     * @param g the graphics object used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         g.drawImage(ResourceFuncUtilities.loadSources(Images.BACKGROUND), 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT,
@@ -114,11 +130,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Handles keyboard input for player movement and game state changes.
-     *
-     * @param e the key event triggered by the player.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
         if (gameOver) {
@@ -142,19 +153,11 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Handles the pause state.
-     */
     @Override
     public void unpauseGame() {
         this.paused = false;
     }
 
-    /**
-     * Handles key release events to stop player movement.
-     *
-     * @param e the key event triggered by the player.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
         if (!gameOver) {
@@ -194,36 +197,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
-    /**
-     * Check if the player is close to the border.
-     */
-    private void checkCloseToBorder() {
-        final int playerX = (int) player.getHitbox().x;
-        final int diff = playerX - xLvlOffset;
-        if (diff > LevelOffset.RIGHT_BORDER) {
-            xLvlOffset += diff - LevelOffset.RIGHT_BORDER;
-        } else if (diff < LevelOffset.LEFT_BORDER) {
-            xLvlOffset += diff - LevelOffset.LEFT_BORDER;
-        }
-        if (xLvlOffset > maxLvlOffsetX) {
-            xLvlOffset = maxLvlOffsetX;
-        } else if (xLvlOffset < 0) {
-            xLvlOffset = 0;
-        }
-    }
-
-    /**
-     * Calculates the offset of the level.
-     */
-    private void calcLvlOffset() {
-        this.maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffset();
-    }
-
-    /**
-     * Gets the player entity instance.
-     *
-     * @return the player entity.
-     */
     @Override
     public PlayerEntityImpl getPlayer() {
         return this.player;
@@ -234,19 +207,11 @@ public final class GameplayImpl extends State implements Gameplay, View {
         enemyManager.checkEnemyHit(attackBox);
     }
 
-    /**
-     * Resets the player's movement when the game window loses focus.
-     */
     @Override
     public void windowLostFocus() {
         player.resetDirBooleans();
     }
 
-    /**
-     * Handles mouse clicks for player interactions.
-     *
-     * @param e the mouse event triggered by the player.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -254,11 +219,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Handles mouse press events.
-     *
-     * @param e the mouse event triggered by the player.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         if (!gameOver) {
@@ -272,11 +232,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Handles mouse release events.
-     *
-     * @param e the mouse event triggered by the player.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (!gameOver) {
@@ -290,11 +245,6 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
-    /**
-     * Handles mouse movement events.
-     *
-     * @param e the mouse event triggered by the player.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         if (!gameOver) {

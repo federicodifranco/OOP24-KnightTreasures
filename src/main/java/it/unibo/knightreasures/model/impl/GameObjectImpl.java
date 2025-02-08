@@ -23,9 +23,9 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Constructor for the GameObjectImpl class.
-     * 
-     * @param x       the x-coordinate of the object
-     * @param y       the y-coordinate of the object
+     *
+     * @param x the x-coordinate of the object
+     * @param y the y-coordinate of the object
      * @param objType the type of the object
      */
     public GameObjectImpl(final int x, final int y, final int objType) {
@@ -36,7 +36,7 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Gets the number of sprites for the given object type.
-     * 
+     *
      * @param objectType the type of the object
      * @return the number of sprites
      */
@@ -70,14 +70,18 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Initializes the hitbox of the object.
-     * 
-     * @param width  the width of the hitbox
+     *
+     * @param width the width of the hitbox
      * @param height the height of the hitbox
      */
     protected void initHitbox(final int width, final int height) {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 
+    /**
+     * Resets the game object to its initial state. This includes resetting
+     * animation indices and marking it as inactive.
+     */
     @Override
     public void reset() {
         aniIndex = 0;
@@ -86,72 +90,145 @@ public abstract class GameObjectImpl implements GameObject {
         doAnimation = false;
     }
 
+    /**
+     * Draws the hitbox of the object for debugging purposes.
+     *
+     * @param g the Graphics object used for drawing
+     * @param xLvlOffset the level offset for rendering position correction
+     */
     @Override
     public void drawHitbox(final Graphics g, final int xLvlOffset) {
         g.setColor(Color.BLUE);
         g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
+    /**
+     * Gets the object type identifier.
+     *
+     * @return an integer representing the type of the object
+     */
     @Override
     public int getObjType() {
         return objType;
     }
 
+    /**
+     * Gets the hitbox of the game object.
+     *
+     * @return the hitbox as a Rectangle2D.Float
+     */
     @Override
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
 
+    /**
+     * Checks if the object is currently active.
+     *
+     * @return {@code true} if the object is active, {@code false} otherwise
+     */
     @Override
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Sets the object's active state.
+     *
+     * @param active {@code true} to activate the object, {@code false} to
+     * deactivate it
+     */
     @Override
     public void setActive(final boolean active) {
         this.active = active;
     }
 
+    /**
+     * Enables or disables animation for the object.
+     *
+     * @param doAnimation {@code true} to enable animation, {@code false} to
+     * disable it
+     */
     @Override
     public void setDoAnimation(final boolean doAnimation) {
         this.doAnimation = doAnimation;
     }
 
+    /**
+     * Gets the current animation index.
+     *
+     * @return the current frame index of the animation
+     */
     @Override
     public int getAniIndex() {
         return aniIndex;
     }
 
+    /**
+     * Sets the animation index.
+     *
+     * @param aniIndex the new animation frame index
+     */
     @Override
     public void setAniIndex(final int aniIndex) {
         this.aniIndex = aniIndex;
     }
 
+    /**
+     * Gets the x-axis offset of the object.
+     *
+     * @return the x-axis offset
+     */
     @Override
     public int getXOffset() {
         return xOffset;
     }
 
+    /**
+     * Gets the y-axis offset of the object.
+     *
+     * @return the y-axis offset
+     */
     @Override
     public int getYOffset() {
         return yOffset;
     }
 
+    /**
+     * Sets the y-axis offset of the object.
+     *
+     * @param yOffset the new y-axis offset
+     */
     @Override
     public void setYOffset(final int yOffset) {
         this.yOffset = yOffset;
     }
 
+    /**
+     * Sets the x-axis offset of the object.
+     *
+     * @param xOffset the new x-axis offset
+     */
     @Override
     public void setXOffset(final int xOffset) {
         this.xOffset = xOffset;
     }
 
+    /**
+     * Checks if the object is currently animating.
+     *
+     * @return {@code true} if the object is animating, {@code false} otherwise
+     */
     @Override
     public boolean getDoAnimation() {
         return doAnimation;
     }
 
+    /**
+     * Sets the animation tick counter.
+     *
+     * @param aniTick the new animation tick count
+     */
     @Override
     public void setAniTick(final int aniTick) {
         this.aniTick = aniTick;
@@ -159,7 +236,7 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Gets the x-coordinate of the object.
-     * 
+     *
      * @return the x-coordinate
      */
     @Override
@@ -169,7 +246,7 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Sets the x-coordinate of the object.
-     * 
+     *
      * @param x the new x-coordinate
      */
     @Override
@@ -179,7 +256,7 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Gets the y-coordinate of the object.
-     * 
+     *
      * @return the y-coordinate
      */
     @Override
@@ -189,7 +266,7 @@ public abstract class GameObjectImpl implements GameObject {
 
     /**
      * Sets the y-coordinate of the object.
-     * 
+     *
      * @param y the new y-coordinate
      */
     @Override

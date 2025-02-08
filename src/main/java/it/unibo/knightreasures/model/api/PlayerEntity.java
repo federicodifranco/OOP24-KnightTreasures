@@ -16,6 +16,27 @@ public interface PlayerEntity {
     boolean isRight();
 
     /**
+     * Retrieves whether the player is moving to the left.
+     *
+     * @return true if the player is moving left, false otherwise.
+     */
+    boolean isLeft();
+
+    /**
+     * Checks if the player is moving up.
+     *
+     * @return true if the player is moving up, false otherwise.
+     */
+    boolean isUp();
+
+    /**
+     * Checks if the player is moving down.
+     *
+     * @return true if the player is moving down, false otherwise.
+     */
+    boolean isDown();
+
+    /**
      * Retrieves the number of lives the player currently has.
      *
      * @return The number of remaining lives.
@@ -33,6 +54,25 @@ public interface PlayerEntity {
      * Causes the player to lose one heart.
      */
     void loseHeart();
+
+    /**
+     * Updates the player's position based on movement inputs and gravity.
+     */
+    void updatePosition();
+
+    /**
+     * Sets whether the player is moving up.
+     *
+     * @param up true if the player is moving up, false otherwise.
+     */
+    void setUp(boolean up);
+
+    /**
+     * Sets whether the player is moving down.
+     *
+     * @param down true if the player is moving down, false otherwise.
+     */
+    void setDown(boolean down);
 
     /**
      * Renders the player on the screen.

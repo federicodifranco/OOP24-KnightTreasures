@@ -56,11 +56,15 @@ public final class LevelManagerImpl implements LevelManager {
     }
 
     /**
-     * Draws the current level on the screen.
-     *
-     * @param g the graphics object used for rendering.
-     * @param lvlOffset the level's offset.
+     * Method that creates all levels and added in the list.
      */
+    private void buildAllLevels() {
+        BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
+        for (BufferedImage img : allLvl) {
+            levels.add(new LevelImpl(img));
+        }
+    }
+
    @Override
     public void draw(final Graphics g, final int lvlOffset) {
         for (int j = 0; j < Window.TILES_IN_HEIGHT; j++) {
@@ -74,13 +78,6 @@ public final class LevelManagerImpl implements LevelManager {
                         null
                 );
             }
-        }
-    }
-
-    private void buildAllLevels() {
-        BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
-        for (BufferedImage img : allLvl) {
-            levels.add(new LevelImpl(img));
         }
     }
 
@@ -99,18 +96,11 @@ public final class LevelManagerImpl implements LevelManager {
         game.getPlaying().getObjectManager().loadObjects(newLevel);
     }
 
-    /**
-     * Updates the state of the level (currently empty, reserved for future updates).
-     */
+    @Override
     public void update() {
         // Future level updates will go here.
     }
 
-    /**
-     * Gets the current level instance.
-     *
-     * @return the current level.
-     */
    @Override
     public LevelImpl getCurrentLevel() {
         return this.levels.get(lvlIndex);

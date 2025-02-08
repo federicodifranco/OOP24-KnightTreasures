@@ -88,11 +88,6 @@ public final class GameOver implements View {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 
-    /**
-     * Draws the Game Over screen, including buttons.
-     *
-     * @param g The graphics context used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
@@ -102,12 +97,6 @@ public final class GameOver implements View {
         home.draw(g);
     }
 
-    /**
-     * Handles keyboard input.
-     * Pressing ESC returns to the main menu.
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -115,20 +104,12 @@ public final class GameOver implements View {
         }
     }
 
-    /**
-     * Updates the button states.
-     */
     @Override
     public void update() {
         restart.update();
         home.update();
     }
 
-    /**
-     * Handles mouse movement events to update button hover states.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         restart.setMouseOver(false);
@@ -141,11 +122,6 @@ public final class GameOver implements View {
         }
     }
 
-    /**
-     * Handles mouse release events and performs the corresponding actions.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (isIn(home, e) && home.isMousePressed()) {
@@ -164,11 +140,6 @@ public final class GameOver implements View {
         restart.resetBools();
     }
 
-    /**
-     * Handles mouse press events to mark buttons as pressed.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         if (isIn(home, e)) {
@@ -178,21 +149,11 @@ public final class GameOver implements View {
         }
     }
 
-    /**
-     * Handles mouse click events.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         // No action required on click
     }
 
-    /**
-     * Handles key release events.
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
         // No action required for key release

@@ -96,9 +96,6 @@ public final class Menu extends State implements View {
         }
     }
 
-    /**
-     * Updates the state of menu buttons.
-     */
     @Override
     public void update() {
         for (final MenuButtonImpl mb : btns) {
@@ -106,11 +103,6 @@ public final class Menu extends State implements View {
         }
     }
 
-    /**
-     * Draws the menu UI elements.
-     *
-     * @param g the graphics object used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         g.drawImage(homeBackgroundImg, 0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT, null);
@@ -122,11 +114,6 @@ public final class Menu extends State implements View {
         }
     }
 
-    /**
-     * Handles mouse press events.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         for (final MenuButtonImpl mb : btns) {
@@ -136,11 +123,6 @@ public final class Menu extends State implements View {
         }
     }
 
-    /**
-     * Handles mouse release events.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         for (final MenuButtonImpl mb : btns) {
@@ -154,11 +136,6 @@ public final class Menu extends State implements View {
         resetButtons();
     }
 
-    /**
-     * Handles mouse movement events.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         for (final MenuButtonImpl mb : btns) {
@@ -172,31 +149,16 @@ public final class Menu extends State implements View {
         }
     }
 
-    /**
-     * Handles key press events.
-     *
-     * @param e the KeyEvent.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
         // No key press handling yet
     }
 
-    /**
-     * Handles key release events.
-     *
-     * @param e the KeyEvent.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
         // No key release handling yet
     }
 
-    /**
-     * Handles mouse click events.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         // No mouse click handling yet

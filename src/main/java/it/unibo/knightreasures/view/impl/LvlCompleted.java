@@ -96,20 +96,12 @@ public final class LvlCompleted implements View {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 
-    /**
-     * Updates the buttons' states.
-     */
     @Override
     public void update() {
         next.update();
         home.update();
     }
 
-    /**
-     * Draws the level completed screen and its components.
-     *
-     * @param g The graphics context used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
@@ -124,21 +116,11 @@ public final class LvlCompleted implements View {
         stars.draw(g);
     }
 
-    /**
-     * Handles mouse click events.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         // No action required on click
     }
 
-    /**
-     * Handles mouse press events.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         if (isIn(home, e)) {
@@ -148,11 +130,6 @@ public final class LvlCompleted implements View {
         }
     }
 
-    /**
-     * Handles mouse release events and performs the corresponding actions.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (isIn(home, e) && home.isMousePressed()) {
@@ -167,11 +144,6 @@ public final class LvlCompleted implements View {
         next.resetBools();
     }
 
-    /**
-     * Handles mouse movement events and updates button hover states.
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         next.setMouseOver(false);
@@ -184,21 +156,11 @@ public final class LvlCompleted implements View {
         }
     }
 
-    /**
-     * Handles key press events.
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
         // No action required for key press
     }
 
-    /**
-     * Handles key release events.
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
         // No action required for key release

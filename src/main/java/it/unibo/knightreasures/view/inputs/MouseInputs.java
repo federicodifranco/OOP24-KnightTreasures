@@ -12,7 +12,9 @@ import it.unibo.knightreasures.view.impl.ApplicationPanel;
  */
 public final class MouseInputs implements MouseListener, MouseMotionListener {
 
-    /** Reference to the game panel. */
+    /**
+     * Reference to the game panel.
+     */
     private final ApplicationPanel gamePanel;
 
     /**
@@ -32,17 +34,14 @@ public final class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(final MouseEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().mouseClicked(e);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().mouseClicked(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().mouseClicked(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -54,17 +53,14 @@ public final class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(final MouseEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().mousePressed(e);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().mousePressed(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().mousePressed(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -76,17 +72,14 @@ public final class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(final MouseEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().mouseReleased(e);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().mouseReleased(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().mouseReleased(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -128,17 +121,14 @@ public final class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseMoved(final MouseEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().mouseMoved(e);
-                break;
-                case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().mouseMoved(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().mouseMoved(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 }

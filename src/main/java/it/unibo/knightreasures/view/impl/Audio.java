@@ -16,14 +16,7 @@ import it.unibo.knightreasures.view.api.View;
  */
 public final class Audio implements View {
 
-    /**
-     * Array containing the sound buttons for volume control.
-     */
     private final SoundButtonImpl[] btns = new SoundButtonImpl[ButtonsValues.AUDIO_NUM_BUTTONS];
-
-    /**
-     * Reference to the main game application.
-     */
     private final ApplicationImpl game;
 
     /**
@@ -53,8 +46,16 @@ public final class Audio implements View {
     }
 
     /**
-     * Updates the state of the audio buttons.
+     * Checks if the mouse event occurred within a button's bounds.
+     *
+     * @param e the MouseEvent.
+     * @param b the SoundButton to check.
+     * @return true if the mouse is inside the button's bounds, false otherwise.
      */
+    private boolean isIn(final MouseEvent e, final SoundButtonImpl b) {
+        return b.getBounds().contains(e.getX(), e.getY());
+    }
+
     @Override
     public void update() {
         for (final SoundButtonImpl sb : btns) {
@@ -62,11 +63,6 @@ public final class Audio implements View {
         }
     }
 
-    /**
-     * Draws the audio buttons.
-     *
-     * @param g the graphics object used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         for (final SoundButtonImpl sb : btns) {
@@ -74,11 +70,6 @@ public final class Audio implements View {
         }
     }
 
-    /**
-     * Handles mouse press events on volume buttons.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         if (isIn(e, btns[ButtonsValues.VOLUME_OFF])) {
@@ -88,11 +79,6 @@ public final class Audio implements View {
         }
     }
 
-    /**
-     * Handles mouse release events, toggling the audio state.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (isIn(e, btns[ButtonsValues.VOLUME_ON])
@@ -110,11 +96,6 @@ public final class Audio implements View {
         btns[ButtonsValues.VOLUME_ON].resetBools();
     }
 
-    /**
-     * Handles mouse movement over the buttons.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         btns[ButtonsValues.VOLUME_OFF].setMouseOver(false);
@@ -127,42 +108,16 @@ public final class Audio implements View {
         }
     }
 
-    /**
-     * Checks if the mouse event occurred within a button's bounds.
-     *
-     * @param e the MouseEvent.
-     * @param b the SoundButton to check.
-     * @return true if the mouse is inside the button's bounds, false otherwise.
-     */
-    private boolean isIn(final MouseEvent e, final SoundButtonImpl b) {
-        return b.getBounds().contains(e.getX(), e.getY());
-    }
-
-    /**
-     * Handles mouse click events.
-     *
-     * @param e the MouseEvent.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         // No action needed
     }
 
-    /**
-     * Handles key press events.
-     *
-     * @param e the KeyEvent.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
         // No action needed
     }
 
-    /**
-     * Handles key release events.
-     *
-     * @param e the KeyEvent.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
         // No action needed

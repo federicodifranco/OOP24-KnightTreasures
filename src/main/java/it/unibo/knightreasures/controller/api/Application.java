@@ -13,7 +13,7 @@ import it.unibo.knightreasures.view.impl.Settings;
  * It manages the game states, rendering, and audio functionalities.
  */
 public interface Application {
-    
+
     /**
      * Updates the current state of the application.
      */

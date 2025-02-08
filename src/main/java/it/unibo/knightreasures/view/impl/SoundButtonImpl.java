@@ -14,30 +14,9 @@ import it.unibo.knightreasures.view.api.SoundButton;
  */
 public final class SoundButtonImpl extends PauseButtonImpl implements SoundButton {
 
-    /**
-     * Array containing images for different button states.
-     */
     private BufferedImage[] soundImgs;
-
-    /**
-     * Index indicating the current button state.
-     */
     private int index;
-
-    /**
-     * Indicates whether the mouse is hovering over the button.
-     */
-    private boolean mouseOver;
-
-    /**
-     * Indicates whether the button is pressed.
-     */
-    private boolean mousePressed;
-
-    /**
-     * Indicates whether the sound is muted.
-     */
-    private boolean muted;
+    private boolean mouseOver, mousePressed, muted;
 
     /**
      * Constructs a SoundButton instance.
@@ -66,19 +45,11 @@ public final class SoundButtonImpl extends PauseButtonImpl implements SoundButto
         }
     }
 
-    /**
-     * Draws the sound button on the screen.
-     *
-     * @param g the graphics object used for rendering.
-     */
    @Override
     public void draw(final Graphics g) {
         g.drawImage(soundImgs[index], getX(), getY(), getWidth(), getHeight(), null);
     }
 
-    /**
-     * Updates the button state based on interactions.
-     */
    @Override
     public void update() {
         if (muted) {
@@ -95,70 +66,37 @@ public final class SoundButtonImpl extends PauseButtonImpl implements SoundButto
         }
     }
 
-    /**
-     * Checks if the mouse is hovering over the button.
-     *
-     * @return true if the mouse is over the button, false otherwise.
-     */
    @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
 
-    /**
-     * Sets whether the mouse is hovering over the button.
-     *
-     * @param mouseOver true if the mouse is over the button, false otherwise.
-     */
    @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
 
-    /**
-     * Checks if the button is pressed.
-     *
-     * @return true if the button is pressed, false otherwise.
-     */
    @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
 
-    /**
-     * Sets whether the button is pressed.
-     *
-     * @param mousePressed true if the button is pressed, false otherwise.
-     */
    @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
 
-    /**
-     * Resets the button state flags.
-     */
    @Override
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;
     }
 
-    /**
-     * Checks if the sound is muted.
-     *
-     * @return true if the sound is muted, false otherwise.
-     */
    @Override
     public boolean isMuted() {
         return muted;
     }
 
-    /**
-     * Sets the muted state of the button.
-     *
-     * @param muted true to mute the sound, false to unmute.
-     */
    @Override
     public void setMuted(final boolean muted) {
         this.muted = muted;

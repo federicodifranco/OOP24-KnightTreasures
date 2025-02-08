@@ -19,9 +19,6 @@ import it.unibo.knightreasures.view.impl.LevelImpl;
  */
 public final class EnemyManagerImpl implements EnemyManager {
 
-    private static final int SKELETON_STATES = 5;
-    private static final int SKELETON_ANIMATION_FRAMES = 11;
-
     private final GameplayImpl playing;
     private BufferedImage[][] skeletonArr;
     private List<SkeletonImpl> skeletons = new ArrayList<>();
@@ -34,6 +31,24 @@ public final class EnemyManagerImpl implements EnemyManager {
     public EnemyManagerImpl(final GameplayImpl playing) {
         this.playing = playing;
         loadEnemyImgs();
+    }
+
+    /**
+     * Loads skeleton enemy images from resources.
+     */
+    private void loadEnemyImgs() {
+        skeletonArr = new BufferedImage[SkeletonsValues.SKELETON_STATES][SkeletonsValues.SKELETON_ANIMATION_FRAMES];
+        final BufferedImage temp = ResourceFuncUtilities.loadSources(Images.SKELETON);
+        for (int j = 0; j < skeletonArr.length; j++) {
+            for (int i = 0; i < skeletonArr[j].length; i++) {
+                skeletonArr[j][i] = temp.getSubimage(
+                    i * Skeletons.WIDTH_DEFAULT,
+                    j * Skeletons.HEIGHT_DEFAULT,
+                    Skeletons.WIDTH_DEFAULT,
+                    Skeletons.HEIGHT_DEFAULT
+                );
+            }
+        }
     }
 
     /**
@@ -99,25 +114,6 @@ public final class EnemyManagerImpl implements EnemyManager {
                 (int) skt.getHitbox().y - Skeletons.DRAW_OFFSET_Y, 
                 Skeletons.WIDTH * skt.flipW(), 
                 Skeletons.HEIGHT, null);
-            }
-            //skt.drawHitbox(g, xLvlOffset);
-        }
-    }
-
-    /**
-     * Loads skeleton enemy images from resources.
-     */
-    private void loadEnemyImgs() {
-        skeletonArr = new BufferedImage[SKELETON_STATES][SKELETON_ANIMATION_FRAMES];
-        final BufferedImage temp = ResourceFuncUtilities.loadSources(Images.SKELETON);
-        for (int j = 0; j < skeletonArr.length; j++) {
-            for (int i = 0; i < skeletonArr[j].length; i++) {
-                skeletonArr[j][i] = temp.getSubimage(
-                    i * Skeletons.WIDTH_DEFAULT,
-                    j * Skeletons.HEIGHT_DEFAULT,
-                    Skeletons.WIDTH_DEFAULT,
-                    Skeletons.HEIGHT_DEFAULT
-                );
             }
         }
     }

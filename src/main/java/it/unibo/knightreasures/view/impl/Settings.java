@@ -73,7 +73,18 @@ public class Settings extends State implements View {
     }
 
     /**
-     * Updates the settings menu components, including audio and buttons.
+     * Checks if the given mouse event occurred within the bounds of a button.
+     *
+     * @param e The mouse event.
+     * @param h The button to check.
+     * @return {@code true} if the mouse event is inside the button's bounds, otherwise {@code false}.
+     */
+    private boolean isIn(final MouseEvent e, final ResumeRestartHomeButtonsImpl h) {
+        return h.getBounds().contains(e.getX(), e.getY());
+    }
+
+    /**
+     * Updates the settings menu, including the audio settings and home button state.
      */
     @Override
     public void update() {
@@ -82,9 +93,9 @@ public class Settings extends State implements View {
     }
 
     /**
-     * Draws the settings menu on the screen.
+     * Draws the settings menu, including the background, settings panel, audio controls, and home button.
      *
-     * @param g The graphics context used for rendering.
+     * @param g The graphics object used for rendering.
      */
     @Override
     public void draw(final Graphics g) {
@@ -95,9 +106,9 @@ public class Settings extends State implements View {
     }
 
     /**
-     * Handles mouse press events for interacting with the settings menu.
+     * Handles mouse press events. Detects if the user clicks on the home button or interacts with audio settings.
      *
-     * @param e The mouse event.
+     * @param e The mouse event containing the coordinates of the mouse press.
      */
     @Override
     public void mousePressed(final MouseEvent e) {
@@ -109,9 +120,9 @@ public class Settings extends State implements View {
     }
 
     /**
-     * Handles mouse release events, confirming interactions with buttons.
+     * Handles mouse release events. If the home button was pressed, it navigates back to the main menu.
      *
-     * @param e The mouse event.
+     * @param e The mouse event containing the coordinates of the mouse release.
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
@@ -126,9 +137,9 @@ public class Settings extends State implements View {
     }
 
     /**
-     * Handles mouse movement events, updating button hover states.
+     * Handles mouse movement events. Updates the hover state of the home button.
      *
-     * @param e The mouse event.
+     * @param e The mouse event containing the coordinates of the mouse movement.
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
@@ -140,41 +151,15 @@ public class Settings extends State implements View {
         }
     }
 
-    /**
-     * Handles key press events (currently unused).
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
     }
 
-    /**
-     * Handles key release events (currently unused).
-     *
-     * @param e The key event.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
     }
 
-    /**
-     * Handles mouse click events (currently unused).
-     *
-     * @param e The mouse event.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
-    }
-
-    /**
-     * Checks if the given mouse event occurred within the bounds of a button.
-     *
-     * @param e The mouse event.
-     * @param h The button to check.
-     * @return {@code true} if the mouse event is inside the button's bounds, otherwise {@code false}.
-     */
-    private boolean isIn(final MouseEvent e, final ResumeRestartHomeButtonsImpl h) {
-        return h.getBounds().contains(e.getX(), e.getY());
     }
 }

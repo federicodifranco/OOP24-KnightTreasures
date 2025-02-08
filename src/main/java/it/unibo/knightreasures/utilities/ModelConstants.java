@@ -244,6 +244,18 @@ public final class ModelConstants {
          */
         public static final int RANGE_TO_SEE_PLAYER = 5;
 
+        /**
+         * Number of possible states a skeleton enemy can have. These states may
+         * include idle, running, attacking, hurt, and dying.
+         */
+        public static final int SKELETON_STATES = 5;
+
+        /**
+         * Number of animation frames used for the skeleton's movement and
+         * actions. This determines the smoothness of the animation cycle.
+         */
+        public static final int SKELETON_ANIMATION_FRAMES = 11;
+
     }
 
     /**

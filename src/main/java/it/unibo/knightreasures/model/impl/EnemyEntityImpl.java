@@ -34,8 +34,8 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
     public EnemyEntityImpl(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
         initHitBox(width, height);
-        maxHealth = SkeletonsValues.NUM_LIVES;
-        currentHealth = maxHealth;
+        setMaxHealth(SkeletonsValues.NUM_LIVES);
+        setCurrentHealth(getMaxHealth());
     }
 
     private int getSpriteAmount(final int enemyState) {
@@ -196,8 +196,8 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      */
     @Override
     public void hurt(final int amount) {
-        currentHealth -= amount;
-        if (currentHealth <= 0) {
+        setCurrentHealth(getCurrentHealth() - amount);
+        if (getCurrentHealth() <= 0) {
             newState(SkeletonsValues.DIE);
         } else {
             newState(SkeletonsValues.HURT);
@@ -222,7 +222,7 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         getHitbox().x = getX();
         getHitbox().y = getY();
         firstUpdate = true;
-        currentHealth = maxHealth;
+        setCurrentHealth(getMaxHealth());
         newState(SkeletonsValues.IDLE);
         active = true;
         setAirSpeed(0);

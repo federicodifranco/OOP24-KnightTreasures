@@ -29,7 +29,8 @@ public final class HelpMethods {
     }
 
     /**
-     * Determines the x-coordinate position next to a wall when an entity collides.
+     * Determines the x-coordinate position next to a wall when an entity
+     * collides.
      *
      * @param hitbox the entity's hitbox.
      * @param xSpeed the speed of the entity along the x-axis.
@@ -47,9 +48,10 @@ public final class HelpMethods {
     }
 
     /**
-     * Determines the y-coordinate position next to a wall when an entity collides.
+     * Determines the y-coordinate position next to a wall when an entity
+     * collides.
      *
-     * @param hitbox   the entity's hitbox.
+     * @param hitbox the entity's hitbox.
      * @param airSpeed the vertical speed of the entity.
      * @return the corrected y-coordinate next to the wall.
      */
@@ -65,17 +67,18 @@ public final class HelpMethods {
     }
 
     /**
-     * Checks if an entity can move to the specified position based on collision data.
+     * Checks if an entity can move to the specified position based on collision
+     * data.
      *
-     * @param x       the x-coordinate to check.
-     * @param y       the y-coordinate to check.
-     * @param width   the width of the entity.
-     * @param height  the height of the entity.
+     * @param x the x-coordinate to check.
+     * @param y the y-coordinate to check.
+     * @param width the width of the entity.
+     * @param height the height of the entity.
      * @param lvlData the level data containing collision information.
      * @return true if the entity can move to the position, false otherwise.
      */
     public static boolean canMoveHere(final float x, final float y, final float width,
-                                      final float height, final int[][] lvlData) {
+            final float height, final int[][] lvlData) {
         return !isSolid(x, y, lvlData)
                 && !isSolid(x + width, y + height, lvlData)
                 && !isSolid(x + width, y, lvlData)
@@ -85,8 +88,8 @@ public final class HelpMethods {
     /**
      * Checks if the given position is solid (obstacle).
      *
-     * @param x       the x-coordinate to check.
-     * @param y       the y-coordinate to check.
+     * @param x the x-coordinate to check.
+     * @param y the y-coordinate to check.
      * @param lvlData the level data containing collision information.
      * @return true if the position is solid, false otherwise.
      */
@@ -105,8 +108,8 @@ public final class HelpMethods {
     /**
      * Checks if a tile is solid based on its value.
      *
-     * @param xTile   the x-index of the tile.
-     * @param yTile   the y-index of the tile.
+     * @param xTile the x-index of the tile.
+     * @param yTile the y-index of the tile.
      * @param lvlData the level data containing collision information.
      * @return true if the tile is solid, false otherwise.
      */
@@ -120,7 +123,7 @@ public final class HelpMethods {
     /**
      * Checks if the entity is standing on the floor.
      *
-     * @param hitbox  the entity's hitbox.
+     * @param hitbox the entity's hitbox.
      * @param lvlData the level data containing collision information.
      * @return true if the entity is on the floor, false otherwise.
      */
@@ -132,8 +135,8 @@ public final class HelpMethods {
     /**
      * Checks if the specified x position is a floor tile.
      *
-     * @param hitbox  the entity's hitbox.
-     * @param xSpeed  the x-speed of the entity.
+     * @param hitbox the entity's hitbox.
+     * @param xSpeed the x-speed of the entity.
      * @param lvlData the level data containing collision information.
      * @return true if the tile is a floor tile, false otherwise.
      */
@@ -144,9 +147,9 @@ public final class HelpMethods {
     /**
      * Checks if all tiles between xStart and xEnd at height y are walkable.
      *
-     * @param xStart  the starting x-tile index.
-     * @param xEnd    the ending x-tile index.
-     * @param y       the y-tile index.
+     * @param xStart the starting x-tile index.
+     * @param xEnd the ending x-tile index.
+     * @param y the y-tile index.
      * @param lvlData the level data containing collision information.
      * @return true if all tiles are walkable, false otherwise.
      */
@@ -165,14 +168,14 @@ public final class HelpMethods {
     /**
      * Checks if there is a clear sight between two hitboxes.
      *
-     * @param lvlData       the level data containing collision information.
-     * @param firstHitbox   the first entity's hitbox.
-     * @param secondHitbox  the second entity's hitbox.
-     * @param yTile         the y-tile index.
+     * @param lvlData the level data containing collision information.
+     * @param firstHitbox the first entity's hitbox.
+     * @param secondHitbox the second entity's hitbox.
+     * @param yTile the y-tile index.
      * @return true if sight is clear, false otherwise.
      */
     public static boolean isSightClear(final int[][] lvlData, final Rectangle2D.Float firstHitbox,
-                                       final Rectangle2D.Float secondHitbox, final int yTile) {
+            final Rectangle2D.Float secondHitbox, final int yTile) {
         final int firstXTile = (int) (firstHitbox.x / Window.TILES_SIZE);
         final int secondXTile;
 
@@ -189,7 +192,14 @@ public final class HelpMethods {
         }
     }
 
-    public static int[][] createLevel(BufferedImage img) {
+    /**
+     * Generates a 2D array representing the level based on the given image. The
+     * red channel of the image determines the level structure.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a 2D array where each value represents a tile type
+     */
+    public static int[][] createLevel(final BufferedImage img) {
         int[][] level = new int[img.getHeight()][img.getWidth()];
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -204,7 +214,14 @@ public final class HelpMethods {
         return level;
     }
 
-    public static List<SkeletonImpl> getSkeletons(BufferedImage img) {
+    /**
+     * Extracts skeleton enemy positions from the given image. The green channel
+     * is used to determine skeleton placement.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a list of SkeletonImpl objects representing enemies
+     */
+    public static List<SkeletonImpl> getSkeletons(final BufferedImage img) {
         List<SkeletonImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -218,7 +235,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static List<TreasureImpl> getTreasure(BufferedImage img) {
+    /**
+     * Extracts treasure positions from the given image. The blue channel is
+     * used to identify different types of treasures.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a list of TreasureImpl objects representing treasure locations
+     */
+    public static List<TreasureImpl> getTreasure(final BufferedImage img) {
         List<TreasureImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -232,7 +256,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static List<ChestImpl> getChest(BufferedImage img) {
+    /**
+     * Extracts chest positions from the given image. The blue channel is used
+     * to identify chest locations.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a list of ChestImpl objects representing chest locations
+     */
+    public static List<ChestImpl> getChest(final BufferedImage img) {
         List<ChestImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -246,7 +277,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static List<SpikeImpl> getSpike(BufferedImage img) {
+    /**
+     * Extracts spike positions from the given image. The blue channel is used
+     * to determine spike placement.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a list of SpikeImpl objects representing spike locations
+     */
+    public static List<SpikeImpl> getSpike(final BufferedImage img) {
         List<SpikeImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -260,7 +298,14 @@ public final class HelpMethods {
         return list;
     }
 
-    public static Point getPlayerSpawn(BufferedImage img) {
+    /**
+     * Determines the player's spawn position in the level. The green channel is
+     * used to locate the spawn point.
+     *
+     * @param img the BufferedImage representing the level
+     * @return a Point representing the player's spawn position
+     */
+    public static Point getPlayerSpawn(final BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
@@ -272,4 +317,5 @@ public final class HelpMethods {
         }
         return new Point(LevelsValues.FLOOR_OFFSET * Window.TILES_SIZE, LevelsValues.FLOOR_OFFSET * Window.TILES_SIZE);
     }
+
 }

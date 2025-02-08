@@ -35,7 +35,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * Constructs an ObjectManager to manage the level's objects.
      *
      * @param playing The gameplay instance that manages the game state.
-     * @param level   The level manager that contains level data.
+     * @param level The level manager that contains level data.
      */
     public ObjectManagerImpl(final GameplayImpl playing, final LevelManagerImpl level) {
         this.playing = playing;
@@ -44,7 +44,8 @@ public class ObjectManagerImpl implements ObjectManager {
     }
 
     /**
-     * Loads images for all game objects, including treasures, chests, and spikes.
+     * Loads images for all game objects, including treasures, chests, and
+     * spikes.
      */
     private void loadImgs() {
         BufferedImage treasureImg = ResourceFuncUtilities.loadSources(Images.TREASURE);
@@ -79,7 +80,7 @@ public class ObjectManagerImpl implements ObjectManager {
     /**
      * Draws chests on the screen.
      *
-     * @param g          The graphics context used for rendering.
+     * @param g The graphics context used for rendering.
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawChests(final Graphics g, final int xLvlOffset) {
@@ -98,7 +99,7 @@ public class ObjectManagerImpl implements ObjectManager {
     /**
      * Draws treasures on the screen.
      *
-     * @param g          The graphics context used for rendering.
+     * @param g The graphics context used for rendering.
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawTreasures(final Graphics g, final int xLvlOffset) {
@@ -117,7 +118,7 @@ public class ObjectManagerImpl implements ObjectManager {
     /**
      * Draws spikes on the screen.
      *
-     * @param g          The graphics context used for rendering.
+     * @param g The graphics context used for rendering.
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawSpikes(final Graphics g, final int xLvlOffset) {
@@ -152,7 +153,7 @@ public class ObjectManagerImpl implements ObjectManager {
     /**
      * Draws all objects in the game.
      *
-     * @param g          The graphics context used for rendering.
+     * @param g The graphics context used for rendering.
      * @param xLvlOffset The level's horizontal offset.
      */
     @Override

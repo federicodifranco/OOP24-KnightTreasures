@@ -8,11 +8,13 @@ import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 
 /**
- * Represents a skeleton enemy in the game.
+ * Represents a skeleton enemy in the game. The skeleton can move, detect the
+ * player, and attack when in range.
  */
 public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
 
     private int attackxOffsetX;
+    private Rectangle2D.Float attackbox;
 
     /**
      * Constructs a Skeleton enemy at the specified position.
@@ -22,28 +24,35 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
      */
     public SkeletonImpl(final float x, final float y) {
         super(x, y, Skeletons.WIDTH, Skeletons.HEIGHT);
+        this.attackbox = getAttacktbox();
         initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
         initAttackBox();
     }
 
+    /**
+     * Initializes the attack box for the skeleton.
+     */
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(getX(), getY(), Skeletons.ATTACKBOX_WIDTH, Skeletons.ATTACKBOX_HEIGHT);
+        attackbox = new Rectangle2D.Float(getX(), getY(), Skeletons.ATTACKBOX_WIDTH, Skeletons.ATTACKBOX_HEIGHT);
         attackxOffsetX = Skeletons.ATTACKBOX_OFFSET_X;
     }
 
+    /**
+     * Updates the position of the attack box to match the skeleton's movement.
+     */
     private void updateAttackBox() {
-        attackBox.x = getHitbox().x - attackxOffsetX;
-        attackBox.y = getHitbox().y;
+        attackbox.x = getHitbox().x - attackxOffsetX;
+        attackbox.y = getHitbox().y;
     }
 
-    @Override
-    public void update(int[][] lvlData, PlayerEntityImpl player) {
-        updateBehavior(lvlData, player);
-        updateAnimation();
-        updateAttackBox();
-    }
-
-    protected void updateBehavior(int[][] lvlData, PlayerEntityImpl player) {
+    /**
+     * Defines the skeleton's behavior based on its current state. The skeleton
+     * moves, detects the player, and attacks when close.
+     *
+     * @param lvlData the level data for collision and movement checks.
+     * @param player the player entity to track and attack.
+     */
+    protected void updateBehavior(final int[][] lvlData, final PlayerEntityImpl player) {
         if (getFirstupdate()) {
             firstUpdateCheck(lvlData);
         }
@@ -51,10 +60,9 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
             updateInAir(lvlData);
         } else {
             switch (getEnemyState()) {
-                case SkeletonsValues.IDLE:
+                case SkeletonsValues.IDLE ->
                     newState(SkeletonsValues.RUN);
-                    break;
-                case SkeletonsValues.RUN:
+                case SkeletonsValues.RUN -> {
                     if (canSeePlayer(lvlData, player)) {
                         turnTowardsPlayer(player);
                     }
@@ -62,25 +70,52 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
                         newState(SkeletonsValues.ATTACK);
                     }
                     move(lvlData);
-                    break;
-                case SkeletonsValues.ATTACK: {
+                }
+                case SkeletonsValues.ATTACK -> {
                     if (getAniIndex() == 0) {
                         setAttackChecked(false);
                     }
                     if (getAniIndex() == SkeletonsValues.ATTACK_INDEX && !isAttackChecked()) {
-                        checkPlayerHit(attackBox, player);
+                        checkPlayerHit(attackbox, player);
                         setAttackChecked(true);
                     }
+                }
+                default -> {
+                    // No action required for unhandled states
                 }
             }
         }
     }
 
+    /**
+     * Updates the skeleton's behavior, animations, and attack box. This method
+     * is called every frame to ensure that the skeleton reacts appropriately.
+     *
+     * @param lvlData the level data for collision and movement checks.
+     * @param player the player entity to track and attack.
+     */
+    @Override
+    public void update(final int[][] lvlData, final PlayerEntityImpl player) {
+        updateBehavior(lvlData, player);
+        updateAnimation();
+        updateAttackBox();
+    }
+
+    /**
+     * Determines the X-coordinate adjustment needed for flipping the sprite.
+     *
+     * @return the flipped X position based on the walking direction.
+     */
     @Override
     public int flipX() {
         return (getWalkDir() == Directions.LEFT) ? Skeletons.WIDTH : 0;
     }
 
+    /**
+     * Determines the width adjustment needed for flipping the sprite.
+     *
+     * @return -1 if the skeleton is facing left, 1 otherwise.
+     */
     @Override
     public int flipW() {
         return (getWalkDir() == Directions.LEFT) ? -1 : 1;
@@ -88,6 +123,6 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
 
     @Override
     public void update() {
-
+        // Not implemented
     }
 }

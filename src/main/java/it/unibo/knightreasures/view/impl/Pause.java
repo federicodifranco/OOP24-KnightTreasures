@@ -71,9 +71,6 @@ public final class Pause implements View {
         return rrh.getBounds().contains(e.getX(), e.getY());
     }
 
-    /**
-     * Updates the pause menu elements.
-     */
     @Override
     public void update() {
         for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
@@ -82,11 +79,6 @@ public final class Pause implements View {
         this.audio.update();
     }
 
-    /**
-     * Draws the pause menu elements.
-     *
-     * @param g the graphics object used for rendering.
-     */
     @Override
     public void draw(final Graphics g) {
         g.drawImage(pauseImg, pauseX, pauseY, pauseW, pauseH, null);
@@ -96,11 +88,6 @@ public final class Pause implements View {
         audio.draw(g);
     }
 
-    /**
-     * Handles mouse press events on buttons.
-     *
-     * @param e the mouse event.
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON])) {
@@ -114,11 +101,6 @@ public final class Pause implements View {
         }
     }
 
-    /**
-     * Handles mouse release events on buttons.
-     *
-     * @param e the mouse event.
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (isIn(e, resumeRestartHomeButtonsBtns[ButtonsValues.RESUME_BUTTON])) {
@@ -143,11 +125,6 @@ public final class Pause implements View {
         }
     }
 
-    /**
-     * Handles mouse movement events for hover effects.
-     *
-     * @param e the mouse event.
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         for (final ResumeRestartHomeButtonsImpl rrh : resumeRestartHomeButtonsBtns) {
@@ -165,29 +142,14 @@ public final class Pause implements View {
         }
     }
 
-    /**
-     * Handles mouse click events.
-     *
-     * @param e the mouse event.
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
     }
 
-    /**
-     * Handles key press events.
-     *
-     * @param e the key event.
-     */
     @Override
     public void keyPressed(final KeyEvent e) {
     }
 
-    /**
-     * Handles key release events.
-     *
-     * @param e the key event.
-     */
     @Override
     public void keyReleased(final KeyEvent e) {
     }

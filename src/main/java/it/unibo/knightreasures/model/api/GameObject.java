@@ -83,21 +83,21 @@ public interface GameObject {
      *
      * @param aniIndex The new animation index.
      */
-    void setAniIndex(final int aniIndex);
+    void setAniIndex(int aniIndex);
 
     /**
      * Sets the Y offset of the object.
      *
      * @param yOffset The new Y offset.
      */
-    void setYOffset(final int yOffset);
+    void setYOffset(int yOffset);
 
     /**
      * Sets the X offset of the object.
      *
      * @param xOffset The new X offset.
      */
-    void setXOffset(final int xOffset);
+    void setXOffset(int xOffset);
 
     /**
      * Checks whether the object has animation enabled.
@@ -111,7 +111,7 @@ public interface GameObject {
      *
      * @param aniTick The animation tick count.
      */
-    void setAniTick(final int aniTick);
+    void setAniTick(int aniTick);
 
     /**
      * Gets the x-coordinate of the object.
@@ -125,7 +125,7 @@ public interface GameObject {
      * 
      * @param x The new x-coordinate.
      */
-    void setX(final int x);
+    void setX(int x);
 
     /**
      * Gets the y-coordinate of the object.
@@ -139,5 +139,5 @@ public interface GameObject {
      * 
      * @param y The new y-coordinate.
      */
-    void setY(final int y);
+    void setY(int y);
 }

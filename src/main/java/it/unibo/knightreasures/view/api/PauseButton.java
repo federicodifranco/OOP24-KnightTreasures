@@ -76,4 +76,18 @@ public interface PauseButton {
      * @param bounds the new bounding {@link Rectangle}.
      */
     void setBounds(Rectangle bounds);
+
+    /**
+     * Sets the row index of the button sprite.
+     *
+     * @param rowIndex the new row index.
+     */
+    void setRowIndex(int rowIndex);
+
+    /**
+     * Gets the row index of the button sprite.
+     *
+     * @return the row index.
+     */
+    int getRowIndex();
 }

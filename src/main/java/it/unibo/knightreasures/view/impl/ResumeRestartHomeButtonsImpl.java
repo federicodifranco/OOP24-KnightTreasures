@@ -45,9 +45,6 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl implemen
         }
     }
 
-    /**
-     * Updates the button state based on user interactions.
-     */
    @Override
     public void update() {
         index = ButtonsValues.FIRST_ROW_INDEX;
@@ -59,60 +56,32 @@ public final class ResumeRestartHomeButtonsImpl extends PauseButtonImpl implemen
         }
     }
 
-    /**
-     * Draws the button.
-     *
-     * @param g the graphics object used for rendering.
-     */
    @Override
     public void draw(final Graphics g) {
         g.drawImage(rrhButtonsImgs[index], getX(), getY(), getWidth(), getHeight(), null);
     }
 
-    /**
-     * Resets the button states.
-     */
    @Override
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;
     }
 
-    /**
-     * Checks if the mouse is over the button.
-     *
-     * @return true if the mouse is over the button, false otherwise.
-     */
    @Override
     public boolean isMouseOver() {
         return mouseOver;
     }
 
-    /**
-     * Sets whether the mouse is over the button.
-     *
-     * @param mouseOver true if the mouse is over, false otherwise.
-     */
    @Override
     public void setMouseOver(final boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
 
-    /**
-     * Checks if the button is pressed.
-     *
-     * @return true if the button is pressed, false otherwise.
-     */
    @Override
     public boolean isMousePressed() {
         return mousePressed;
     }
 
-    /**
-     * Sets whether the button is pressed.
-     *
-     * @param mousePressed true if the button is pressed, false otherwise.
-     */
    @Override
     public void setMousePressed(final boolean mousePressed) {
         this.mousePressed = mousePressed;

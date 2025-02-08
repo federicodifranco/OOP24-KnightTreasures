@@ -77,6 +77,7 @@ public final class ChestImpl extends GameObjectImpl implements Chest {
      *
      * @param animation {@code true} to start the animation, {@code false} otherwise.
      */
+    @Override
     public void setAnimation(final boolean animation) {
         if (!opened) {
             setDoAnimation(animation);

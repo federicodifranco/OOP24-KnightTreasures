@@ -9,43 +9,16 @@ import it.unibo.knightreasures.view.api.PauseButton;
  */
 public class PauseButtonImpl implements PauseButton {
 
-    /**
-     * The X coordinate of the button.
-     */
-    private int x;
-
-    /**
-     * The Y coordinate of the button.
-     */
-    private int y;
-
-    /**
-     * The width of the button.
-     */
-    private int width;
-
-    /**
-     * The height of the button.
-     */
-    private int height;
-
-    /**
-     * The row index for button sprite selection.
-     */
-    private int rowIndex;
-
-    /**
-     * The bounding box of the button.
-     */
+    private int x, y, width, height, rowIndex;
     private Rectangle bounds;
 
     /**
      * Constructs a PauseButton instance.
      *
-     * @param x        the X coordinate of the button.
-     * @param y        the Y coordinate of the button.
-     * @param width    the width of the button.
-     * @param height   the height of the button.
+     * @param x the X coordinate of the button.
+     * @param y the Y coordinate of the button.
+     * @param width the width of the button.
+     * @param height the height of the button.
      * @param rowIndex the row index for button sprite selection.
      */
     public PauseButtonImpl(final int x, final int y, final int width, final int height, final int rowIndex) {
@@ -69,7 +42,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the X coordinate.
      */
-   @Override
+    @Override
     public int getX() {
         return x;
     }
@@ -79,7 +52,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param x the new X coordinate.
      */
-   @Override
+    @Override
     public void setX(final int x) {
         this.x = x;
     }
@@ -89,7 +62,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the Y coordinate.
      */
-   @Override
+    @Override
     public int getY() {
         return y;
     }
@@ -99,7 +72,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param y the new Y coordinate.
      */
-   @Override
+    @Override
     public void setY(final int y) {
         this.y = y;
     }
@@ -109,7 +82,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the width.
      */
-   @Override
+    @Override
     public int getWidth() {
         return width;
     }
@@ -119,7 +92,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param width the new width.
      */
-   @Override
+    @Override
     public void setWidth(final int width) {
         this.width = width;
     }
@@ -129,7 +102,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the height.
      */
-   @Override
+    @Override
     public int getHeight() {
         return height;
     }
@@ -139,7 +112,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param height the new height.
      */
-   @Override
+    @Override
     public void setHeight(final int height) {
         this.height = height;
     }
@@ -149,6 +122,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the row index.
      */
+    @Override
     public int getRowIndex() {
         return rowIndex;
     }
@@ -158,6 +132,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param rowIndex the new row index.
      */
+    @Override
     public void setRowIndex(final int rowIndex) {
         this.rowIndex = rowIndex;
     }
@@ -167,7 +142,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @return the bounding box.
      */
-   @Override
+    @Override
     public Rectangle getBounds() {
         return bounds;
     }
@@ -177,7 +152,7 @@ public class PauseButtonImpl implements PauseButton {
      *
      * @param bounds the new bounding box.
      */
-   @Override
+    @Override
     public void setBounds(final Rectangle bounds) {
         this.bounds = bounds;
     }

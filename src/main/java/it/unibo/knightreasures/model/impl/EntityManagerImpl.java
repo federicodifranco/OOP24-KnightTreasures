@@ -4,67 +4,21 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.knightreasures.model.api.EntityManager;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Represents a generic entity in the game, providing common functionality for
  * position, dimensions, and hitbox management.
  */
-public abstract class EntityManagerImpl {
+public abstract class EntityManagerImpl implements EntityManager {
 
-    /**
-     * The X coordinate of the entity.
-     */
-    private float x;
-
-    /**
-     * The Y coordinate of the entity.
-     */
-    private float y;
-
-    /**
-     * The width of the entity.
-     */
-    private int width;
-
-    /**
-     * The height of the entity.
-     */
-    private int height;
-
-    protected int currentHealth, maxHealth;
-
-    /**
-     * The hitbox used for collision detection.
-     */
-    private Rectangle2D.Float hitBox;
-
-    protected Rectangle2D.Float attackBox;
-
-    /**
-     * Indicates whether the entity is in the air.
-     */
+    private float x, y;
+    private int width, height;
+    private int currentHealth, maxHealth, aniIndex, aniTick, state;
+    private Rectangle2D.Float hitBox, attackBox;
     private boolean inAir;
-
-    /**
-     * The vertical speed of the entity.
-     */
     private float airSpeed;
-
-    /**
-     * The current animation index.
-     */
-    private int aniIndex;
-
-    /**
-     * The animation tick counter.
-     */
-    private int aniTick;
-
-    /**
-     * The state of the entity.
-     */
-    private int state;
 
     /**
      * Constructs an EntityManager instance.
@@ -98,6 +52,12 @@ public abstract class EntityManagerImpl {
         g.drawRect((int) hitBox.x - lvlOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
+    /**
+     * Draws the attackbox of the entity for debugging purposes.
+     *
+     * @param g the graphics object used for rendering.
+     * @param lvlOffset the level's offset.
+     */
     protected void drawAttackBox(final Graphics g, final int lvlOffset) {
         g.setColor(Color.BLUE);
         g.drawRect((int) attackBox.x - lvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
@@ -117,12 +77,59 @@ public abstract class EntityManagerImpl {
      *
      * @return the hitbox of the entity.
      */
+    @Override
     public Rectangle2D.Float getHitbox() {
         return this.hitBox;
     }
 
+    /**
+     * Gets the hitbox of the entity.
+     *
+     * @return the hitbox of the entity.
+     */
+    @Override
+    public Rectangle2D.Float getAttacktbox() {
+        return this.attackBox;
+    }
+
+    /**
+     * Gets the player's health.
+     *
+     * @return the current player's health.
+     */
+    @Override
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    /**
+     * Sets the player's health.
+     *
+     * @param currentHealth the current player's health.
+     */
+    @Override
+    public void setCurrentHealth(final int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    /**
+     * Gets the player's max health.
+     *
+     * @return the player's max health.
+     */
+    @Override
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    /**
+     * Sets the player's max health.
+     *
+     * @param maxHealth the max player's health.
+     */
+    @Override
+    public void setMaxHealth(final int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     /**
@@ -130,6 +137,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the X coordinate.
      */
+    @Override
     public float getX() {
         return this.x;
     }
@@ -139,6 +147,7 @@ public abstract class EntityManagerImpl {
      *
      * @param x the new X coordinate.
      */
+    @Override
     public void setX(final float x) {
         this.x = x;
     }
@@ -148,6 +157,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the Y coordinate.
      */
+    @Override
     public float getY() {
         return this.y;
     }
@@ -157,6 +167,7 @@ public abstract class EntityManagerImpl {
      *
      * @param y the new Y coordinate.
      */
+    @Override
     public void setY(final float y) {
         this.y = y;
     }
@@ -166,6 +177,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the width of the entity.
      */
+    @Override
     public int getWidth() {
         return this.width;
     }
@@ -175,6 +187,7 @@ public abstract class EntityManagerImpl {
      *
      * @param width the new width.
      */
+    @Override
     public void setWidth(final int width) {
         this.width = width;
     }
@@ -184,6 +197,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the height of the entity.
      */
+    @Override
     public int getHeight() {
         return this.height;
     }
@@ -193,6 +207,7 @@ public abstract class EntityManagerImpl {
      *
      * @param height the new height.
      */
+    @Override
     public void setHeight(final int height) {
         this.height = height;
     }
@@ -202,6 +217,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the current state.
      */
+    @Override
     public int getState() {
         return this.state;
     }
@@ -211,6 +227,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the animation index.
      */
+    @Override
     public int getAniIndex() {
         return this.aniIndex;
     }
@@ -220,6 +237,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the animation tick.
      */
+    @Override
     public int getTick() {
         return this.aniTick;
     }
@@ -229,6 +247,7 @@ public abstract class EntityManagerImpl {
      *
      * @return true if the entity is in the air, false otherwise.
      */
+    @Override
     public boolean isInAir() {
         return this.inAir;
     }
@@ -238,6 +257,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the air speed.
      */
+    @Override
     public float getAirSpeed() {
         return this.airSpeed;
     }
@@ -247,6 +267,7 @@ public abstract class EntityManagerImpl {
      *
      * @param inAir true if the entity is in the air, false otherwise.
      */
+    @Override
     public void setInAir(final boolean inAir) {
         this.inAir = inAir;
     }
@@ -256,6 +277,7 @@ public abstract class EntityManagerImpl {
      *
      * @param airSpeed the new air speed.
      */
+    @Override
     public void setAirSpeed(final float airSpeed) {
         this.airSpeed = airSpeed;
     }
@@ -265,6 +287,7 @@ public abstract class EntityManagerImpl {
      *
      * @param state the new state.
      */
+    @Override
     public void setState(final int state) {
         this.state = state;
     }
@@ -274,6 +297,7 @@ public abstract class EntityManagerImpl {
      *
      * @param aniIndex the new animation index.
      */
+    @Override
     public void setAniIndex(final int aniIndex) {
         this.aniIndex = aniIndex;
     }
@@ -283,6 +307,7 @@ public abstract class EntityManagerImpl {
      *
      * @param aniTick the new animation tick.
      */
+    @Override
     public void setAniTick(final int aniTick) {
         this.aniTick = aniTick;
     }
@@ -290,6 +315,7 @@ public abstract class EntityManagerImpl {
     /**
      * Increments the animation index.
      */
+    @Override
     public void incrementAniIndex() {
         this.aniIndex++;
     }
@@ -297,6 +323,7 @@ public abstract class EntityManagerImpl {
     /**
      * Increments the animation tick.
      */
+    @Override
     public void incrementAniTick() {
         this.aniTick++;
     }

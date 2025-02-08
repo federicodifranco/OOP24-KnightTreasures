@@ -7,12 +7,14 @@ import it.unibo.knightreasures.utilities.Gamestate;
 import it.unibo.knightreasures.view.impl.ApplicationPanel;
 
 /**
- * Handles keyboard inputs for the game, forwarding key events
- * to the appropriate game state.
+ * Handles keyboard inputs for the game, forwarding key events to the
+ * appropriate game state.
  */
 public final class KeyboardInputs implements KeyListener {
 
-    /** Reference to the game panel. */
+    /**
+     * Reference to the game panel.
+     */
     private final ApplicationPanel gamePanel;
 
     /**
@@ -35,24 +37,22 @@ public final class KeyboardInputs implements KeyListener {
     }
 
     /**
-     * Handles key press events and processes them based on the current game state.
+     * Handles key press events and processes them based on the current game
+     * state.
      *
      * @param e the key event.
      */
     @Override
     public void keyPressed(final KeyEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().keyPressed(e);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().keyPressed(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().keyPressed(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -65,17 +65,14 @@ public final class KeyboardInputs implements KeyListener {
     @Override
     public void keyReleased(final KeyEvent e) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.gamePanel.getGame().getMenu().keyReleased(e);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.gamePanel.getGame().getSettings().keyReleased(e);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gamePanel.getGame().getPlaying().keyReleased(e);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 }

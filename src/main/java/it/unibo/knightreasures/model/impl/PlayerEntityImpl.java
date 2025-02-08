@@ -22,51 +22,19 @@ import it.unibo.knightreasures.view.impl.HeartsImpl;
  */
 public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerEntity {
 
-    /**
-     * The player's animation frames.
-     */
     private BufferedImage[][] animation;
-
     private final HeartsImpl hearts;
-
-    /**
-     * Animation tick counter.
-     */
-    private int aniTick;
-
-    /**
-     * Current animation frame index.
-     */
-    private int aniIndex;
-
-    private int flipX = PlayerValues.FLIPX_DEFAULT, flipW = PlayerValues.FLIPW_DEFAULT, playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
-
-    /**
-     * Player movement and state flags.
-     */
-    private boolean moving, attacking, attackChecked, inAir;
-
-    /**
-     * Movement direction flags.
-     */
-    private boolean left, right, up, down, jump;
-
-    /**
-     * Current action state of the player.
-     */
-    private int playerAction = PlayerValues.IDLE;
-
-    /**
-     * Level data for collision detection.
-     */
-    private int[][] lvlData;
-
-    /**
-     * Vertical speed of the player when in air.
-     */
-    private float airSpeed;
-
     private final GameplayImpl playing;
+    private int aniTick, aniIndex;
+    private int flipX = PlayerValues.FLIPX_DEFAULT;
+    private int flipW = PlayerValues.FLIPW_DEFAULT;
+    private int playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
+    private int playerAction = PlayerValues.IDLE;
+    private int[][] lvlData;
+    private boolean moving, attacking, attackChecked, inAir;
+    private boolean left, right, up, down, jump;
+    private float airSpeed;
+    private Rectangle2D.Float attackbox;
 
     /**
      * Constructs a new PlayerEntity with the specified parameters.
@@ -75,36 +43,45 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
      * @param y the initial y-coordinate of the player.
      * @param width the width of the player entity.
      * @param height the height of the player entity.
+     * @param playing the current gameplay.
+     * @param hearts the hearts of the player entity.
      */
-    public PlayerEntityImpl(final float x, final float y, final int width, final int height, GameplayImpl playing, HeartsImpl hearts) {
+    public PlayerEntityImpl(final float x, final float y, final int width, final int height,
+                            final GameplayImpl playing, final HeartsImpl hearts) {
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;
+        this.attackbox = getAttacktbox();
         loadAnimations();
         initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
         initAttackBox();
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(getX(), getY(), Player.ATTACKBOX_WIDTH, Player.ATTACKBOX_HEIGHT);
+        attackbox = new Rectangle2D.Float(getX(), getY(), Player.ATTACKBOX_WIDTH, Player.ATTACKBOX_HEIGHT);
     }
 
     private void checkAttack() {
-        if (attackChecked || aniIndex != PlayerValues.ATTACK_INDEX) return;
+        if (attackChecked || aniIndex != PlayerValues.ATTACK_INDEX) {
+            return;
+        }
         attackChecked = true;
-        playing.checkEnemyHit(attackBox);
+        playing.checkEnemyHit(attackbox);
     }
 
     private void updateAttackBox() {
         if (right && left) {
-            if (flipW == PlayerValues.FLIPW_DEFAULT) attackBox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
-            else attackBox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
+            if (flipW == PlayerValues.FLIPW_DEFAULT) {
+                attackbox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
+            } else {
+                attackbox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
+            }
         } else if (right) {
-            attackBox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
+            attackbox.x = getHitbox().x + getHitbox().width + Player.ATTACKBOX_OFFSET;
         } else if (left) {
-            attackBox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
+            attackbox.x = getHitbox().x - getHitbox().width - Player.ATTACKBOX_OFFSET;
         }
-        attackBox.y = getHitbox().y + Player.ATTACKBOX_OFFSET;
+        attackbox.y = getHitbox().y + Player.ATTACKBOX_OFFSET;
     }
 
     private void checkChestOpened() {
@@ -141,22 +118,6 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
     }
 
     /**
-     * Renders the player on the screen.
-     *
-     * @param g the graphics object used for rendering.
-     * @param lvlOffset the level's offset.
-     */
-    @Override
-    public void render(final Graphics g, final int lvlOffset) {
-        g.drawImage(animation[playerAction][aniIndex],
-                (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset + flipX - playerOffsetX,
-                (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
-                this.getWidth() * flipW, this.getHeight(), null);
-        // drawHitbox(g, lvlOffset);
-        // drawAttackBox(g, lvlOffset);
-    }
-
-    /**
      * Updates the player's animation based on state changes.
      */
     private void updateAnimation() {
@@ -173,8 +134,69 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
     }
 
     /**
-     * Updates the player's position based on movement inputs and gravity.
+     * Makes the player jump if they are not already in the air.
      */
+    private void jump() {
+        if (inAir) {
+            return;
+        }
+        inAir = true;
+        airSpeed = Physics.JUMP_SPEED;
+    }
+
+    /**
+     * Resets the player's in-air state and velocity.
+     */
+    private void resetInAir() {
+        inAir = false;
+        airSpeed = 0;
+    }
+
+    /**
+     * Updates the player's x-position based on movement and collision
+     * detection.
+     *
+     * @param xSpeed the speed at which the player moves horizontally.
+     */
+    private void updateXPos(final float xSpeed) {
+        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
+            getHitbox().x += xSpeed;
+        } else {
+            getHitbox().x = HelpMethods.getEntityXPosNextToWall(getHitbox(), xSpeed);
+        }
+    }
+
+    /**
+     * Resets the animation tick and index.
+     */
+    private void resetAniTick() {
+        aniTick = 0;
+        aniIndex = 0;
+    }
+
+    /**
+     * Loads the player's animation sprites.
+     */
+    private void loadAnimations() {
+        final BufferedImage playerImg = ResourceFuncUtilities.loadSources(Images.PLAYER);
+        animation = new BufferedImage[PlayerValues.SPRITES_ROWS][PlayerValues.SPRITES_COLUMNS];
+        for (int j = 0; j < animation.length; j++) {
+            for (int i = 0; i < animation[j].length; i++) {
+                animation[j][i] = playerImg.getSubimage(i * Player.PLAYER_WIDTH, j * Player.PLAYER_HEIGHT,
+                        Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
+            }
+        }
+    }
+
+    @Override
+    public void render(final Graphics g, final int lvlOffset) {
+        g.drawImage(animation[playerAction][aniIndex],
+                (int) (getHitbox().x - Player.X_DRAW_OFFSET) - lvlOffset + flipX - playerOffsetX,
+                (int) (getHitbox().y - Player.Y_DRAW_OFFSET),
+                this.getWidth() * flipW, this.getHeight(), null);
+    }
+
+    @Override
     public void updatePosition() {
         moving = false;
         if (jump) {
@@ -182,7 +204,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         }
         if (!inAir && (!left && !right || left && right)) {
             return;
-        }        
+        }
         float xSpeed = 0;
         if (left) {
             xSpeed -= Physics.SPEED;
@@ -228,8 +250,12 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
     @Override
     public void loseHeart() {
         int currentHearts = hearts.getCurrentHearts();
-        if (currentHearts > 0) hearts.setCurrentHearts(currentHearts - PlayerValues.DAMAGE);
-        if (currentHearts < 0) hearts.setCurrentHearts(PlayerValues.NO_LIVES);
+        if (currentHearts > 0) {
+            hearts.setCurrentHearts(currentHearts - PlayerValues.DAMAGE);
+        }
+        if (currentHearts < 0) {
+            hearts.setCurrentHearts(PlayerValues.NO_LIVES);
+        }
     }
 
     @Override
@@ -242,42 +268,6 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         hearts.setCurrentHearts(PlayerValues.NUM_LIVES);
     }
 
-    /**
-     * Makes the player jump if they are not already in the air.
-     */
-    private void jump() {
-        if (inAir) {
-            return;
-        }
-        inAir = true;
-        airSpeed = Physics.JUMP_SPEED;
-    }
-
-    /**
-     * Resets the player's in-air state and velocity.
-     */
-    private void resetInAir() {
-        inAir = false;
-        airSpeed = 0;
-    }
-
-    /**
-     * Updates the player's x-position based on movement and collision
-     * detection.
-     *
-     * @param xSpeed the speed at which the player moves horizontally.
-     */
-    private void updateXPos(final float xSpeed) {
-        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
-            getHitbox().x += xSpeed;
-        } else {
-            getHitbox().x = HelpMethods.getEntityXPosNextToWall(getHitbox(), xSpeed);
-        }
-    }
-
-    /**
-     * Sets the player's animation based on their current state.
-     */
     @Override
     public void setAnimation() {
         final int startAni = playerAction;
@@ -297,33 +287,6 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         }
     }
 
-    /**
-     * Resets the animation tick and index.
-     */
-    private void resetAniTick() {
-        aniTick = 0;
-        aniIndex = 0;
-    }
-
-    /**
-     * Loads the player's animation sprites.
-     */
-    private void loadAnimations() {
-        final BufferedImage playerImg = ResourceFuncUtilities.loadSources(Images.PLAYER);
-        animation = new BufferedImage[PlayerValues.SPRITES_ROWS][PlayerValues.SPRITES_COLUMNS];
-        for (int j = 0; j < animation.length; j++) {
-            for (int i = 0; i < animation[j].length; i++) {
-                animation[j][i] = playerImg.getSubimage(i * Player.PLAYER_WIDTH, j * Player.PLAYER_HEIGHT,
-                        Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
-            }
-        }
-    }
-
-    /**
-     * Loads level data for collision detection.
-     *
-     * @param lvlData the level data array.
-     */
     @Override
     public void loadLvlData(final int[][] lvlData) {
         this.lvlData = lvlData.clone();
@@ -332,9 +295,6 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         }
     }
 
-    /**
-     * Resets movement direction booleans.
-     */
     @Override
     public void resetDirBooleans() {
         left = false;
@@ -343,97 +303,52 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         down = false;
     }
 
-    /**
-     * Sets the jump state of the player.
-     *
-     * @param jump true if the player is jumping, false otherwise.
-     */
     @Override
     public void setJump(final boolean jump) {
         this.jump = jump;
     }
 
-    /**
-     * Sets whether the player is attacking.
-     *
-     * @param attacking true if the player is attacking, false otherwise.
-     */
     @Override
     public void setAttacking(final boolean attacking) {
         this.attacking = attacking;
     }
 
-    /**
-     * Checks if the player is moving left.
-     *
-     * @return true if the player is moving left, false otherwise.
-     */
+    @Override
     public boolean isLeft() {
         return left;
     }
 
-    /**
-     * Sets whether the player is moving left.
-     *
-     * @param left true if the player is moving left, false otherwise.
-     */
     @Override
     public void setLeft(final boolean left) {
         this.left = left;
     }
 
-    /**
-     * Checks if the player is moving right.
-     *
-     * @return true if the player is moving right, false otherwise.
-     */
     @Override
     public boolean isRight() {
         return right;
     }
 
-    /**
-     * Sets whether the player is moving right.
-     *
-     * @param right true if the player is moving right, false otherwise.
-     */
     @Override
     public void setRight(final boolean right) {
         this.right = right;
     }
 
-    /**
-     * Checks if the player is moving up.
-     *
-     * @return true if the player is moving up, false otherwise.
-     */
+    @Override
     public boolean isUp() {
         return up;
     }
 
-    /**
-     * Sets whether the player is moving up.
-     *
-     * @param up true if the player is moving up, false otherwise.
-     */
+    @Override
     public void setUp(final boolean up) {
         this.up = up;
     }
 
-    /**
-     * Checks if the player is moving down.
-     *
-     * @return true if the player is moving down, false otherwise.
-     */
+    @Override
     public boolean isDown() {
         return down;
     }
 
-    /**
-     * Sets whether the player is moving down.
-     *
-     * @param down true if the player is moving down, false otherwise.
-     */
+    @Override
     public void setDown(final boolean down) {
         this.down = down;
     }
@@ -453,7 +368,9 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         playerOffsetX = PlayerValues.OFFSET_X_DEFAULT;
         getHitbox().x = getX();
         getHitbox().y = getY();
-        if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) inAir = true;
+        if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) {
+            inAir = true;
+        }
     }
 
     @Override

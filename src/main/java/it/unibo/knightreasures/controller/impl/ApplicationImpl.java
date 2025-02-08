@@ -19,25 +19,11 @@ import it.unibo.knightreasures.view.impl.Settings;
  */
 public final class ApplicationImpl implements Application, Runnable {
 
-    /**
-     * The game panel where the game is drawn.
-     */
     private final ApplicationPanel applicationPanel;
-
-    /**
-     * The gameplay instance managing the game logic.
-     */
     private final GameplayImpl gameplay;
-
-    /**
-     * The menu instance managing the menu logic.
-     */
     private final Menu menu;
-
     private final Settings settings;
-
     private final Audio audio;
-
     private final AudioUtilities audioUtilities;
 
     /**
@@ -67,45 +53,31 @@ public final class ApplicationImpl implements Application, Runnable {
         }
     }
 
-    /**
-     * Updates the game state based on the current gamestate.
-     */
     @Override
     public void update() {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.menu.update();
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.settings.update();
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gameplay.update();
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
-    /**
-     * Renders the game graphics based on the current gamestate.
-     *
-     * @param g the graphics object used for rendering.
-     */
     @Override
     public void render(final Graphics g) {
         switch (Gamestate.getState()) {
-            case MENU:
+            case MENU ->
                 this.menu.draw(g);
-                break;
-            case SETTINGS:
+            case SETTINGS ->
                 this.settings.draw(g);
-                break;
-            case PLAYING:
+            case PLAYING ->
                 this.gameplay.draw(g);
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -153,9 +125,6 @@ public final class ApplicationImpl implements Application, Runnable {
         Runtime.getRuntime().exit(0);
     }
 
-    /**
-     * Handles the event when the game window loses focus.
-     */
     @Override
     public void windowLostFocus() {
         if (Gamestate.getState() == Gamestate.PLAYING) {
@@ -163,21 +132,11 @@ public final class ApplicationImpl implements Application, Runnable {
         }
     }
 
-    /**
-     * Gets the gameplay instance.
-     *
-     * @return the gameplay instance.
-     */
     @Override
     public GameplayImpl getPlaying() {
         return this.gameplay;
     }
 
-    /**
-     * Gets the menu instance.
-     *
-     * @return the menu instance.
-     */
     @Override
     public Menu getMenu() {
         return this.menu;
@@ -188,21 +147,11 @@ public final class ApplicationImpl implements Application, Runnable {
         return this.settings;
     }
 
-    /**
-     * Gets the audio instance.
-     *
-     * @return the audio instance.
-     */
     @Override
     public Audio getAudio() {
         return this.audio;
     }
 
-    /**
-     * Gets the audio utilities instance.
-     *
-     * @return the audio utilities instance.
-     */
     @Override
     public AudioUtilities getAudioUtilities() {
         return this.audioUtilities;

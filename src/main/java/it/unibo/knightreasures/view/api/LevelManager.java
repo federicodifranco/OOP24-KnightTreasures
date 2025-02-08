@@ -24,6 +24,11 @@ public interface LevelManager {
     void draw(Graphics g, int lvlOffset);
 
     /**
+     * Updates the state of the level (currently empty, reserved for future updates).
+     */
+    void update();
+
+    /**
      * Retrieves the current level.
      *
      * @return the {@link LevelImpl} representing the active level.
