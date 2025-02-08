@@ -14,9 +14,7 @@ plugins {
 }
 
 spotbugs {
-    ignoreFailures.set(true)
-    effort.set(com.github.spotbugs.snom.Effort.MAX)
-    reportLevel.set(com.github.spotbugs.snom.Confidence.LOW)
+    ignoreFailures = true
 }
 
 checkstyle {

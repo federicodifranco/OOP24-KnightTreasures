@@ -144,7 +144,7 @@ public class PauseButtonImpl implements PauseButton {
      */
     @Override
     public Rectangle getBounds() {
-        return bounds;
+        return new Rectangle(bounds);
     }
 
     /**
@@ -154,6 +154,6 @@ public class PauseButtonImpl implements PauseButton {
      */
     @Override
     public void setBounds(final Rectangle bounds) {
-        this.bounds = bounds;
+        this.bounds = new Rectangle(bounds);
     }
 }

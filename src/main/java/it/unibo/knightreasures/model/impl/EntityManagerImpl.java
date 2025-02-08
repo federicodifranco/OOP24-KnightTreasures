@@ -1,7 +1,5 @@
 package it.unibo.knightreasures.model.impl;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import it.unibo.knightreasures.model.api.EntityManager;
@@ -40,28 +38,6 @@ public abstract class EntityManagerImpl implements EntityManager {
      * implement this method.
      */
     public abstract void update();
-
-    /**
-     * Draws the hitbox of the entity for debugging purposes.
-     *
-     * @param g the graphics object used for rendering.
-     * @param lvlOffset the level's offset.
-     */
-    protected void drawHitbox(final Graphics g, final int lvlOffset) {
-        g.setColor(Color.RED);
-        g.drawRect((int) hitBox.x - lvlOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
-    }
-
-    /**
-     * Draws the attackbox of the entity for debugging purposes.
-     *
-     * @param g the graphics object used for rendering.
-     * @param lvlOffset the level's offset.
-     */
-    protected void drawAttackBox(final Graphics g, final int lvlOffset) {
-        g.setColor(Color.BLUE);
-        g.drawRect((int) attackBox.x - lvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
-    }
 
     /**
      * Initializes the hitbox of the entity.
