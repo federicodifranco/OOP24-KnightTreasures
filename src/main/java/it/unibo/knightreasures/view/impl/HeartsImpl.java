@@ -15,7 +15,7 @@ import it.unibo.knightreasures.view.api.Hearts;
  */
 public class HeartsImpl implements Hearts {
 
-    private BufferedImage fullHeart, emptyHeart, heartsImgs;
+    private BufferedImage fullHeart, emptyHeart;
     private final int x, y, heartSize;
     private int currentHearts;
 
@@ -37,9 +37,9 @@ public class HeartsImpl implements Hearts {
      * Loads heart images (full and empty) from the sprite sheet.
      */
     private void loadHeartImages() {
-        heartsImgs = ResourceFuncUtilities.loadSources(Images.HEARTS);
-        int heartWidth = heartsImgs.getWidth() / 2;
-        int heartHeight = heartsImgs.getHeight();
+        final BufferedImage heartsImgs = ResourceFuncUtilities.loadSources(Images.HEARTS);
+        final int heartWidth = heartsImgs.getWidth() / 2;
+        final int heartHeight = heartsImgs.getHeight();
         fullHeart = heartsImgs.getSubimage(0, 0, heartWidth, heartHeight);
         emptyHeart = heartsImgs.getSubimage(heartWidth, 0, heartWidth, heartHeight);
     }
@@ -75,7 +75,7 @@ public class HeartsImpl implements Hearts {
     @Override
     public void draw(final Graphics g) {
         for (int i = 0; i < PlayerValues.NUM_LIVES; i++) {
-            int xPos = x + i * (heartSize + Heart.SPACING);
+            final int xPos = x + i * (heartSize + Heart.SPACING);
             g.drawImage(i < currentHearts ? fullHeart : emptyHeart, xPos, y, heartSize, heartSize, null);
         }
     }

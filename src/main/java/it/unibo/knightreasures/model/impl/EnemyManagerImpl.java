@@ -67,7 +67,7 @@ public final class EnemyManagerImpl implements EnemyManager {
     @Override
     public void update(final int[][] lvlData, final PlayerEntityImpl player) {
         boolean isAnyActive = false;
-        for (SkeletonImpl skt : skeletons) {
+        for (final SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {
                 skt.update(lvlData, player);
                 isAnyActive = true;
@@ -91,7 +91,7 @@ public final class EnemyManagerImpl implements EnemyManager {
 
     @Override
     public void checkEnemyHit(final Rectangle2D.Float attackBox) {
-        for (SkeletonImpl skt : skeletons) {
+        for (final SkeletonImpl skt : skeletons) {
             if (skt.isActive() && attackBox.intersects(skt.getHitbox()) && skt.getCurrentHealth() > 0) {
                 skt.hurt(SkeletonsValues.DAMAGE);
                 break;
@@ -120,14 +120,14 @@ public final class EnemyManagerImpl implements EnemyManager {
 
     @Override
     public void resetAllEnemies() {
-        for (SkeletonImpl skt : skeletons) {
+        for (final SkeletonImpl skt : skeletons) {
             skt.resetEnemy();
         }
     }
 
     @Override
     public boolean hasActiveEnemies() {
-        for (SkeletonImpl skt : skeletons) {
+        for (final SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {
                 return true;
             }

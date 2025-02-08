@@ -18,7 +18,6 @@ import it.unibo.knightreasures.view.api.Level;
  */
 public final class LevelImpl implements Level {
 
-    private final BufferedImage img;
     private final List<SkeletonImpl> skeletons;
     private final List<ChestImpl> chests;
     private final List<TreasureImpl> treasures;
@@ -35,7 +34,6 @@ public final class LevelImpl implements Level {
      * @param img the BufferedImage representing the level.
      */
     public LevelImpl(final BufferedImage img) {
-        this.img = img;
         this.lvlData = HelpMethods.createLevel(img);
         this.skeletons = HelpMethods.getSkeletons(img);
         this.spikes = HelpMethods.getSpike(img);
@@ -48,41 +46,87 @@ public final class LevelImpl implements Level {
         this.maxLvlOffsetX = Window.TILES_SIZE * maxTilesOffset;
     }
 
+    /**
+     * Retrieves the sprite index at a specific (x, y) position in the level.
+     *
+     * @param x The x-coordinate in the level grid.
+     * @param y The y-coordinate in the level grid.
+     * @return The sprite index at the given position.
+     */
     @Override
     public int getSpriteIndex(final int x, final int y) {
         return lvlData[y][x];
     }
 
+    /**
+     * Returns a copy of the level data to prevent external modifications.
+     *
+     * @return A copy of the 2D level data array.
+     */
     @Override
     public int[][] getLevelData() {
-        return lvlData;
+        final int[][] copy = new int[lvlData.length][];
+        for (int i = 0; i < lvlData.length; i++) {
+            copy[i] = lvlData[i].clone();
+        }
+        return copy;
     }
 
+    /**
+     * Gets the maximum level offset for scrolling.
+     *
+     * @return The max level offset.
+     */
     @Override
     public int getLvlOffset() {
         return maxLvlOffsetX;
     }
 
+    /**
+     * Retrieves a list of skeleton enemies in the level.
+     *
+     * @return A list of skeletons.
+     */
     @Override
     public List<SkeletonImpl> getSkeletons() {
         return skeletons;
     }
 
+    /**
+     * Retrieves a list of treasures present in the level.
+     *
+     * @return A list of treasures.
+     */
     @Override
     public List<TreasureImpl> getTreasures() {
         return treasures;
     }
 
+    /**
+     * Retrieves a list of chests present in the level.
+     *
+     * @return A list of chests.
+     */
     @Override
     public List<ChestImpl> getChests() {
         return chests;
     }
 
+    /**
+     * Retrieves a list of spikes present in the level.
+     *
+     * @return A list of spikes.
+     */
     @Override
     public List<SpikeImpl> getSpikes() {
         return spikes;
     }
 
+    /**
+     * Retrieves the player's spawn point in the level.
+     *
+     * @return The player's spawn point as a {@code Point} object.
+     */
     @Override
     public Point getPlayerSpawn() {
         return playerSpawn;

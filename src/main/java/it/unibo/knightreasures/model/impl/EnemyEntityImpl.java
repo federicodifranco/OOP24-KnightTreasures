@@ -12,15 +12,14 @@ import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
- * Represents an enemy entity in the game.
- * This class provides basic behavior for all enemy entities, 
- * including movement, health, and state management.
+ * Represents an enemy entity in the game. This class provides basic behavior
+ * for all enemy entities, including movement, health, and state management.
  */
 public abstract class EnemyEntityImpl extends EntityManagerImpl implements EnemyEntity {
 
     private int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
     private boolean firstUpdate = true, attackChecked, active = true;
-    private final float attackDistance = Window.TILES_SIZE;
+    private final float attackDistance;
     private float fallSpeed;
 
     /**
@@ -33,19 +32,32 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      */
     public EnemyEntityImpl(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
-        initHitBox(width, height);
+        this.attackDistance = Window.TILES_SIZE;
+    }
+
+    /**
+     * Initializes the enemy's hitbox, health, and other necessary attributes.
+     */
+    public void initialize() {
+        initHitBox(getWidth(), getHeight());
         setMaxHealth(SkeletonsValues.NUM_LIVES);
         setCurrentHealth(getMaxHealth());
     }
 
     private int getSpriteAmount(final int enemyState) {
         return switch (enemyState) {
-            case SkeletonsValues.IDLE -> SkeletonsValues.IDLE_SPRITES;
-            case SkeletonsValues.RUN -> SkeletonsValues.RUN_SPRITES;
-            case SkeletonsValues.ATTACK -> SkeletonsValues.ATTACK_SPRITES;
-            case SkeletonsValues.HURT -> SkeletonsValues.HURT_SPRITES;
-            case SkeletonsValues.DIE -> SkeletonsValues.DIE_SPRITES;
-            default -> SkeletonsValues.IDLE_SPRITES;
+            case SkeletonsValues.IDLE ->
+                SkeletonsValues.IDLE_SPRITES;
+            case SkeletonsValues.RUN ->
+                SkeletonsValues.RUN_SPRITES;
+            case SkeletonsValues.ATTACK ->
+                SkeletonsValues.ATTACK_SPRITES;
+            case SkeletonsValues.HURT ->
+                SkeletonsValues.HURT_SPRITES;
+            case SkeletonsValues.DIE ->
+                SkeletonsValues.DIE_SPRITES;
+            default ->
+                SkeletonsValues.IDLE_SPRITES;
         };
     }
 
@@ -98,12 +110,11 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      * @param lvlData The level data for collision checks.
      */
     protected void move(final int[][] lvlData) {
-        float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
-        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
-            if (HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
-                getHitbox().x += xSpeed;
-                return;
-            }
+        final float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
+        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)
+                && HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
+            getHitbox().x += xSpeed;
+            return;
         }
         changeWalkDir();
     }
@@ -136,9 +147,9 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      * @return True if the enemy can see the player, false otherwise.
      */
     protected boolean canSeePlayer(final int[][] lvlData, final PlayerEntityImpl player) {
-        int playerTileY = (int) (player.getHitbox().y / Window.TILES_SIZE);
-        return playerTileY == tileY && isPlayerInRange(player) 
-        && HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY);
+        final int playerTileY = (int) (player.getHitbox().y / Window.TILES_SIZE);
+        return playerTileY == tileY && isPlayerInRange(player)
+                && HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY);
     }
 
     /**
@@ -172,8 +183,12 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
             if (aniIndex >= getSpriteAmount(enemyState)) {
                 aniIndex = 0;
                 switch (enemyState) {
-                    case SkeletonsValues.ATTACK, SkeletonsValues.HURT -> enemyState = SkeletonsValues.IDLE;
-                    case SkeletonsValues.DIE -> active = false;
+                    case SkeletonsValues.ATTACK, SkeletonsValues.HURT -> {
+                        enemyState = SkeletonsValues.IDLE;
+                    }
+                    case SkeletonsValues.DIE -> {
+                        active = false;
+                    }
                     default -> {
                         // No action required for unhandled keys
                     }
@@ -244,7 +259,7 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      * @return {@code true} if it's the first update, {@code false} otherwise.
      */
     @Override
-    public boolean getFirstupdate() {
+    public boolean isFirstupdate() {
         return firstUpdate;
     }
 
@@ -271,7 +286,8 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
     /**
      * Sets whether the attack has been checked.
      *
-     * @param attackChecked True if the attack has been checked, false otherwise.
+     * @param attackChecked True if the attack has been checked, false
+     * otherwise.
      */
     @Override
     public void setAttackChecked(final boolean attackChecked) {

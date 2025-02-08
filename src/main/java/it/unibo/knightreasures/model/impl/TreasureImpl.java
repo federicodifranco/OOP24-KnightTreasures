@@ -22,10 +22,21 @@ public class TreasureImpl extends GameObjectImpl implements Treasure {
      */
     public TreasureImpl(final int x, final int y, final int objType) {
         super(x, y, objType);
+    }
+
+    /**
+     * Initializes the treasure's properties after construction.
+     * This method must be called separately to avoid calling overridable methods in the constructor.
+     */
+    @Override
+    public void initialize() {
         setDoAnimation(true);
         initHitbox(ObjectConstants.TREASURE_HITBOX_WIDTH, ObjectConstants.TREASURE_HITBOX_HEIGHT);
     }
 
+    /**
+     * Updates the hover effect, making the treasure float up and down.
+     */
     private void updateHover() {
         hoverOffset += (ObjectConstants.HOVER_OFFSET * hoverDir);
 
@@ -38,9 +49,9 @@ public class TreasureImpl extends GameObjectImpl implements Treasure {
     }
 
     /**
-     * Updates the treasure's animation and hover effect. The animation tick is
-     * incremented to control sprite changes, while the hover effect makes the
-     * treasure float up and down.
+     * Updates the treasure's animation and hover effect.
+     * The animation tick is incremented to control sprite changes,
+     * while the hover effect makes the treasure float up and down.
      */
     @Override
     public void update() {

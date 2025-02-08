@@ -59,8 +59,8 @@ public final class LevelManagerImpl implements LevelManager {
      * Method that creates all levels and added in the list.
      */
     private void buildAllLevels() {
-        BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
-        for (BufferedImage img : allLvl) {
+        final BufferedImage[] allLvl = ResourceFuncUtilities.getAllLevels();
+        for (final BufferedImage img : allLvl) {
             levels.add(new LevelImpl(img));
         }
     }
@@ -89,7 +89,7 @@ public final class LevelManagerImpl implements LevelManager {
             Gamestate.setState(Gamestate.MENU);
             game.getAudioUtilities().playMenuSong();
         }
-        LevelImpl newLevel = levels.get(lvlIndex);
+        final LevelImpl newLevel = levels.get(lvlIndex);
         game.getPlaying().getEnemyManager().addEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());

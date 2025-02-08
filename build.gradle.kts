@@ -9,6 +9,18 @@ plugins {
 
     // Plugin per l'analisi della qualità del codice (PMD, Checkstyle, SpotBugs, etc.)
     id("org.danilopianini.gradle-java-qa") version "1.91.0"
+
+    id("com.github.spotbugs") version "5.0.14"
+}
+
+spotbugs {
+    ignoreFailures.set(true)
+    effort.set(com.github.spotbugs.snom.Effort.MAX)
+    reportLevel.set(com.github.spotbugs.snom.Confidence.LOW)
+}
+
+checkstyle {
+    toolVersion = "10.3.1"
 }
 
 repositories {

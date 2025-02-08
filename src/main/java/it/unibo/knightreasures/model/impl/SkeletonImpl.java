@@ -24,6 +24,15 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
      */
     public SkeletonImpl(final float x, final float y) {
         super(x, y, Skeletons.WIDTH, Skeletons.HEIGHT);
+    }
+
+    /**
+     * Initializes the attack box and the hitbox for the skeleton.
+     * This method must be called separately to avoid calling overridable methods in the constructor.
+     */
+    @Override
+    public void initialize() {
+        super.initialize();
         this.attackbox = getAttacktbox();
         initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
         initAttackBox();
@@ -53,7 +62,7 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
      * @param player the player entity to track and attack.
      */
     protected void updateBehavior(final int[][] lvlData, final PlayerEntityImpl player) {
-        if (getFirstupdate()) {
+        if (isFirstupdate()) {
             firstUpdateCheck(lvlData);
         }
         if (isInAir()) {

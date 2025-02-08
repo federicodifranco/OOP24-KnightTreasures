@@ -9,4 +9,9 @@ public interface Treasure {
      * Updates the state of the treasure, including animations or interactions.
      */
     void update();
+
+    /**
+     * Initializes the spike object.
+     */
+    void initialize();
 }

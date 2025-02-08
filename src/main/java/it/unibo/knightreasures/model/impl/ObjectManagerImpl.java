@@ -48,7 +48,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * spikes.
      */
     private void loadImgs() {
-        BufferedImage treasureImg = ResourceFuncUtilities.loadSources(Images.TREASURE);
+        final BufferedImage treasureImg = ResourceFuncUtilities.loadSources(Images.TREASURE);
         treasureImgs = new BufferedImage[ObjectsValues.TREASURE_SPRITES_ROWS][ObjectsValues.TREASURE_SPRITES_COLUMNS];
 
         for (int j = 0; j < treasureImgs.length; j++) {
@@ -61,7 +61,7 @@ public class ObjectManagerImpl implements ObjectManager {
             }
         }
 
-        BufferedImage chestImg = ResourceFuncUtilities.loadSources(Images.CHEST);
+        final BufferedImage chestImg = ResourceFuncUtilities.loadSources(Images.CHEST);
         chestImgs = new BufferedImage[ObjectsValues.CHEST_SPRITES_ROWS][ObjectsValues.CHEST_SPRITES_COLUMNS];
 
         for (int j = 0; j < chestImgs.length; j++) {
@@ -84,7 +84,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawChests(final Graphics g, final int xLvlOffset) {
-        for (ChestImpl c : chests) {
+        for (final ChestImpl c : chests) {
             if (c.isActive()) {
                 g.drawImage(chestImgs[ObjectsValues.CHEST_IMAGES_INDEX][c.getAniIndex()],
                         (int) (c.getHitbox().x - c.getXOffset() - ObjectConstants.CHEST_X_SHIFT - xLvlOffset),
@@ -103,7 +103,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawTreasures(final Graphics g, final int xLvlOffset) {
-        for (TreasureImpl t : treasures) {
+        for (final TreasureImpl t : treasures) {
             if (t.isActive()) {
                 g.drawImage(treasureImgs[t.getObjType()][t.getAniIndex()],
                         (int) (t.getHitbox().x - ObjectConstants.TREASURE_X_OFFSET - xLvlOffset),
@@ -122,7 +122,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * @param xLvlOffset The level's horizontal offset.
      */
     private void drawSpikes(final Graphics g, final int xLvlOffset) {
-        for (SpikeImpl s : spikes) {
+        for (final SpikeImpl s : spikes) {
             g.drawImage(spikeImgs,
                     (int) (s.getHitbox().x - xLvlOffset),
                     (int) (s.getHitbox().y - s.getYOffset()),
@@ -137,13 +137,13 @@ public class ObjectManagerImpl implements ObjectManager {
      */
     @Override
     public void update() {
-        for (TreasureImpl t : treasures) {
+        for (final TreasureImpl t : treasures) {
             if (t.isActive()) {
                 t.update();
             }
         }
 
-        for (ChestImpl c : chests) {
+        for (final ChestImpl c : chests) {
             if (c.isActive()) {
                 c.update();
             }
@@ -171,7 +171,7 @@ public class ObjectManagerImpl implements ObjectManager {
      */
     @Override
     public void checkSpikeTouched(final PlayerEntityImpl player, final HeartsImpl hearts) {
-        for (SpikeImpl spike : spikes) {
+        for (final SpikeImpl spike : spikes) {
             if (spike.getHitbox().intersects(player.getHitbox())) {
                 hearts.setCurrentHearts(player.getCurrentHealth() - ObjectsValues.SPIKE_DAMAGE);
             }
@@ -185,7 +185,7 @@ public class ObjectManagerImpl implements ObjectManager {
      */
     @Override
     public void checkObjectTouched(final Rectangle2D.Float hitbox) {
-        for (TreasureImpl t : treasures) {
+        for (final TreasureImpl t : treasures) {
             if (t.isActive() && hitbox.intersects(t.getHitbox())) {
                 t.setActive(false);
                 collectedTreasure++;
@@ -200,15 +200,17 @@ public class ObjectManagerImpl implements ObjectManager {
      */
     @Override
     public void checkChestOpened(final Rectangle2D.Float hitbox) {
-        for (ChestImpl c : chests) {
+        for (final ChestImpl c : chests) {
             if (c.isActive() && !c.isOpened() && c.getHitbox().intersects(hitbox)) {
                 c.setAnimation(true);
                 c.setOpened(true);
-                treasures.add(new TreasureImpl(
+                final TreasureImpl treasure = new TreasureImpl(
                         (int) (c.getHitbox().x + ObjectConstants.TREASURE_X_SHIFT),
                         (int) (c.getHitbox().y - ObjectConstants.TREASURE_Y_SHIFT),
                         ObjectsValues.LEVEL_TREASURES[level.getLevelIndex()]
-                ));
+                );
+                treasure.initialize();
+                treasures.add(treasure);
                 return;
             }
         }
@@ -232,11 +234,11 @@ public class ObjectManagerImpl implements ObjectManager {
     @Override
     public void resetAllObjects() {
         loadObjects(playing.getLevel().getCurrentLevel());
-        for (TreasureImpl t : treasures) {
+        for (final TreasureImpl t : treasures) {
             t.reset();
         }
 
-        for (ChestImpl c : chests) {
+        for (final ChestImpl c : chests) {
             c.reset();
         }
         collectedTreasure = ObjectsValues.INITIAL_COLLECTED_TREASURES;
@@ -248,7 +250,7 @@ public class ObjectManagerImpl implements ObjectManager {
      * @return The count of collected treasures.
      */
     @Override
-    public int isAllCollectedTreasures() {
+    public int getAllCollectedTreasures() {
         return collectedTreasure;
     }
 }

@@ -10,7 +10,7 @@ import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
  */
 public final class ChestImpl extends GameObjectImpl implements Chest {
 
-    private boolean opened = false;
+    private boolean opened;
 
     /**
      * Constructs a new chest at the specified position with the given type.
@@ -41,7 +41,7 @@ public final class ChestImpl extends GameObjectImpl implements Chest {
      */
     @Override
     public void update() {
-        if (getDoAnimation()) {
+        if (isDoingAnimation()) {
             updateAnimationTick();
             if (getAniIndex() >= getSpriteAmount(ObjectsValues.CHEST) - ObjectsValues.CHEST_SPRITE_ANI 
                     && isOpened()) {

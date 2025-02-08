@@ -136,16 +136,21 @@ public final class GameplayImpl extends State implements Gameplay, View {
             gameOverOverlay.keyPressed(e);
         } else {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_A ->
+                case KeyEvent.VK_A -> {
                     player.setLeft(true);
-                case KeyEvent.VK_D ->
+                }
+                case KeyEvent.VK_D -> {
                     player.setRight(true);
-                case KeyEvent.VK_SPACE ->
+                }
+                case KeyEvent.VK_SPACE -> {
                     player.setJump(true);
-                case KeyEvent.VK_M ->
+                }
+                case KeyEvent.VK_M -> {
                     player.setAttacking(true);
-                case KeyEvent.VK_P ->
+                }
+                case KeyEvent.VK_P -> {
                     paused = !paused;
+                }
                 default -> {
                     // No action required for unhandled keys
                 }

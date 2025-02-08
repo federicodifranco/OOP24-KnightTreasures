@@ -17,7 +17,7 @@ import it.unibo.knightreasures.view.api.Stars;
  */
 public class StarsImpl implements Stars {
 
-    private BufferedImage fullStar, emptyStar, stars;
+    private BufferedImage fullStar, emptyStar;
     private final int x, y, starSize;
     private final boolean[] starStates = new boolean[LevelsValues.NUM_STARS];
 
@@ -39,9 +39,9 @@ public class StarsImpl implements Stars {
      * Loads star images (full and empty) from the sprite sheet.
      */
     private void loadStarImages() {
-        stars = ResourceFuncUtilities.loadSources(Images.STARS);
-        int starWidth = stars.getWidth() / 2;
-        int starHeight = stars.getHeight();
+        final BufferedImage stars = ResourceFuncUtilities.loadSources(Images.STARS);
+        final int starWidth = stars.getWidth() / 2;
+        final int starHeight = stars.getHeight();
         fullStar = stars.getSubimage(0, 0, starWidth, starHeight);
         emptyStar = stars.getSubimage(starWidth, 0, starWidth, starHeight);
     }
@@ -70,7 +70,7 @@ public class StarsImpl implements Stars {
     @Override
     public void draw(final Graphics g) {
         for (int i = 0; i < LevelsValues.NUM_STARS; i++) {
-            int xPos = x + i * (starSize + Star.SPACING);
+            final int xPos = x + i * (starSize + Star.SPACING);
             g.drawImage(starStates[i] ? fullStar : emptyStar, xPos, y, starSize, starSize, null);
         }
     }

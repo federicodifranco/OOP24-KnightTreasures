@@ -1,12 +1,13 @@
 package it.unibo.knightreasures.model.impl;
 
+import it.unibo.knightreasures.model.api.Spike;
 import it.unibo.knightreasures.utilities.ViewConstants.ObjectConstants;
 
 /**
  * Represents a spike trap in the game.
  * Spikes are static obstacles that damage the player upon contact.
  */
-public class SpikeImpl extends GameObjectImpl {
+public class SpikeImpl extends GameObjectImpl implements Spike {
 
     /**
      * Constructs a new spike object at the specified position.
@@ -17,6 +18,15 @@ public class SpikeImpl extends GameObjectImpl {
      */
     public SpikeImpl(final int x, final int y, final int objType) {
         super(x, y, objType);
+    }
+
+    /**
+     * Initializes the spike by setting up its hitbox.
+     * This method should be called after the object is created
+     * to ensure the hitbox is correctly positioned and adjusted.
+     */
+    @Override
+    public void initialize() {
         createHitbox();
     }
 

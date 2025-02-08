@@ -32,12 +32,10 @@ public final class LvlCompleted implements View {
     private final ApplicationImpl game;
     private final StarsImpl stars;
     private final ObjectManagerImpl objects;
-    private boolean enemiesInactive;
     private ResumeRestartHomeButtonsImpl home;
     private ResumeRestartHomeButtonsImpl next;
     private BufferedImage lvlCompletedImg;
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
-    private int playerLives, collectedTreasure;
 
     /**
      * Constructs the level completed screen.
@@ -109,9 +107,9 @@ public final class LvlCompleted implements View {
         g.drawImage(lvlCompletedImg, lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH, null);
         next.draw(g);
         home.draw(g);
-        enemiesInactive = !playing.getEnemyManager().hasActiveEnemies();
-        playerLives = playing.getPlayer().getLives();
-        collectedTreasure = objects.isAllCollectedTreasures();
+        final boolean enemiesInactive = !playing.getEnemyManager().hasActiveEnemies();
+        final int playerLives = playing.getPlayer().getLives();
+        final int collectedTreasure = objects.getAllCollectedTreasures();
         stars.updateStarStates(enemiesInactive, playerLives, collectedTreasure);
         stars.draw(g);
     }

@@ -17,7 +17,7 @@ public interface ObjectManager {
      *
      * @return The number of collected treasures.
      */
-    int isAllCollectedTreasures();
+    int getAllCollectedTreasures();
 
     /**
      * Checks if a chest has been opened.

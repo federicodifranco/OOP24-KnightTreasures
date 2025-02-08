@@ -200,10 +200,10 @@ public final class HelpMethods {
      * @return a 2D array where each value represents a tile type
      */
     public static int[][] createLevel(final BufferedImage img) {
-        int[][] level = new int[img.getHeight()][img.getWidth()];
+        final int[][] level = new int[img.getHeight()][img.getWidth()];
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
+                final Color color = new Color(img.getRGB(i, j));
                 int value = color.getRed();
                 if (value >= LevelsValues.LEVEL) {
                     value = 0;
@@ -222,13 +222,15 @@ public final class HelpMethods {
      * @return a list of SkeletonImpl objects representing enemies
      */
     public static List<SkeletonImpl> getSkeletons(final BufferedImage img) {
-        List<SkeletonImpl> list = new ArrayList<>();
+        final List<SkeletonImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getGreen();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getGreen();
                 if (value == SkeletonsValues.SKELETON) {
-                    list.add(new SkeletonImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE));
+                final SkeletonImpl skeleton = new SkeletonImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE);
+                skeleton.initialize();
+                list.add(skeleton);
                 }
             }
         }
@@ -243,13 +245,15 @@ public final class HelpMethods {
      * @return a list of TreasureImpl objects representing treasure locations
      */
     public static List<TreasureImpl> getTreasure(final BufferedImage img) {
-        List<TreasureImpl> list = new ArrayList<>();
+        final List<TreasureImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getBlue();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getBlue();
                 if (value == ObjectsValues.RING || value == ObjectsValues.CROWN || value == ObjectsValues.CUP) {
-                    list.add(new TreasureImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
+                    final TreasureImpl treasure = new TreasureImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value);
+                    treasure.initialize();
+                    list.add(treasure);
                 }
             }
         }
@@ -264,11 +268,11 @@ public final class HelpMethods {
      * @return a list of ChestImpl objects representing chest locations
      */
     public static List<ChestImpl> getChest(final BufferedImage img) {
-        List<ChestImpl> list = new ArrayList<>();
+        final List<ChestImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getBlue();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getBlue();
                 if (value == ObjectsValues.CHEST) {
                     list.add(new ChestImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, value));
                 }
@@ -285,13 +289,15 @@ public final class HelpMethods {
      * @return a list of SpikeImpl objects representing spike locations
      */
     public static List<SpikeImpl> getSpike(final BufferedImage img) {
-        List<SpikeImpl> list = new ArrayList<>();
+        final List<SpikeImpl> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getBlue();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getBlue();
                 if (value == ObjectsValues.SPIKE) {
-                    list.add(new SpikeImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, ObjectsValues.SPIKE));
+                    final SpikeImpl spike = new SpikeImpl(i * Window.TILES_SIZE, j * Window.TILES_SIZE, ObjectsValues.SPIKE);
+                    spike.initialize();
+                    list.add(spike);
                 }
             }
         }
@@ -308,8 +314,8 @@ public final class HelpMethods {
     public static Point getPlayerSpawn(final BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getGreen();
+                final Color color = new Color(img.getRGB(i, j));
+                final int value = color.getGreen();
                 if (value == LevelsValues.SPAWN) {
                     return new Point(i * Window.TILES_SIZE, j * Window.TILES_SIZE);
                 }

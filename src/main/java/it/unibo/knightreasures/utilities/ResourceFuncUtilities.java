@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +25,7 @@ import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 public final class ResourceFuncUtilities {
 
     private static final Logger LOGGER = Logger.getLogger(ResourceFuncUtilities.class.getName());
+    private static final String PNG_EXTENSION = ".png";
 
     // Private constructor to prevent instantiation
     private ResourceFuncUtilities() {
@@ -36,7 +38,7 @@ public final class ResourceFuncUtilities {
      * @return The loaded image, or null if loading fails.
      */
     public static Image getSources(final String fileName) {
-        return new ImageIcon("src/main/resources/" + fileName + ".png").getImage();
+        return new ImageIcon("src/main/resources/" + fileName + PNG_EXTENSION).getImage();
     }
 
     /**
@@ -46,7 +48,7 @@ public final class ResourceFuncUtilities {
      * @return The loaded BufferedImage, or null if loading fails.
      */
     public static BufferedImage getBufferedSources(final String fileName) {
-        final File file = new File("src/main/resources/" + fileName + ".png");
+        final File file = new File("src/main/resources/" + fileName + PNG_EXTENSION);
         BufferedImage img = null;
         try {
             img = ImageIO.read(file);
@@ -64,7 +66,7 @@ public final class ResourceFuncUtilities {
      */
     public static BufferedImage loadSources(final String fileName) {
         BufferedImage img = null;
-        try (InputStream s = ResourceFuncUtilities.class.getResourceAsStream("/" + fileName + ".png")) {
+        try (InputStream s = ResourceFuncUtilities.class.getResourceAsStream("/" + fileName + PNG_EXTENSION)) {
             if (s == null) {
                 LOGGER.log(Level.SEVERE, "File not found: {0}", fileName);
             } else {
@@ -86,14 +88,14 @@ public final class ResourceFuncUtilities {
      */
     public static BufferedImage[] getAllLevels() {
         final File directory = new File("src/main/resources/levels");
-        File[] levelFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+        final File[] levelFiles = directory.listFiles((dir, name) -> name.toLowerCase(Locale.ROOT).endsWith(PNG_EXTENSION));
         if (levelFiles == null || levelFiles.length == LevelsValues.NO_LEVEL_FILES_LENGHT) {
             return new BufferedImage[LevelsValues.FIRST_LEVEL_POSITION];
         }
         Arrays.sort(levelFiles, Comparator.comparing(File::getName));
-        BufferedImage[] images = new BufferedImage[levelFiles.length];
+        final BufferedImage[] images = new BufferedImage[levelFiles.length];
         int index = 0;
-        for (File file : levelFiles) {
+        for (final File file : levelFiles) {
             try {
                 images[index] = ImageIO.read(file);
             } catch (IOException e) {

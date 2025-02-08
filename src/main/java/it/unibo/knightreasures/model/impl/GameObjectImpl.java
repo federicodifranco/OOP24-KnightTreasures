@@ -220,7 +220,7 @@ public abstract class GameObjectImpl implements GameObject {
      * @return {@code true} if the object is animating, {@code false} otherwise
      */
     @Override
-    public boolean getDoAnimation() {
+    public boolean isDoingAnimation() {
         return doAnimation;
     }
 

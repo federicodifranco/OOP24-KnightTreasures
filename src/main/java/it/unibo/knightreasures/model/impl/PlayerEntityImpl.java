@@ -249,7 +249,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
 
     @Override
     public void loseHeart() {
-        int currentHearts = hearts.getCurrentHearts();
+        final int currentHearts = hearts.getCurrentHearts();
         if (currentHearts > 0) {
             hearts.setCurrentHearts(currentHearts - PlayerValues.DAMAGE);
         }

@@ -28,4 +28,9 @@ public interface Skeleton {
      * @param player The player entity interacting with the skeleton.
      */
     void update(int[][] lvlData, PlayerEntityImpl player);
+
+    /**
+     * Initializes the attack box and the hitbox for the skeleton.
+     */
+    void initialize();
 }

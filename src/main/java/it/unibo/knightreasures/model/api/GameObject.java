@@ -104,7 +104,7 @@ public interface GameObject {
      *
      * @return {@code true} if the object is animating, otherwise {@code false}.
      */
-    boolean getDoAnimation();
+    boolean isDoingAnimation();
 
     /**
      * Sets the animation tick count for the object.

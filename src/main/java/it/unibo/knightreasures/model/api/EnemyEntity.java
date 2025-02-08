@@ -25,7 +25,7 @@ public interface EnemyEntity {
      *
      * @return True if it's the first update, false otherwise.
      */
-    boolean getFirstupdate();
+    boolean isFirstupdate();
 
     /**
      * Retrieves the current animation index of the enemy.
