@@ -32,36 +32,16 @@ import it.unibo.knightreasures.view.impl.Pause;
  */
 public final class GameplayImpl extends State implements Gameplay, View {
 
-    /**
-     * The player entity.
-     */
     private PlayerEntityImpl player;
-
     private EnemyManagerImpl enemyManager;
-
     private ObjectManagerImpl objects;
-
-    /**
-     * The level manager that controls level rendering and updates.
-     */
     private LevelManagerImpl levelManager;
-
     private HeartsImpl hearts;
-
-    /**
-     * The pause state of the game.
-     */
     private Pause pausedOverlay;
-
     private GameOver gameOverOverlay;
-
-    private boolean gameOver, lvlComplete, paused;
-
     private LvlCompleted lvlCompletedOverlay;
 
-    /**
-     * The level offset and the max offset of the level.
-     */
+    private boolean gameOver, lvlComplete, paused;
     private int xLvlOffset, maxLvlOffsetX;
 
     /**
@@ -94,13 +74,13 @@ public final class GameplayImpl extends State implements Gameplay, View {
      */
     @Override
     public void update() {
-        if (paused)
+        if (paused) {
             pausedOverlay.update();
-        else if (lvlComplete)
+        } else if (lvlComplete) {
             lvlCompletedOverlay.update();
-        else if (gameOver)
+        } else if (gameOver) {
             gameOverOverlay.update();
-        else if (!gameOver) {
+        } else if (!gameOver) {
             player.update();
             objects.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
@@ -127,10 +107,11 @@ public final class GameplayImpl extends State implements Gameplay, View {
             g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
             g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
             pausedOverlay.draw(g);
-        } else if (gameOver)
+        } else if (gameOver) {
             gameOverOverlay.draw(g);
-        else if (lvlComplete)
+        } else if (lvlComplete) {
             lvlCompletedOverlay.draw(g);
+        }
     }
 
     /**
@@ -154,6 +135,9 @@ public final class GameplayImpl extends State implements Gameplay, View {
                     player.setAttacking(true);
                 case KeyEvent.VK_P ->
                     paused = !paused;
+                default -> {
+                    // No action required for unhandled keys
+                }
             }
         }
     }
@@ -181,17 +165,20 @@ public final class GameplayImpl extends State implements Gameplay, View {
                     player.setRight(false);
                 case KeyEvent.VK_SPACE ->
                     player.setJump(false);
+                default -> {
+                    // No action required for unhandled keys
+                }
             }
         }
     }
 
     @Override
-    public void setGameOver(boolean gameOver) {
+    public void setGameOver(final boolean gameOver) {
         this.gameOver = gameOver;
     }
 
     @Override
-    public void setLevelCompleted(boolean lvlComplete){
+    public void setLevelCompleted(final boolean lvlComplete) {
         this.lvlComplete = lvlComplete;
     }
 
@@ -213,13 +200,11 @@ public final class GameplayImpl extends State implements Gameplay, View {
     private void checkCloseToBorder() {
         final int playerX = (int) player.getHitbox().x;
         final int diff = playerX - xLvlOffset;
-
         if (diff > LevelOffset.RIGHT_BORDER) {
             xLvlOffset += diff - LevelOffset.RIGHT_BORDER;
         } else if (diff < LevelOffset.LEFT_BORDER) {
             xLvlOffset += diff - LevelOffset.LEFT_BORDER;
         }
-
         if (xLvlOffset > maxLvlOffsetX) {
             xLvlOffset = maxLvlOffsetX;
         } else if (xLvlOffset < 0) {
@@ -245,7 +230,7 @@ public final class GameplayImpl extends State implements Gameplay, View {
     }
 
     @Override
-    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+    public void checkEnemyHit(final Rectangle2D.Float attackBox) {
         enemyManager.checkEnemyHit(attackBox);
     }
 
@@ -277,9 +262,14 @@ public final class GameplayImpl extends State implements Gameplay, View {
     @Override
     public void mousePressed(final MouseEvent e) {
         if (!gameOver) {
-            if (paused) pausedOverlay.mousePressed(e);
-            else if (lvlComplete) lvlCompletedOverlay.mousePressed(e);
-        } else gameOverOverlay.mousePressed(e);
+            if (paused) {
+                pausedOverlay.mousePressed(e);
+            } else if (lvlComplete) {
+                lvlCompletedOverlay.mousePressed(e);
+            }
+        } else {
+            gameOverOverlay.mousePressed(e);
+        }
     }
 
     /**
@@ -290,9 +280,14 @@ public final class GameplayImpl extends State implements Gameplay, View {
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (!gameOver) {
-            if (paused) pausedOverlay.mouseReleased(e);
-            else if (lvlComplete) lvlCompletedOverlay.mouseReleased(e);
-        } else gameOverOverlay.mouseReleased(e);
+            if (paused) {
+                pausedOverlay.mouseReleased(e);
+            } else if (lvlComplete) {
+                lvlCompletedOverlay.mouseReleased(e);
+            }
+        } else {
+            gameOverOverlay.mouseReleased(e);
+        }
     }
 
     /**
@@ -303,9 +298,14 @@ public final class GameplayImpl extends State implements Gameplay, View {
     @Override
     public void mouseMoved(final MouseEvent e) {
         if (!gameOver) {
-            if (paused) pausedOverlay.mouseMoved(e);
-            else if (lvlComplete) lvlCompletedOverlay.mouseMoved(e);
-        } else gameOverOverlay.mouseMoved(e);
+            if (paused) {
+                pausedOverlay.mouseMoved(e);
+            } else if (lvlComplete) {
+                lvlCompletedOverlay.mouseMoved(e);
+            }
+        } else {
+            gameOverOverlay.mouseMoved(e);
+        }
     }
 
     @Override
@@ -318,12 +318,13 @@ public final class GameplayImpl extends State implements Gameplay, View {
         return this.objects;
     }
 
+    @Override
     public LevelManagerImpl getLevel() {
         return this.levelManager;
     }
 
     @Override
-    public void setMaxLvlOffset(int lvlOffset) {
+    public void setMaxLvlOffset(final int lvlOffset) {
         this.maxLvlOffsetX = lvlOffset;
     }
 

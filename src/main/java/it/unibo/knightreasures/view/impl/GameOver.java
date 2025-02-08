@@ -19,24 +19,39 @@ import it.unibo.knightreasures.utilities.ViewConstants.RRHButtons;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 
-public class GameOver implements View {
+/**
+ * Represents the Game Over screen.
+ * Displays the player's options to restart or return to the main menu.
+ */
+public final class GameOver implements View {
 
     private final GameplayImpl playing;
     private final LevelManagerImpl level;
     private final ApplicationImpl game;
     private BufferedImage gameoverImg;
     private int gameoverX, gameoverY, gameoverW, gameoverH;
-    private ResumeRestartHomeButtonsImpl home, restart;
+    private ResumeRestartHomeButtonsImpl home;
+    private ResumeRestartHomeButtonsImpl restart;
 
-    public GameOver(GameplayImpl playing, LevelManagerImpl levelEtity, ApplicationImpl game) {
+    /**
+     * Constructs the Game Over screen.
+     *
+     * @param playing The current gameplay instance.
+     * @param level   The level manager handling the current level.
+     * @param game    The main application instance.
+     */
+    public GameOver(final GameplayImpl playing, final LevelManagerImpl level, final ApplicationImpl game) {
         this.playing = playing;
-        this.level = levelEtity;
+        this.level = level;
         this.game = game;
-        createdgameover();
+        createGameOverPanel();
         createButtons();
     }
 
-    private void createdgameover() {
+    /**
+     * Loads and initializes the Game Over panel image.
+     */
+    private void createGameOverPanel() {
         gameoverImg = ResourceFuncUtilities.loadSources(Images.GAMEOVER_PANEL);
         gameoverW = (int) (gameoverImg.getWidth() * Window.SCALE);
         gameoverH = (int) (gameoverImg.getHeight() * Window.SCALE);
@@ -44,16 +59,42 @@ public class GameOver implements View {
         gameoverY = PanelSize.GAMEOVER_Y;
     }
 
+    /**
+     * Initializes the buttons for restart and returning home.
+     */
     private void createButtons() {
-        restart = new ResumeRestartHomeButtonsImpl(GameOverButtons.RESTART_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.SECOND_ROW_INDEX);
-        home = new ResumeRestartHomeButtonsImpl(GameOverButtons.HOME_X, GameOverButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        restart = new ResumeRestartHomeButtonsImpl(
+                GameOverButtons.RESTART_X, 
+                GameOverButtons.BTN_Y, 
+                RRHButtons.RRH_SIZE, 
+                RRHButtons.RRH_SIZE, 
+                ButtonsValues.SECOND_ROW_INDEX);
+        home = new ResumeRestartHomeButtonsImpl(
+                GameOverButtons.HOME_X, 
+                GameOverButtons.BTN_Y, 
+                RRHButtons.RRH_SIZE, 
+                RRHButtons.RRH_SIZE, 
+                ButtonsValues.THIRD_ROW_INDEX);
     }
 
-    private boolean isIn(ResumeRestartHomeButtonsImpl b, MouseEvent e) {
+    /**
+     * Checks if a mouse event occurred inside a button's bounds.
+     *
+     * @param b The button to check.
+     * @param e The mouse event.
+     * @return True if the mouse is within the button's bounds, otherwise false.
+     */
+    private boolean isIn(final ResumeRestartHomeButtonsImpl b, final MouseEvent e) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 
-    public void draw(Graphics g) {
+    /**
+     * Draws the Game Over screen, including buttons.
+     *
+     * @param g The graphics context used for rendering.
+     */
+    @Override
+    public void draw(final Graphics g) {
         g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
         g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
         g.drawImage(gameoverImg, gameoverX, gameoverY, gameoverW, gameoverH, null);
@@ -61,21 +102,35 @@ public class GameOver implements View {
         home.draw(g);
     }
 
-    
-    public void keyPressed(KeyEvent e) {
+    /**
+     * Handles keyboard input.
+     * Pressing ESC returns to the main menu.
+     *
+     * @param e The key event.
+     */
+    @Override
+    public void keyPressed(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            //playing.resetAll();
             Gamestate.setState(Gamestate.MENU);
         }
     }
 
+    /**
+     * Updates the button states.
+     */
+    @Override
     public void update() {
         restart.update();
         home.update();
     }
 
+    /**
+     * Handles mouse movement events to update button hover states.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(final MouseEvent e) {
         restart.setMouseOver(false);
         home.setMouseOver(false);
 
@@ -86,30 +141,36 @@ public class GameOver implements View {
         }
     }
 
+    /**
+     * Handles mouse release events and performs the corresponding actions.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
-        if (isIn(home, e)) {
-            if (home.isMousePressed()) {
-                playing.resetAll();
-                game.getAudioUtilities().playMenuSong();
-                Gamestate.setState(Gamestate.MENU);
-                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
-                game.getAudioUtilities().playMenuSong();
-            }
-        } else if (isIn(restart, e)) {
-            if (restart.isMousePressed()) {
-                playing.resetAll();
-                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
-                game.getAudioUtilities().playLevelSong();
-            }
+    public void mouseReleased(final MouseEvent e) {
+        if (isIn(home, e) && home.isMousePressed()) {
+            playing.resetAll();
+            game.getAudioUtilities().playMenuSong();
+            Gamestate.setState(Gamestate.MENU);
+            playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
+            game.getAudioUtilities().playMenuSong();
+        } else if (isIn(restart, e) && restart.isMousePressed()) {
+            playing.resetAll();
+            playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
+            game.getAudioUtilities().playLevelSong();
         }
 
         home.resetBools();
         restart.resetBools();
     }
 
+    /**
+     * Handles mouse press events to mark buttons as pressed.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         if (isIn(home, e)) {
             home.setMousePressed(true);
         } else if (isIn(restart, e)) {
@@ -117,13 +178,23 @@ public class GameOver implements View {
         }
     }
 
+    /**
+     * Handles mouse click events.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseClicked(MouseEvent e) {
-
+    public void mouseClicked(final MouseEvent e) {
+        // No action required on click
     }
 
+    /**
+     * Handles key release events.
+     *
+     * @param e The key event.
+     */
     @Override
-    public void keyReleased(KeyEvent e) {
-
+    public void keyReleased(final KeyEvent e) {
+        // No action required for key release
     }
 }

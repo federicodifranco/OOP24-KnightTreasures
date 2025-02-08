@@ -21,7 +21,11 @@ import it.unibo.knightreasures.utilities.ViewConstants.Star;
 import it.unibo.knightreasures.utilities.ViewConstants.Window;
 import it.unibo.knightreasures.view.api.View;
 
-public class LvlCompleted implements View {
+/**
+ * Represents the level completed screen.
+ * Displays the player's performance, earned stars, and provides buttons for navigation.
+ */
+public final class LvlCompleted implements View {
 
     private final GameplayImpl playing;
     private final LevelManagerImpl level;
@@ -29,22 +33,33 @@ public class LvlCompleted implements View {
     private final StarsImpl stars;
     private final ObjectManagerImpl objects;
     private boolean enemiesInactive;
-    private ResumeRestartHomeButtonsImpl home, next;
+    private ResumeRestartHomeButtonsImpl home;
+    private ResumeRestartHomeButtonsImpl next;
     private BufferedImage lvlCompletedImg;
     private int lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH;
     private int playerLives, collectedTreasure;
 
-    public LvlCompleted(GameplayImpl playing, LevelManagerImpl level, ApplicationImpl game) {
+    /**
+     * Constructs the level completed screen.
+     *
+     * @param playing The current gameplay instance.
+     * @param level   The level manager handling the current level.
+     * @param game    The main application instance.
+     */
+    public LvlCompleted(final GameplayImpl playing, final LevelManagerImpl level, final ApplicationImpl game) {
         this.playing = playing;
         this.game = game;
         this.level = level;
         this.objects = playing.getObjectManager();
         this.stars = new StarsImpl(Star.INIT_X, Star.INIT_Y, Star.STAR_SIZE);
-        initlvlCompletedImg();
+        initLvlCompletedImg();
         initButtons();
     }
 
-    private void initlvlCompletedImg() {
+    /**
+     * Loads the level completed panel image and scales it accordingly.
+     */
+    private void initLvlCompletedImg() {
         lvlCompletedImg = ResourceFuncUtilities.loadSources(Images.LVL_COMPLETE);
         lvlCompletedW = (int) (lvlCompletedImg.getWidth() * Window.SCALE);
         lvlCompletedH = (int) (lvlCompletedImg.getHeight() * Window.SCALE);
@@ -52,87 +67,140 @@ public class LvlCompleted implements View {
         lvlCompletedY = PanelSize.LVL_COMPLETED_Y;
     }
 
+    /**
+     * Initializes the buttons for navigating after completing the level.
+     */
     private void initButtons() {
-        next = new ResumeRestartHomeButtonsImpl(LvlCompletedButtons.NEXT_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.FIRST_ROW_INDEX);
-        home = new ResumeRestartHomeButtonsImpl(LvlCompletedButtons.HOME_X, LvlCompletedButtons.BTN_Y, RRHButtons.RRH_SIZE, RRHButtons.RRH_SIZE, ButtonsValues.THIRD_ROW_INDEX);
+        next = new ResumeRestartHomeButtonsImpl(
+                LvlCompletedButtons.NEXT_X, 
+                LvlCompletedButtons.BTN_Y, 
+                RRHButtons.RRH_SIZE, 
+                RRHButtons.RRH_SIZE, 
+                ButtonsValues.FIRST_ROW_INDEX);
+        home = new ResumeRestartHomeButtonsImpl(
+                LvlCompletedButtons.HOME_X, 
+                LvlCompletedButtons.BTN_Y, 
+                RRHButtons.RRH_SIZE, 
+                RRHButtons.RRH_SIZE, 
+                ButtonsValues.THIRD_ROW_INDEX);
     }
 
-    private boolean isIn(ResumeRestartHomeButtonsImpl b, MouseEvent e) {
+    /**
+     * Checks if a mouse event occurred inside a button's bounds.
+     *
+     * @param b The button to check.
+     * @param e The mouse event.
+     * @return True if the mouse is within the button's bounds, otherwise false.
+     */
+    private boolean isIn(final ResumeRestartHomeButtonsImpl b, final MouseEvent e) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 
+    /**
+     * Updates the buttons' states.
+     */
     @Override
     public void update() {
         next.update();
         home.update();
     }
 
+    /**
+     * Draws the level completed screen and its components.
+     *
+     * @param g The graphics context used for rendering.
+     */
     @Override
-    public void draw(Graphics g) {
+    public void draw(final Graphics g) {
         g.setColor(new Color(0, 0, 0, LevelsValues.GREY_BACKGROUND));
         g.fillRect(0, 0, Window.GAME_WIDTH, Window.GAME_HEIGHT);
         g.drawImage(lvlCompletedImg, lvlCompletedX, lvlCompletedY, lvlCompletedW, lvlCompletedH, null);
         next.draw(g);
         home.draw(g);
-        this.enemiesInactive = !playing.getEnemyManager().hasActiveEnemies();
-        this.playerLives = playing.getPlayer().getLives();
-        this.collectedTreasure = objects.isAllCollectedTreasures();
+        enemiesInactive = !playing.getEnemyManager().hasActiveEnemies();
+        playerLives = playing.getPlayer().getLives();
+        collectedTreasure = objects.isAllCollectedTreasures();
         stars.updateStarStates(enemiesInactive, playerLives, collectedTreasure);
         stars.draw(g);
     }
 
+    /**
+     * Handles mouse click events.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseClicked(MouseEvent e) {
-        
+    public void mouseClicked(final MouseEvent e) {
+        // No action required on click
     }
 
+    /**
+     * Handles mouse press events.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         if (isIn(home, e)) {
-            home.setMousePressed(true); 
-        }else if (isIn(next, e)) {
+            home.setMousePressed(true);
+        } else if (isIn(next, e)) {
             next.setMousePressed(true);
         }
     }
 
+    /**
+     * Handles mouse release events and performs the corresponding actions.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseReleased(MouseEvent e) {
-        if (isIn(home, e)) {
-            if (home.isMousePressed()) {
-                Gamestate.setState(Gamestate.MENU);
-                game.getAudioUtilities().playMenuSong();
-                playing.resetAll();
-                playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
-            }
-        } else if (isIn(next, e)) {
-            if (next.isMousePressed()) {
-                playing.loadNextLvl();
-            }
+    public void mouseReleased(final MouseEvent e) {
+        if (isIn(home, e) && home.isMousePressed()) {
+            Gamestate.setState(Gamestate.MENU);
+            game.getAudioUtilities().playMenuSong();
+            playing.resetAll();
+            playing.getPlayer().setSpawn(level.getCurrentLevel().getPlayerSpawn());
+        } else if (isIn(next, e) && next.isMousePressed()) {
+            playing.loadNextLvl();
         }
         home.resetBools();
         next.resetBools();
     }
 
+    /**
+     * Handles mouse movement events and updates button hover states.
+     *
+     * @param e The mouse event.
+     */
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(final MouseEvent e) {
         next.setMouseOver(false);
         home.setMouseOver(false);
 
         if (isIn(home, e)) {
-            home.setMouseOver(true); 
-        }else if (isIn(next, e)) {
+            home.setMouseOver(true);
+        } else if (isIn(next, e)) {
             next.setMouseOver(true);
         }
     }
 
+    /**
+     * Handles key press events.
+     *
+     * @param e The key event.
+     */
     @Override
-    public void keyPressed(KeyEvent e) {
-        
+    public void keyPressed(final KeyEvent e) {
+        // No action required for key press
     }
 
+    /**
+     * Handles key release events.
+     *
+     * @param e The key event.
+     */
     @Override
-    public void keyReleased(KeyEvent e) {
-        
+    public void keyReleased(final KeyEvent e) {
+        // No action required for key release
     }
-
 }
