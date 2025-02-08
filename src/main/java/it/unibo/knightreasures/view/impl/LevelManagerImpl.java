@@ -16,18 +16,12 @@ import it.unibo.knightreasures.view.api.LevelManager;
 /**
  * Manages the levels in the game, including rendering and loading level assets.
  */
-public final class LevelManagerImpl implements LevelManager{
+public final class LevelManagerImpl implements LevelManager {
 
-    /** Reference to the main game application. */
     private final ApplicationImpl game;
-
-    /** Array storing the level sprites. */
     private BufferedImage[] levelSprite;
-
-    /** Represents the first level of the game. */
     private final List<LevelImpl> levels;
     private int lvlIndex = LevelsValues.LVL_INDEX;
-
 
     /**
      * Constructs a new LevelManager.
