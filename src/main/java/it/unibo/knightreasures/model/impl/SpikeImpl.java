@@ -11,7 +11,7 @@ public class SpikeImpl extends GameObjectImpl {
 
     private void createHitbox() {
         initHitbox(ObjectConstants.SPIKE_HITBOX_WIDTH, ObjectConstants.SPIKE_HITBOX_HEIGHT);
-        yOffset += ObjectConstants.SPIKE_OFFSET;
-        hitbox.y += yOffset;
+        setYOffset(getYOffset() + ObjectConstants.SPIKE_OFFSET);
+        getHitbox().y += getYOffset();
     }
 }

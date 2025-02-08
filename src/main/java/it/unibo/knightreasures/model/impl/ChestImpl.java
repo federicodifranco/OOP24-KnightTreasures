@@ -15,19 +15,19 @@ public class ChestImpl extends GameObjectImpl implements Chest{
 
     private void createHitbox() {
         initHitbox(ObjectConstants.CHEST_HITBOX_WIDTH, ObjectConstants.CHEST_HITBOX_HEIGHT);
-        yOffset += ObjectConstants.CHEST_Y_OFFSET;
-        xOffset += ObjectConstants.CHEST_X_OFFSET;
-        hitbox.y += yOffset;
-        hitbox.x += yOffset;
+        setYOffset(getYOffset() + ObjectConstants.CHEST_Y_OFFSET);
+        setXOffset(getXOffset() + ObjectConstants.CHEST_X_OFFSET);
+        getHitbox().y += getYOffset();
+        getHitbox().x += getYOffset();
     }
 
     @Override
     public void update() {
-        if (doAnimation) {
+        if (getAnimation()) {
             updateAnimationTick();
-            if (aniIndex >= getSpriteAmount(ObjectsValues.CHEST) - ObjectsValues.CHEST_SPRITE_ANI && isOpened()) {
-                aniIndex = getSpriteAmount(ObjectsValues.CHEST) - ObjectsValues.CHEST_SPRITE_ANI;
-                doAnimation = false;
+            if (getAniIndex() >= getSpriteAmount(ObjectsValues.CHEST) - ObjectsValues.CHEST_SPRITE_ANI && isOpened()) {
+                setAniIndex(getSpriteAmount(ObjectsValues.CHEST) - ObjectsValues.CHEST_SPRITE_ANI);
+                setAnimation(false);
             }
         }
     }
@@ -44,15 +44,15 @@ public class ChestImpl extends GameObjectImpl implements Chest{
 
     public void setAnimation(boolean animation) {
         if (!opened) {
-            doAnimation = animation;
+            setAnimation(animation);
         }
     }
 
     public void reset() {
-        aniIndex = 0;
-        aniTick = 0;
-        doAnimation = false;
-        opened = false;
-        active = true;
+        setAniIndex(0);
+        setAniTick(0);
+        setAnimation(false);
+        setOpened(false);
+        setActive(true);
     }
 }

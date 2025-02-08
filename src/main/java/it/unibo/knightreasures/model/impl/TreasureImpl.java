@@ -11,7 +11,7 @@ public class TreasureImpl extends GameObjectImpl implements Treasure{
 
 	public TreasureImpl(int x, int y, int objType) {
 		super(x, y, objType);
-		doAnimation = true;
+		setAnimation(true);
 		initHitbox(ObjectConstants.TREASURE_HITBOX_WIDTH, ObjectConstants.TREASURE_HITBOX_HEIGHT);
 	}
 
@@ -23,7 +23,7 @@ public class TreasureImpl extends GameObjectImpl implements Treasure{
 		else if (hoverOffset < 0)
 			hoverDir = ObjectsValues.HOVER_DIRECTION;
 
-		hitbox.y = y + hoverOffset;
+		getHitbox().y = getY() + hoverOffset;
 	}
 
 	@Override
