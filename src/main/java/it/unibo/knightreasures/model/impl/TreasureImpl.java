@@ -11,7 +11,7 @@ public class TreasureImpl extends GameObjectImpl implements Treasure{
 
 	public TreasureImpl(int x, int y, int objType) {
 		super(x, y, objType);
-		setAnimation(true);
+		setDoAnimation(true);
 		initHitbox(ObjectConstants.TREASURE_HITBOX_WIDTH, ObjectConstants.TREASURE_HITBOX_HEIGHT);
 	}
 

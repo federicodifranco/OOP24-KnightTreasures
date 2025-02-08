@@ -211,7 +211,7 @@ public abstract class EntityManagerImpl {
      *
      * @return the animation index.
      */
-    public int getIndex() {
+    public int getAniIndex() {
         return this.aniIndex;
     }
 

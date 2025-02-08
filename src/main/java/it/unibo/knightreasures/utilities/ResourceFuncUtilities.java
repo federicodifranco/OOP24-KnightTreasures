@@ -16,8 +16,10 @@ import javax.swing.ImageIcon;
 import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 
 /**
- * Utility class for handling resource-related operations, such as loading images and creating levels.
- * <p>This class cannot be instantiated or extended.</p>
+ * Utility class for handling resource-related operations, such as loading
+ * images and creating levels.
+ * <p>
+ * This class cannot be instantiated or extended.</p>
  */
 public final class ResourceFuncUtilities {
 
@@ -74,6 +76,14 @@ public final class ResourceFuncUtilities {
         return img;
     }
 
+    /**
+     * Loads all level images from the "src/main/resources/levels" directory.
+     * This method searches for PNG files, sorts them by name, and loads them as
+     * BufferedImage. If no level files are found, it returns an empty array.
+     *
+     * @return An array of BufferedImage containing all level images, or an
+     * empty array if none are found.
+     */
     public static BufferedImage[] getAllLevels() {
         final File directory = new File("src/main/resources/levels");
         File[] levelFiles = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));

@@ -17,7 +17,7 @@ import it.unibo.knightreasures.view.impl.LevelImpl;
 /**
  * Manages enemies in the game, including their state, rendering, and updates.
  */
-public final class EnemyManagerImpl implements EnemyManager{
+public final class EnemyManagerImpl implements EnemyManager {
 
     private static final int SKELETON_STATES = 5;
     private static final int SKELETON_ANIMATION_FRAMES = 11;
@@ -50,7 +50,7 @@ public final class EnemyManagerImpl implements EnemyManager{
      * @param lvlData the level data containing collision information.
      */
     @Override
-    public void update(final int[][] lvlData, PlayerEntityImpl player) {
+    public void update(final int[][] lvlData, final PlayerEntityImpl player) {
         boolean isAnyActive = false;
         for (SkeletonImpl skt : skeletons) {
             if (skt.isActive()) {
@@ -58,7 +58,9 @@ public final class EnemyManagerImpl implements EnemyManager{
                 isAnyActive = true;
             }
         }
-        if (!isAnyActive) playing.setLevelCompleted(true);
+        if (!isAnyActive) {
+            playing.setLevelCompleted(true);
+        }
     }
 
     /**
@@ -73,7 +75,7 @@ public final class EnemyManagerImpl implements EnemyManager{
     }
 
     @Override
-    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+    public void checkEnemyHit(final Rectangle2D.Float attackBox) {
         for (SkeletonImpl skt : skeletons) {
             if (skt.isActive() && attackBox.intersects(skt.getHitbox()) && skt.getCurrentHealth() > 0) {
                 skt.hurt(SkeletonsValues.DAMAGE);
@@ -92,7 +94,7 @@ public final class EnemyManagerImpl implements EnemyManager{
     public void drawSkeletons(final Graphics g, final int xLvlOffset) {
         for (final SkeletonImpl skt : skeletons) {
              if (skt.isActive()) {
-                g.drawImage(skeletonArr[skt.getEnemyState()][skt.getIndex()], 
+                g.drawImage(skeletonArr[skt.getEnemyState()][skt.getAniIndex()], 
                 (int) skt.getHitbox().x - xLvlOffset - Skeletons.DRAW_OFFSET_X + skt.flipX(), 
                 (int) skt.getHitbox().y - Skeletons.DRAW_OFFSET_Y, 
                 Skeletons.WIDTH * skt.flipW(), 

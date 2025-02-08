@@ -38,6 +38,17 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         currentHealth = maxHealth;
     }
 
+    private int getSpriteAmount(final int enemyState) {
+        return switch (enemyState) {
+            case SkeletonsValues.IDLE -> SkeletonsValues.IDLE_SPRITES;
+            case SkeletonsValues.RUN -> SkeletonsValues.RUN_SPRITES;
+            case SkeletonsValues.ATTACK -> SkeletonsValues.ATTACK_SPRITES;
+            case SkeletonsValues.HURT -> SkeletonsValues.HURT_SPRITES;
+            case SkeletonsValues.DIE -> SkeletonsValues.DIE_SPRITES;
+            default -> SkeletonsValues.IDLE_SPRITES;
+        };
+    }
+
     /**
      * Checks if this is the first update and adjusts enemy state accordingly.
      *
@@ -50,21 +61,6 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
             }
             firstUpdate = false;
         }
-    }
-
-    @Override
-    public void hurt(final int amount) {
-        currentHealth -= amount;
-        if (currentHealth <= 0) {
-            newState(SkeletonsValues.DIE);
-        } else {
-            newState(SkeletonsValues.HURT);
-        }
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
     }
 
     /**
@@ -103,7 +99,6 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      */
     protected void move(final int[][] lvlData) {
         float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
-        
         if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
             if (HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
                 getHitbox().x += xSpeed;
@@ -142,8 +137,8 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      */
     protected boolean canSeePlayer(final int[][] lvlData, final PlayerEntityImpl player) {
         int playerTileY = (int) (player.getHitbox().y / Window.TILES_SIZE);
-        return playerTileY == tileY && isPlayerInRange(player) &&
-               HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY);
+        return playerTileY == tileY && isPlayerInRange(player) 
+        && HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY);
     }
 
     /**
@@ -153,7 +148,7 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      * @return True if the player is within range, false otherwise.
      */
     protected boolean isPlayerInRange(final PlayerEntityImpl player) {
-        return Math.abs(player.getHitbox().x - getHitbox().x) <= attackDistance * 5;
+        return Math.abs(player.getHitbox().x - getHitbox().x) <= attackDistance * SkeletonsValues.RANGE_TO_SEE_PLAYER;
     }
 
     /**
@@ -164,17 +159,6 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      */
     protected boolean isPlayerCloseForAttack(final PlayerEntityImpl player) {
         return Math.abs(player.getHitbox().x - getHitbox().x) <= attackDistance;
-    }
-
-    private int getSpriteAmount(final int enemyState) {
-        return switch (enemyState) {
-            case SkeletonsValues.IDLE -> SkeletonsValues.IDLE_SPRITES;
-            case SkeletonsValues.RUN -> SkeletonsValues.RUN_SPRITES;
-            case SkeletonsValues.ATTACK -> SkeletonsValues.ATTACK_SPRITES;
-            case SkeletonsValues.HURT -> SkeletonsValues.HURT_SPRITES;
-            case SkeletonsValues.DIE -> SkeletonsValues.DIE_SPRITES;
-            default -> SkeletonsValues.IDLE_SPRITES;
-        };
     }
 
     /**
@@ -190,7 +174,9 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
                 switch (enemyState) {
                     case SkeletonsValues.ATTACK, SkeletonsValues.HURT -> enemyState = SkeletonsValues.IDLE;
                     case SkeletonsValues.DIE -> active = false;
-                    default -> {}
+                    default -> {
+                        // No action required for unhandled keys
+                    }
                 }
             }
         }
@@ -203,11 +189,34 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         walkDir = (walkDir == Directions.LEFT) ? Directions.RIGHT : Directions.LEFT;
     }
 
+    /**
+     * Reduces the enemy's health when attacked.
+     *
+     * @param amount The amount of damage taken.
+     */
     @Override
-    public int getIndex() {
-        return aniIndex;
+    public void hurt(final int amount) {
+        currentHealth -= amount;
+        if (currentHealth <= 0) {
+            newState(SkeletonsValues.DIE);
+        } else {
+            newState(SkeletonsValues.HURT);
+        }
     }
 
+    /**
+     * Checks if the enemy is still active.
+     *
+     * @return {@code true} if the enemy is active, {@code false} otherwise.
+     */
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Resets the enemy to its initial state.
+     */
     @Override
     public void resetEnemy() {
         getHitbox().x = getX();
@@ -219,31 +228,61 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         setAirSpeed(0);
     }
 
+    /**
+     * Gets the current enemy state.
+     *
+     * @return The enemy state.
+     */
     @Override
     public int getEnemyState() {
         return enemyState;
     }
 
+    /**
+     * Checks if it's the first update.
+     *
+     * @return {@code true} if it's the first update, {@code false} otherwise.
+     */
     @Override
     public boolean getFirstupdate() {
         return firstUpdate;
     }
 
+    /**
+     * Returns the current enemy animation index.
+     *
+     * @return The animation index.
+     */
     @Override
     public int getAniIndex() {
         return aniIndex;
     }
 
+    /**
+     * Checks if the enemy has already checked for an attack.
+     *
+     * @return True if the attack has been checked, false otherwise.
+     */
     @Override
     public boolean isAttackChecked() {
         return attackChecked;
     }
 
+    /**
+     * Sets whether the attack has been checked.
+     *
+     * @param attackChecked True if the attack has been checked, false otherwise.
+     */
     @Override
     public void setAttackChecked(final boolean attackChecked) {
         this.attackChecked = attackChecked;
     }
 
+    /**
+     * Gets the enemy's current walking direction.
+     *
+     * @return The walking direction.
+     */
     @Override
     public int getWalkDir() {
         return walkDir;

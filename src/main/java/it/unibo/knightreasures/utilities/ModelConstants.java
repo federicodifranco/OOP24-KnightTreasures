@@ -239,6 +239,11 @@ public final class ModelConstants {
          */
         public static final int DIE_SPRITES = 11;
 
+        /**
+         * The range for the skeleton to see the player.
+         */
+        public static final int RANGE_TO_SEE_PLAYER = 5;
+
     }
 
     /**

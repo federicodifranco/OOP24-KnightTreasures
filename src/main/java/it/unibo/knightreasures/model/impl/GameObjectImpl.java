@@ -13,7 +13,8 @@ import it.unibo.knightreasures.utilities.ModelConstants.ObjectsValues;
  */
 public abstract class GameObjectImpl implements GameObject {
 
-    private int x, y, objType, xOffset, yOffset;
+    private int x, y, xOffset, yOffset;
+    private final int objType;
     private Rectangle2D.Float hitbox;
     private boolean doAnimation;
     private boolean active = true;
@@ -112,7 +113,7 @@ public abstract class GameObjectImpl implements GameObject {
     }
 
     @Override
-    public void setAnimation(final boolean doAnimation) {
+    public void setDoAnimation(final boolean doAnimation) {
         this.doAnimation = doAnimation;
     }
 
@@ -121,6 +122,7 @@ public abstract class GameObjectImpl implements GameObject {
         return aniIndex;
     }
 
+    @Override
     public void setAniIndex(final int aniIndex) {
         this.aniIndex = aniIndex;
     }
@@ -135,18 +137,22 @@ public abstract class GameObjectImpl implements GameObject {
         return yOffset;
     }
 
+    @Override
     public void setYOffset(final int yOffset) {
         this.yOffset = yOffset;
     }
 
+    @Override
     public void setXOffset(final int xOffset) {
         this.xOffset = xOffset;
     }
 
-    public boolean getAnimation() {
+    @Override
+    public boolean getDoAnimation() {
         return doAnimation;
     }
 
+    @Override
     public void setAniTick(final int aniTick) {
         this.aniTick = aniTick;
     }
@@ -156,6 +162,7 @@ public abstract class GameObjectImpl implements GameObject {
      * 
      * @return the x-coordinate
      */
+    @Override
     public int getX() {
         return x;
     }
@@ -165,6 +172,7 @@ public abstract class GameObjectImpl implements GameObject {
      * 
      * @param x the new x-coordinate
      */
+    @Override
     public void setX(final int x) {
         this.x = x;
     }
@@ -174,6 +182,7 @@ public abstract class GameObjectImpl implements GameObject {
      * 
      * @return the y-coordinate
      */
+    @Override
     public int getY() {
         return y;
     }
@@ -183,6 +192,7 @@ public abstract class GameObjectImpl implements GameObject {
      * 
      * @param y the new y-coordinate
      */
+    @Override
     public void setY(final int y) {
         this.y = y;
     }
