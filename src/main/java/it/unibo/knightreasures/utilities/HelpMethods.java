@@ -128,8 +128,10 @@ public final class HelpMethods {
      * @return true if the entity is on the floor, false otherwise.
      */
     public static boolean isEntityOnFloor(final Rectangle2D.Float hitbox, final int[][] lvlData) {
-        return isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)
-                || isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
+        return isSolid(hitbox.x, hitbox.y + hitbox.height + LevelsValues.FLOOR_OFFSET, lvlData)
+                || isSolid(hitbox.x + hitbox.width, 
+                            hitbox.y + hitbox.height + LevelsValues.FLOOR_OFFSET, 
+                            lvlData);
     }
 
     /**

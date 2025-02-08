@@ -6,6 +6,7 @@ import it.unibo.knightreasures.model.api.EnemyEntity;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.utilities.ModelConstants.Application;
 import it.unibo.knightreasures.utilities.ModelConstants.Directions;
+import it.unibo.knightreasures.utilities.ModelConstants.LevelsValues;
 import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.utilities.ViewConstants.Physics;
 import it.unibo.knightreasures.utilities.ViewConstants.Skeletons;
@@ -110,11 +111,22 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
      * @param lvlData The level data for collision checks.
      */
     protected void move(final int[][] lvlData) {
-        final float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
-        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)
-                && HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
-            getHitbox().x += xSpeed;
-            return;
+        final float xSpeed;
+        if (getWalkDir() == Directions.LEFT) {
+            xSpeed = -Skeletons.SPEED;
+            if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)
+                    && HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
+                getHitbox().x += xSpeed;
+                return;
+            }
+        } else {
+            xSpeed = Skeletons.SPEED;
+            if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)
+                    && HelpMethods.isFloor(new Rectangle2D.Float(getHitbox().x + getHitbox().width, getHitbox().y,
+                            LevelsValues.FLOOR_OFFSET, getHitbox().height), xSpeed, lvlData)) {
+                getHitbox().x += xSpeed;
+                return;
+            }
         }
         changeWalkDir();
     }
