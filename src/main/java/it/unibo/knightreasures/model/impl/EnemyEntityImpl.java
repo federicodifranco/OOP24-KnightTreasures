@@ -13,21 +13,37 @@ import it.unibo.knightreasures.utilities.ViewConstants.Window;
 
 /**
  * Represents an enemy entity in the game.
+ * This class provides basic behavior for all enemy entities, 
+ * including movement, health, and state management.
  */
-public abstract class EnemyEntityImpl extends EntityManagerImpl implements EnemyEntity{
+public abstract class EnemyEntityImpl extends EntityManagerImpl implements EnemyEntity {
 
-    protected int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
-    protected boolean firstUpdate = true, inAir, attackChecked, active = true;
-    protected float attackDistance = Window.TILES_SIZE, fallSpeed;
+    private int aniIndex, aniTick, enemyState, tileY, walkDir = Directions.LEFT;
+    private boolean firstUpdate = true, attackChecked, active = true;
+    private final float attackDistance = Window.TILES_SIZE;
+    private float fallSpeed;
 
-    public EnemyEntityImpl(float x, float y, int width, int height) {
+    /**
+     * Constructs an enemy entity.
+     *
+     * @param x The x-coordinate of the enemy.
+     * @param y The y-coordinate of the enemy.
+     * @param width The width of the enemy.
+     * @param height The height of the enemy.
+     */
+    public EnemyEntityImpl(final float x, final float y, final int width, final int height) {
         super(x, y, width, height);
         initHitBox(width, height);
         maxHealth = SkeletonsValues.NUM_LIVES;
         currentHealth = maxHealth;
     }
 
-    protected void firstUpdateCheck(int[][] lvlData) {
+    /**
+     * Checks if this is the first update and adjusts enemy state accordingly.
+     *
+     * @param lvlData The level data for collision checks.
+     */
+    protected void firstUpdateCheck(final int[][] lvlData) {
         if (firstUpdate) {
             if (!HelpMethods.isEntityOnFloor(getHitbox(), lvlData)) {
                 setInAir(true);
@@ -37,10 +53,13 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
     }
 
     @Override
-    public void hurt(int amount) {
+    public void hurt(final int amount) {
         currentHealth -= amount;
-        if (currentHealth <= 0) newState(SkeletonsValues.DIE);
-        else newState(SkeletonsValues.HURT);
+        if (currentHealth <= 0) {
+            newState(SkeletonsValues.DIE);
+        } else {
+            newState(SkeletonsValues.HURT);
+        }
     }
 
     @Override
@@ -48,12 +67,25 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         return active;
     }
 
-    protected void checkPlayerHit(Rectangle2D.Float attackBox, PlayerEntityImpl player) {
-        if (attackBox.intersects(player.getHitbox())) player.loseHeart();
+    /**
+     * Checks if the enemy's attack hit the player.
+     *
+     * @param attackBox The attack hitbox.
+     * @param player The player entity.
+     */
+    protected void checkPlayerHit(final Rectangle2D.Float attackBox, final PlayerEntityImpl player) {
+        if (attackBox.intersects(player.getHitbox())) {
+            player.loseHeart();
+        }
         attackChecked = true;
     }
 
-    protected void updateInAir(int[][] lvlData) {
+    /**
+     * Handles enemy falling and gravity.
+     *
+     * @param lvlData The level data for collision checks.
+     */
+    protected void updateInAir(final int[][] lvlData) {
         if (HelpMethods.canMoveHere(getHitbox().x, getHitbox().y + fallSpeed, getHitbox().width, getHitbox().height, lvlData)) {
             getHitbox().y += fallSpeed;
             fallSpeed += Physics.GRAVITY;
@@ -64,80 +96,90 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         }
     }
 
-    protected void move(int[][] lvlData) {
-        float xSpeed = 0;
-        if (walkDir == Directions.LEFT) {
-            xSpeed = -Skeletons.SPEED;
-            if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
-                if (HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
-                    getHitbox().x += xSpeed;
-                    return;
-                }
-            }
-        } else {
-            xSpeed = Skeletons.SPEED;
-            if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
-                Rectangle2D.Float rightEdgeBox = new Rectangle2D.Float(getHitbox().x + getHitbox().width, getHitbox().y, 1 , getHitbox().height);
-                if (HelpMethods.isFloor(rightEdgeBox, xSpeed, lvlData)) {
-                    getHitbox().x += xSpeed;
-                    return;
-                }
+    /**
+     * Handles enemy movement and walking direction.
+     *
+     * @param lvlData The level data for collision checks.
+     */
+    protected void move(final int[][] lvlData) {
+        float xSpeed = (walkDir == Directions.LEFT) ? -Skeletons.SPEED : Skeletons.SPEED;
+        
+        if (HelpMethods.canMoveHere(getHitbox().x + xSpeed, getHitbox().y, getHitbox().width, getHitbox().height, lvlData)) {
+            if (HelpMethods.isFloor(getHitbox(), xSpeed, lvlData)) {
+                getHitbox().x += xSpeed;
+                return;
             }
         }
         changeWalkDir();
     }
 
-    protected void newState(int enemyState) {
+    /**
+     * Sets a new state for the enemy.
+     *
+     * @param enemyState The new state.
+     */
+    protected void newState(final int enemyState) {
         this.enemyState = enemyState;
         aniTick = 0;
         aniIndex = 0;
     }
 
-    protected void turnTowardsPlayer(PlayerEntityImpl player) {
-        if (player.getHitbox().x > getHitbox().x) {
-            walkDir = Directions.RIGHT;
-        } else walkDir = Directions.LEFT;
+    /**
+     * Turns the enemy towards the player.
+     *
+     * @param player The player entity.
+     */
+    protected void turnTowardsPlayer(final PlayerEntityImpl player) {
+        walkDir = (player.getHitbox().x > getHitbox().x) ? Directions.RIGHT : Directions.LEFT;
     }
 
-    protected boolean canSeePlayer(int[][] lvlData, PlayerEntityImpl player) {
+    /**
+     * Checks if the enemy has line of sight to the player.
+     *
+     * @param lvlData The level data for collision checks.
+     * @param player The player entity.
+     * @return True if the enemy can see the player, false otherwise.
+     */
+    protected boolean canSeePlayer(final int[][] lvlData, final PlayerEntityImpl player) {
         int playerTileY = (int) (player.getHitbox().y / Window.TILES_SIZE);
-        if (playerTileY == tileY) {
-            if (isPlayerInRange(player)) {
-                if (HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return playerTileY == tileY && isPlayerInRange(player) &&
+               HelpMethods.isSightClear(lvlData, getHitbox(), player.getHitbox(), tileY);
     }
 
-    protected boolean isPlayerInRange(PlayerEntityImpl player) {
-        int absValue = (int) Math.abs(player.getHitbox().x - getHitbox().x);
-        return absValue <= attackDistance * 5;
+    /**
+     * Checks if the player is within a certain range.
+     *
+     * @param player The player entity.
+     * @return True if the player is within range, false otherwise.
+     */
+    protected boolean isPlayerInRange(final PlayerEntityImpl player) {
+        return Math.abs(player.getHitbox().x - getHitbox().x) <= attackDistance * 5;
     }
 
-    protected boolean isPlayerCloseForAttack(PlayerEntityImpl player) {
-        int absValue = (int) Math.abs(player.getHitbox().x - getHitbox().x);
-        return absValue <= attackDistance;
+    /**
+     * Checks if the player is close enough for an attack.
+     *
+     * @param player The player entity.
+     * @return True if the player is in attack range, false otherwise.
+     */
+    protected boolean isPlayerCloseForAttack(final PlayerEntityImpl player) {
+        return Math.abs(player.getHitbox().x - getHitbox().x) <= attackDistance;
     }
 
     private int getSpriteAmount(final int enemyState) {
-        switch (enemyState) {
-            case SkeletonsValues.IDLE:
-                return SkeletonsValues.IDLE_SPRITES;
-                case SkeletonsValues.RUN:
-                return SkeletonsValues.RUN_SPRITES;
-                case SkeletonsValues.ATTACK:
-                return SkeletonsValues.ATTACK_SPRITES;
-                case SkeletonsValues.HURT:
-                return SkeletonsValues.HURT_SPRITES;
-                case SkeletonsValues.DIE:
-                return SkeletonsValues.DIE_SPRITES;
-            default:
-               return SkeletonsValues.IDLE_SPRITES;
-        }
+        return switch (enemyState) {
+            case SkeletonsValues.IDLE -> SkeletonsValues.IDLE_SPRITES;
+            case SkeletonsValues.RUN -> SkeletonsValues.RUN_SPRITES;
+            case SkeletonsValues.ATTACK -> SkeletonsValues.ATTACK_SPRITES;
+            case SkeletonsValues.HURT -> SkeletonsValues.HURT_SPRITES;
+            case SkeletonsValues.DIE -> SkeletonsValues.DIE_SPRITES;
+            default -> SkeletonsValues.IDLE_SPRITES;
+        };
     }
 
+    /**
+     * Updates enemy animation based on state.
+     */
     protected void updateAnimation() {
         aniTick++;
         if (aniTick >= Application.ANI_SPEED) {
@@ -145,20 +187,20 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
             aniIndex++;
             if (aniIndex >= getSpriteAmount(enemyState)) {
                 aniIndex = 0;
-                switch(enemyState) {
+                switch (enemyState) {
                     case SkeletonsValues.ATTACK, SkeletonsValues.HURT -> enemyState = SkeletonsValues.IDLE;
                     case SkeletonsValues.DIE -> active = false;
+                    default -> {}
                 }
             }
         }
     }
 
+    /**
+     * Changes the enemy's walking direction.
+     */
     protected void changeWalkDir() {
-        if (walkDir == Directions.LEFT) {
-            walkDir = Directions.RIGHT;
-        } else {
-            walkDir = Directions.LEFT;
-        }
+        walkDir = (walkDir == Directions.LEFT) ? Directions.RIGHT : Directions.LEFT;
     }
 
     @Override
@@ -177,8 +219,33 @@ public abstract class EnemyEntityImpl extends EntityManagerImpl implements Enemy
         setAirSpeed(0);
     }
 
+    @Override
     public int getEnemyState() {
         return enemyState;
     }
 
+    @Override
+    public boolean getFirstupdate() {
+        return firstUpdate;
+    }
+
+    @Override
+    public int getAniIndex() {
+        return aniIndex;
+    }
+
+    @Override
+    public boolean isAttackChecked() {
+        return attackChecked;
+    }
+
+    @Override
+    public void setAttackChecked(final boolean attackChecked) {
+        this.attackChecked = attackChecked;
+    }
+
+    @Override
+    public int getWalkDir() {
+        return walkDir;
+    }
 }

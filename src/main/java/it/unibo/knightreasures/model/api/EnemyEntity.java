@@ -7,4 +7,16 @@ public interface EnemyEntity {
     void hurt(int amount);
 
     boolean isActive();
+
+    int getEnemyState();
+
+    boolean getFirstupdate();
+
+    int getAniIndex();
+
+    boolean isAttackChecked();
+
+    void setAttackChecked(final boolean attackChecked);
+
+    int getWalkDir();
 }

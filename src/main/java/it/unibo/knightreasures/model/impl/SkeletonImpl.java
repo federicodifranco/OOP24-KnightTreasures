@@ -44,7 +44,7 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
     }
 
     protected void updateBehavior(int[][] lvlData, PlayerEntityImpl player) {
-        if (firstUpdate) {
+        if (getFirstupdate()) {
             firstUpdateCheck(lvlData);
         }
         if (isInAir()) {
@@ -64,12 +64,12 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
                     move(lvlData);
                     break;
                 case SkeletonsValues.ATTACK: {
-                    if (aniIndex == 0) {
-                        attackChecked = false;
+                    if (getAniIndex() == 0) {
+                        setAttackChecked(false);
                     }
-                    if (aniIndex == SkeletonsValues.ATTACK_INDEX && !attackChecked) {
+                    if (getAniIndex() == SkeletonsValues.ATTACK_INDEX && !isAttackChecked()) {
                         checkPlayerHit(attackBox, player);
-                        attackChecked = true;
+                        setAttackChecked(true);
                     }
                 }
             }
@@ -78,12 +78,12 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
 
     @Override
     public int flipX() {
-        return (walkDir == Directions.LEFT) ? Skeletons.WIDTH : 0;
+        return (getWalkDir() == Directions.LEFT) ? Skeletons.WIDTH : 0;
     }
 
     @Override
     public int flipW() {
-        return (walkDir == Directions.LEFT) ? -1 : 1;
+        return (getWalkDir() == Directions.LEFT) ? -1 : 1;
     }
 
     @Override
