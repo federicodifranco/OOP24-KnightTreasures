@@ -37,6 +37,20 @@ public interface PlayerEntity {
     boolean isDown();
 
     /**
+     * Checks if the player is in air.
+     * 
+     * @return true if the player is in air, false otherwise.
+     */
+    boolean inAir();
+
+    /**
+     * Checks if the player is jumping.
+     * 
+     * @return true if the player is jumping, false otherwise.
+     */
+    boolean isJumping();
+
+    /**
      * Retrieves the number of lives the player currently has.
      *
      * @return The number of remaining lives.

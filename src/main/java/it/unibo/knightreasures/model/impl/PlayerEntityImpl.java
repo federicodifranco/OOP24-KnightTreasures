@@ -354,6 +354,16 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
     }
 
     @Override
+    public boolean inAir(){
+        return inAir;
+    }
+
+    @Override 
+    public boolean isJumping(){
+        return jump;
+    }
+
+    @Override
     public void resetAll() {
         resetDirBooleans();
         updateLives();
