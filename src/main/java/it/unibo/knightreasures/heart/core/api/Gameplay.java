@@ -15,6 +15,27 @@ import it.unibo.knightreasures.view.impl.LevelManagerImpl;
  */
 public interface Gameplay {
 
+    /**
+     * Verifica se il gioco è terminato.
+     *
+     * @return true se il gioco è finito (game over), false altrimenti.
+     */
+    boolean isGameOver();
+
+    /**
+     * Verifica se il gioco è attualmente in pausa.
+     *
+     * @return true se il gioco è in pausa, false altrimenti.
+     */
+    boolean isPaused();
+
+    /**
+     * Verifica se il livello è stato completato con successo.
+     *
+     * @return true se il livello è stato completato, false altrimenti.
+     */
+    boolean isLevelCompleted();
+
     /** 
      * Unpauses the game and resumes gameplay. 
      */

@@ -93,6 +93,11 @@ public final class GameplayImpl extends State implements Gameplay, View {
         }
     }
 
+    private void loadStartLvl() {
+        this.enemyManager.addEnemies(this.levelManager.getCurrentLevel());
+        this.objects.loadObjects(this.levelManager.getCurrentLevel());
+    }
+
     @Override
     public void update() {
         if (paused) {
@@ -190,9 +195,19 @@ public final class GameplayImpl extends State implements Gameplay, View {
         this.lvlComplete = lvlComplete;
     }
 
-    private void loadStartLvl() {
-        this.enemyManager.addEnemies(this.levelManager.getCurrentLevel());
-        this.objects.loadObjects(this.levelManager.getCurrentLevel());
+    @Override
+    public boolean isGameOver() {
+        return this.gameOver;
+    }
+
+    @Override
+    public boolean isLevelCompleted() {
+        return this.lvlComplete;
+    }
+
+    @Override
+    public boolean isPaused() {
+        return this.paused;
     }
 
     @Override
