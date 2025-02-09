@@ -1,21 +1,20 @@
 package it.unibo.knightreasures;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.knightreasure.heart.core.impl.GameplayImpl;
-import it.unibo.knightreasure.model.impl.EnemyManagerImpl;
-import it.unibo.knightreasure.model.impl.PlayerEntityImpl;
-import it.unibo.knightreasure.model.impl.SkeletonImpl;
-import it.unibo.knightreasure.utilities.ModelConstants.SkeletonsValues;
-import it.unibo.knightreasure.view.impl.LevelImpl;
+import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
+import it.unibo.knightreasures.model.impl.EnemyManagerImpl;
+import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
+import it.unibo.knightreasures.model.impl.SkeletonImpl;
+import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
+import it.unibo.knightreasures.view.impl.LevelImpl;
 
 public class SkeletonsTest {
 
@@ -30,8 +29,8 @@ public class SkeletonsTest {
         this.gameplay = new GameplayImpl(null);
         this.enemyManager = gameplay.getEnemyManager();
         this.player = gameplay.getPlayer();
-        this.level = gameplay.getLevelImpl().getCurrentLevel();
-        this.enemyManager.addEnemies(gameplay.getLevelImpl().getCurrentLevel());
+        this.level = gameplay.getLevel().getCurrentLevel();
+        this.enemyManager.addEnemies(gameplay.getLevel().getCurrentLevel());
         this.skeletons = level.getSkeletons();
     }
 
@@ -44,7 +43,7 @@ public class SkeletonsTest {
     void testSkeletonsMove() {
         for (SkeletonImpl skeleton : skeletons) {
             float initialX = skeleton.getHitbox().x;
-            skeleton.update(gameplay.getLevelImpl().getCurrentLevel().getLevelData(), player);
+            skeleton.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
             assertNotEquals(initialX, skeleton.getHitbox().x);
         }
     }
@@ -54,7 +53,7 @@ public class SkeletonsTest {
         SkeletonImpl skeleton = skeletons.get(0);
         skeleton.getHitbox().x = player.getHitbox().x - SkeletonsValues.RANGE_TO_SEE_PLAYER;
         skeleton.getHitbox().y = player.getHitbox().y;
-        skeleton.update(gameplay.getLevelImpl().getCurrentLevel().getLevelData(), player);
+        skeleton.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
         Rectangle2D.Float attackBox = skeleton.getAttackBox();
         boolean hit = attackBox.intersects(player.getHitbox());
         assertTrue(hit);
@@ -75,7 +74,7 @@ public class SkeletonsTest {
         for (SkeletonImpl skeleton : skeletons) {
             skeleton.hurt(SkeletonsValues.NUM_LIVES);
         }
-        enemyManager.update(gameplay.getLevelImpl().getCurrentLevel().getLevelData(), player);
+        enemyManager.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
         assertTrue(gameplay.getEnemyManager().hasActiveEnemies() == false);
         assertTrue(gameplay.isLevelCompleted());
     }

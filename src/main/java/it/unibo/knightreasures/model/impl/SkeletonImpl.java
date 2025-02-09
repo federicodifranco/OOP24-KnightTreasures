@@ -134,4 +134,14 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
     public void update() {
         // Not implemented
     }
+
+    /**
+     * Return the skeleton's attackbox.
+     *
+     * @return the attackbox of the skeleton.
+     */
+    @Override
+    public Rectangle2D.Float getAttackBox() {
+        return this.attackbox;
+    }
 }

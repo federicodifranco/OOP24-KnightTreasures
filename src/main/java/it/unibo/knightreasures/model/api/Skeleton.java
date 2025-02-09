@@ -1,5 +1,7 @@
 package it.unibo.knightreasures.model.api;
 
+import java.awt.geom.Rectangle2D;
+
 import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
 
 /**
@@ -33,4 +35,11 @@ public interface Skeleton {
      * Initializes the attack box and the hitbox for the skeleton.
      */
     void initialize();
+
+    /**
+     * Retrieves the skeleton's attackbox.
+     *
+     * @return the skeleton's attackbox.
+     */
+    Rectangle2D.Float getAttackBox();
 }

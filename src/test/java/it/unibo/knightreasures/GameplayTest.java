@@ -87,14 +87,14 @@ public class GameplayTest {
      */
     @Test
     void testPlayerCollectsTreasure() {
-        int initialCollected = objectManager.isAllCollectedTreasures();
+        int initialCollected = objectManager.getAllCollectedTreasures();
         TreasureImpl treasure = treasures.get(0);
         Rectangle2D.Float playerHitbox = player.getHitbox();
         playerHitbox.x = treasure.getHitbox().x;
         playerHitbox.y = treasure.getHitbox().y;
         objectManager.checkObjectTouched(playerHitbox);
         assertFalse(treasure.isActive());
-        assertEquals(initialCollected + 1, objectManager.isAllCollectedTreasures());
+        assertEquals(initialCollected + 1, objectManager.getAllCollectedTreasures());
     }
 
     /**
@@ -108,6 +108,6 @@ public class GameplayTest {
             playerHitbox.y = treasure.getHitbox().y;
             objectManager.checkObjectTouched(playerHitbox);
         }
-        assertEquals(3, objectManager.isAllCollectedTreasures());
+        assertEquals(3, objectManager.getAllCollectedTreasures());
     }
 }
