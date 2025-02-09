@@ -64,7 +64,7 @@ public abstract class EntityManagerImpl implements EntityManager {
      * @return the hitbox of the entity.
      */
     @Override
-    public Rectangle2D.Float getAttacktbox() {
+    public Rectangle2D.Float getAttackbox() {
         return this.attackBox;
     }
 

@@ -33,7 +33,7 @@ public class SkeletonImpl extends EnemyEntityImpl implements Skeleton {
     @Override
     public void initialize() {
         super.initialize();
-        this.attackbox = getAttacktbox();
+        this.attackbox = getAttackbox();
         initHitBox(Skeletons.HITBOX_WIDTH, Skeletons.HITBOX_HEIGHT);
         initAttackBox();
     }

@@ -51,7 +51,7 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
         super(x, y, width, height);
         this.playing = playing;
         this.hearts = hearts;
-        this.attackbox = getAttacktbox();
+        this.attackbox = getAttackbox();
         loadAnimations();
         initHitBox(Player.HITBOX_WIDTH, Player.HITBOX_HEIGHT);
         initAttackBox();

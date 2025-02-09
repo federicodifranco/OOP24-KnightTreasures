@@ -33,7 +33,7 @@ public interface EntityManager {
      *
      * @return the hitbox of the entity.
      */
-    Rectangle2D.Float getAttacktbox();
+    Rectangle2D.Float getAttackbox();
 
     /**
      * Sets the player's health.
