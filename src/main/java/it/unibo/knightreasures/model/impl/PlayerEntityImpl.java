@@ -354,12 +354,12 @@ public final class PlayerEntityImpl extends EntityManagerImpl implements PlayerE
     }
 
     @Override
-    public boolean inAir(){
+    public boolean inAir() {
         return inAir;
     }
 
     @Override 
-    public boolean isJumping(){
+    public boolean isJumping() {
         return jump;
     }
 

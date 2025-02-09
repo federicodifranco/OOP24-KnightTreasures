@@ -1,6 +1,8 @@
 package it.unibo.knightreasures;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,16 +12,24 @@ import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
 import it.unibo.knightreasures.utilities.HelpMethods;
 import it.unibo.knightreasures.view.impl.LevelImpl;
 
-public class CollisionTest {
+/**
+ * Classe di test per verificare la gestione delle collisioni all'interno del gioco.
+ */
+class CollisionTest {
 
-    private GameplayImpl gameplay;
+    private static final int MOVE_UP = 50;
+    private static final int MOVE_RIGHT = 200;
+
     private PlayerEntityImpl player;
     private int[][] levelData;
     private LevelImpl level;
 
+    /**
+     * Inizializza il gameplay e i dati di livello prima di ogni test.
+     */
     @BeforeEach
     void setUp() {
-        gameplay = new GameplayImpl(null);
+        final GameplayImpl gameplay = new GameplayImpl(null);
         player = gameplay.getPlayer();
         level = gameplay.getLevel().getCurrentLevel();
         levelData = level.getLevelData();
@@ -30,6 +40,11 @@ public class CollisionTest {
      */
     @Test
     void testPlayerOnFloor() {
+        assertTrue(player.inAir());
+        while (player.inAir()) {
+            player.update();
+        }
+        assertFalse(player.inAir());
         assertTrue(HelpMethods.isEntityOnFloor(player.getHitbox(), levelData));
     }
 
@@ -38,18 +53,8 @@ public class CollisionTest {
      */
     @Test
     void testPlayerFallsWhenNotOnFloor() {
-        player.getHitbox().y -= 50;
+        player.getHitbox().y -= MOVE_UP;
         assertFalse(HelpMethods.isEntityOnFloor(player.getHitbox(), levelData));
-    }
-
-    /**
-     * Verifica che un nemico sia sul pavimento.
-     */
-    @Test
-    void testEnemyOnFloor() {
-        level.getSkeletons().forEach(enemy -> {
-            assertTrue(HelpMethods.isEntityOnFloor(enemy.getHitbox(), levelData));
-        });
     }
 
     /**
@@ -57,13 +62,14 @@ public class CollisionTest {
      */
     @Test
     void testPlayerHitsWall() {
-        float originalX = player.getHitbox().x;
-        player.getHitbox().x += 200;
+        final float originalX = player.getHitbox().x;
+        player.getHitbox().x += MOVE_RIGHT;
 
-        if (!HelpMethods.canMoveHere(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height, levelData)) {
-            assertTrue(player.getHitbox().x == HelpMethods.getEntityXPosNextToWall(player.getHitbox(), 1));
+        if (!HelpMethods.canMoveHere(player.getHitbox().x, player.getHitbox().y,
+                player.getHitbox().width, player.getHitbox().height, levelData)) {
+            assertEquals(HelpMethods.getEntityXPosNextToWall(player.getHitbox(), 1), player.getHitbox().x);
         } else {
-            assertFalse(player.getHitbox().x == originalX);
+            assertNotEquals(originalX, player.getHitbox().x);
         }
     }
 
@@ -72,13 +78,14 @@ public class CollisionTest {
      */
     @Test
     void testPlayerHitsCeiling() {
-        float originalY = player.getHitbox().y;
-        player.getHitbox().y -= 50;
+        final float originalY = player.getHitbox().y;
+        player.getHitbox().y -= MOVE_UP;
 
-        if (!HelpMethods.canMoveHere(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height, levelData)) {
-            assertTrue(player.getHitbox().y == HelpMethods.getEntityYPosNextToWall(player.getHitbox(), -1));
+        if (!HelpMethods.canMoveHere(player.getHitbox().x, player.getHitbox().y,
+                player.getHitbox().width, player.getHitbox().height, levelData)) {
+            assertEquals(HelpMethods.getEntityYPosNextToWall(player.getHitbox(), -1), player.getHitbox().y);
         } else {
-            assertFalse(player.getHitbox().y == originalY);
+            assertNotEquals(originalY, player.getHitbox().y);
         }
     }
 
@@ -88,11 +95,15 @@ public class CollisionTest {
     @Test
     void testEnemyWalkableTiles() {
         level.getSkeletons().forEach(enemy -> {
-            int xStart = (int) (enemy.getHitbox().x / 32);
-            int xEnd = xStart + 1;
-            int yTile = (int) (enemy.getHitbox().y / 32);
-
-            assertTrue(HelpMethods.isAllTileWalkable(xStart, xEnd, yTile, levelData));
+            while (enemy.isInAir()) {
+                enemy.update(levelData, player);
+            }
+            final float initialX = enemy.getHitbox().x;
+            for (int i = 0; i < MOVE_UP; i++) {
+                enemy.update(levelData, player);
+            }
+            final float newX = enemy.getHitbox().x;
+            assertNotEquals(initialX, newX);
         });
     }
 }

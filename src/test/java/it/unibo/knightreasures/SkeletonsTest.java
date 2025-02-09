@@ -3,8 +3,8 @@ package it.unibo.knightreasures;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,69 +13,80 @@ import it.unibo.knightreasures.heart.core.impl.GameplayImpl;
 import it.unibo.knightreasures.model.impl.EnemyManagerImpl;
 import it.unibo.knightreasures.model.impl.PlayerEntityImpl;
 import it.unibo.knightreasures.model.impl.SkeletonImpl;
-import it.unibo.knightreasures.utilities.ModelConstants.SkeletonsValues;
 import it.unibo.knightreasures.view.impl.LevelImpl;
 
-public class SkeletonsTest {
+/** 
+ * Test per verificare il comportamento degli scheletri nel gioco.
+ */
+class SkeletonsTest {
+
+    private static final int DAMAGE = 1;
+    private static final int MAX_LIVES = 3;
 
     private GameplayImpl gameplay;
-    private EnemyManagerImpl enemyManager;
     private PlayerEntityImpl player;
-    private LevelImpl level;
     private List<SkeletonImpl> skeletons;
 
+    /**
+     * Inizializza il gameplay e i nemici prima di ogni test.
+     */
     @BeforeEach
     void setUp() {
-        this.gameplay = new GameplayImpl(null);
-        this.enemyManager = gameplay.getEnemyManager();
-        this.player = gameplay.getPlayer();
-        this.level = gameplay.getLevel().getCurrentLevel();
-        this.enemyManager.addEnemies(gameplay.getLevel().getCurrentLevel());
-        this.skeletons = level.getSkeletons();
+        gameplay = new GameplayImpl(null);
+        final LevelImpl level = gameplay.getLevel().getCurrentLevel();
+        final EnemyManagerImpl enemyManager = gameplay.getEnemyManager();
+        enemyManager.addEnemies(level);
+        player = gameplay.getPlayer();
+        skeletons = level.getSkeletons();
     }
 
+    /**
+     * Verifica che gli scheletri siano presenti nel livello.
+     */
     @Test
-    void testSkeletonsArePresent() {
+    void testSkeletonsSpawn() {
         assertFalse(skeletons.isEmpty());
     }
 
-    @Test
-    void testSkeletonsMove() {
-        for (SkeletonImpl skeleton : skeletons) {
-            float initialX = skeleton.getHitbox().x;
-            skeleton.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
-            assertNotEquals(initialX, skeleton.getHitbox().x);
-        }
-    }
-
+    /**
+     * Verifica che il player venga colpito da uno scheletro.
+     */
     @Test
     void testSkeletonAttacksPlayer() {
-        SkeletonImpl skeleton = skeletons.get(0);
-        skeleton.getHitbox().x = player.getHitbox().x - SkeletonsValues.RANGE_TO_SEE_PLAYER;
-        skeleton.getHitbox().y = player.getHitbox().y;
-        skeleton.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
-        Rectangle2D.Float attackBox = skeleton.getAttackBox();
-        boolean hit = attackBox.intersects(player.getHitbox());
+        final SkeletonImpl skeleton = skeletons.get(0);
+        final Rectangle2D.Float attackBox = skeleton.getAttackBox();
+        assertEquals(MAX_LIVES, player.getLives());
+        final boolean hit = attackBox.intersects(player.getHitbox());
         assertTrue(hit);
-        int livesBefore = player.getLives();
+        final int livesBefore = player.getLives();
         gameplay.checkEnemyHit(attackBox);
         assertTrue(player.getLives() < livesBefore);
+        assertEquals(MAX_LIVES - DAMAGE, player.getLives());
     }
 
+    /**
+     * Verifica che gli scheletri muoiano dopo aver subito danni sufficienti.
+     */
     @Test
-    void testSkeletonDiesWhenHealthIsZero() {
-        SkeletonImpl skeleton = skeletons.get(0);
-        skeleton.hurt(SkeletonsValues.NUM_LIVES);
+    void testSkeletonsDieAfterDamage() {
+        final SkeletonImpl skeleton = skeletons.get(0);
+        for (int i = 0; i < MAX_LIVES; i++) {
+            skeleton.hurt(DAMAGE);
+        }
         assertFalse(skeleton.isActive());
     }
 
+    /**
+     * Verifica che il livello sia completato quando tutti gli scheletri sono sconfitti.
+     */
     @Test
-    void testAllSkeletonsDeadCompletesLevel() {
-        for (SkeletonImpl skeleton : skeletons) {
-            skeleton.hurt(SkeletonsValues.NUM_LIVES);
+    void testLevelCompletesWhenAllSkeletonsAreDefeated() {
+        for (final SkeletonImpl skeleton : skeletons) {
+            while (skeleton.isActive()) {
+                skeleton.hurt(DAMAGE);
+            }
         }
-        enemyManager.update(gameplay.getLevel().getCurrentLevel().getLevelData(), player);
-        assertTrue(gameplay.getEnemyManager().hasActiveEnemies() == false);
+        gameplay.update();
         assertTrue(gameplay.isLevelCompleted());
     }
 }

@@ -19,8 +19,12 @@ import it.unibo.knightreasures.model.impl.TreasureImpl;
 import it.unibo.knightreasures.view.impl.HeartsImpl;
 import it.unibo.knightreasures.view.impl.LevelImpl;
 
-public class GameplayTest {
+/**
+ * Test per verificare il corretto funzionamento del gameplay.
+ */
+class GameplayTest {
 
+    private static final int TOTAL_TREASURES = 3;
     private GameplayImpl gameplay;
     private LevelImpl level;
     private EnemyManagerImpl enemyManager;
@@ -30,20 +34,23 @@ public class GameplayTest {
     private SkeletonImpl skeleton;
     private List<TreasureImpl> treasures;
 
+    /**
+     * Inizializza gli oggetti necessari prima di ogni test.
+     */
     @BeforeEach
     void setUp() {
-        this.gameplay = new GameplayImpl(null);
-        this.level = gameplay.getLevel().getCurrentLevel();
-        this.enemyManager = gameplay.getEnemyManager();
-        this.objectManager = gameplay.getObjectManager();
-        this.player = gameplay.getPlayer();
-        this.skeleton = level.getSkeletons().get(0);
-        this.hearts = new HeartsImpl(0, 0);
-        this.treasures = level.getTreasures();
+        gameplay = new GameplayImpl(null);
+        level = gameplay.getLevel().getCurrentLevel();
+        enemyManager = gameplay.getEnemyManager();
+        objectManager = gameplay.getObjectManager();
+        player = gameplay.getPlayer();
+        skeleton = level.getSkeletons().get(0);
+        hearts = new HeartsImpl(0, 0);
+        treasures = level.getTreasures();
     }
 
     /**
-     * Verifica che il livello attuale contenga tutti i nemici.
+     * Verifica che il livello contenga almeno un nemico.
      */
     @Test
     void testLevelHasEnemies() {
@@ -52,7 +59,7 @@ public class GameplayTest {
     }
 
     /**
-     * Verifica che il livello attuale contenga tutti gli oggetti collezionabili e le spine.
+     * Verifica che il livello contenga oggetti collezionabili e ostacoli.
      */
     @Test
     void testLevelHasObjects() {
@@ -63,12 +70,12 @@ public class GameplayTest {
     }
 
     /**
-     * Verifica che il game over si attivi quando il player viene colpito 3 volte da un nemico.
+     * Verifica che il giocatore perda una vita quando viene colpito da un nemico.
      */
     @Test
     void testPlayerHitByEnemy() {
-        int initialLives = player.getLives();
-        Rectangle2D.Float enemyAttackBox = skeleton.getAttackbox();
+        final int initialLives = player.getLives();
+        final Rectangle2D.Float enemyAttackBox = skeleton.getAttackbox();
         enemyManager.checkEnemyHit(enemyAttackBox);
         assertEquals(initialLives - 1, player.getLives());
     }
@@ -83,31 +90,31 @@ public class GameplayTest {
     }
 
     /**
-     * Test per verificare che il player raccolga un tesoro quando lo tocca.
+     * Verifica che il player raccolga un tesoro quando lo tocca.
      */
     @Test
     void testPlayerCollectsTreasure() {
-        int initialCollected = objectManager.getAllCollectedTreasures();
-        TreasureImpl treasure = treasures.get(0);
-        Rectangle2D.Float playerHitbox = player.getHitbox();
-        playerHitbox.x = treasure.getHitbox().x;
-        playerHitbox.y = treasure.getHitbox().y;
+        final int initialCollected = objectManager.getAllCollectedTreasures();
+        final TreasureImpl treasure = treasures.get(0);
+        final Rectangle2D.Float playerHitbox = player.getHitbox();
+        playerHitbox.setRect(treasure.getHitbox().getX(), treasure.getHitbox().getY(),
+                playerHitbox.getWidth(), playerHitbox.getHeight());
         objectManager.checkObjectTouched(playerHitbox);
         assertFalse(treasure.isActive());
         assertEquals(initialCollected + 1, objectManager.getAllCollectedTreasures());
     }
 
     /**
-     * Test per verificare che quando tutti i tesori sono raccolti.
+     * Verifica che il livello sia considerato completato quando tutti i tesori sono raccolti.
      */
     @Test
     void testAllTreasuresCollected() {
-        for (TreasureImpl treasure : treasures) {
-            Rectangle2D.Float playerHitbox = player.getHitbox();
-            playerHitbox.x = treasure.getHitbox().x;
-            playerHitbox.y = treasure.getHitbox().y;
+        for (final TreasureImpl treasure : treasures) {
+            final Rectangle2D.Float playerHitbox = player.getHitbox();
+            playerHitbox.setRect(treasure.getHitbox().getX(), treasure.getHitbox().getY(),
+                    playerHitbox.getWidth(), playerHitbox.getHeight());
             objectManager.checkObjectTouched(playerHitbox);
         }
-        assertEquals(3, objectManager.getAllCollectedTreasures());
+        assertEquals(TOTAL_TREASURES, objectManager.getAllCollectedTreasures());
     }
 }
