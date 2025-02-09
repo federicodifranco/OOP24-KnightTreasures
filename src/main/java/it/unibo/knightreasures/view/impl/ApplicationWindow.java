@@ -27,8 +27,11 @@ public class ApplicationWindow {
         frame.setSize(Window.GAME_WIDTH, Window.GAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(applicationPanel);
+        frame.setTitle("Knight's Treasures");
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
+        frame.setFocusable(true);
+        frame.requestFocus();
         frame.pack();
         frame.setVisible(true);
 
